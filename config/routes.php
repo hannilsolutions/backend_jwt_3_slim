@@ -35,3 +35,9 @@ $app->group("/merkas" , function() use($app){
     $app->post("/count" , "PagoMerkasController:countPagos");
     $app->post("/all" , "PagoMerkasController:all");
 });
+
+$app->group("/sorteo" , function() use ($app){
+    $app->get("/ramdon/{id}" , "SorteoController:findByMunicipio"); 
+    $app->patch("/edit/{id}" , "SorteoController:updateById");
+    $app->get("/ganadores/all" , "SorteoController:getGanadores");
+});

@@ -28,4 +28,9 @@ return function($container)
       return new \App\Controllers\PagoMerkasController;
     };
 
+    $container["SorteoController"] = function()
+    {
+      return new \App\Controllers\SorteoController;
+    };
+
 };
