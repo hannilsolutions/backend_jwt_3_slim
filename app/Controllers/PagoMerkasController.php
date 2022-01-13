@@ -143,7 +143,7 @@ class PagoMerkasController
            return $this->customResponse->is400Response($response , $responseMessage);
         }
 
-        $registrosSendMerkas = $this->pagosMerkas->where([
+        $registrosSendMerkas = $this->pagoMerkas->where([
             ['fecha' , '=' , $dia],
             ['estado' , '=' , '0']])->get();
 
