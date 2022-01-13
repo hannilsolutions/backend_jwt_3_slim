@@ -140,32 +140,31 @@ class PagoMerkasController
         {
             $responseMessage = "sin registros";
 
-            $this->customResponse->is400($response , $responseMessage);
+           return $this->customResponse->is400Response($response , $responseMessage);
         }
 
         $registrosSendMerkas = $this->pagosMerkas->where([
-            ["fecha"=>$dia],
-            ["estado"=>'0']])->get();
+            ['fecha' , '=' , $dia],
+            ['estado' , '=' , '0']])->get();
 
-        $this->customReponse->is200($response, $registrosSendMerkas);
+        return $this->customResponse->is200Response($response, $registrosSendMerkas);
     }
 
     #validar count registros a enviar a merkas
     public function verifyCountEstado($dia)
     {
         $countEstado = $this->pagoMerkas->where([
-            ["fecha"=>$dia ],
-            ["estado" => '0']
+            ['fecha' , '=' , $dia ],
+            ['estado' ,'=', '0']
             ])->count();
 
         if($countEstado == false)
         {
             return false;
 
-        }else{
-
-            return true;
         }
+            return true;
+        
     }
  
 
