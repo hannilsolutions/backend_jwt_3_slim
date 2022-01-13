@@ -35,6 +35,7 @@ $app->group("/merkas" , function() use($app){
     $app->post("/count" , "PagoMerkasController:countPagos");
     $app->post("/all" , "PagoMerkasController:all");
     $app->get("/count/estado" , "PagoMerkasController:countEstado");
+    $app->patch("/edit/{id}" , "PagoMerkasController:updateReciboCaja");
 });
 
 $app->group("/sorteo" , function() use ($app){

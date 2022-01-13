@@ -114,6 +114,30 @@ class PagoMerkasController
         }
         return $this->customResponse->is200Response($response , $countPagos);
     }
+    #update estado 1 = enviado correctamente, 2 error en el cargue 
+    #patch
+    public function updateReciboCaja(Request $request , Response $response , $id)
+    {
+        $this->validator->validate($request , [
+            "log" => v::notEmpty(),
+            "estado" => v::notEmpty()
+        ]);
+
+        if($this->validator->failed())
+        {
+            $responseMessage = $this->validator->errors;
+            return $this->customResponse->is400Response($response, $responseMessage);
+        }
+        
+        $this->pagoMerkas->where(['id' => $id])->update([
+            "log" => CustomRequestHandler::getParam($request , "log"),
+            "estado" => CustomRequestHandler::getParam($request , "estado"),
+        ]);
+
+        $responseMessage = "actualizado";
+
+        return $this->customResponse->is200Response($response, $responseMessage);
+    }
 
     
     #validamos si una transaccion ya existe
