@@ -43,7 +43,7 @@ class ContratoController
         $data = array(
             "contrato"=> $id,
             "key" => 'f24f0aaa81db035965e65f60c5e54c41',
-            "m" => '4',
+            "m" => 4,
             "title" => 'findByCus'
         );
         $ch =   curl_init("http://131.221.41.20:8050/api/api_internet/v2/public/");
