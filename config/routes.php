@@ -43,3 +43,9 @@ $app->group("/sorteo" , function() use ($app){
     $app->patch("/edit/{id}" , "SorteoController:updateById");
     $app->get("/ganadores/all" , "SorteoController:getGanadores");
 });
+
+//buscar por contratos
+
+$app->group("/contratos" , function() use ($app){
+    $app->get("/findByCus/{cus}" , "ContratoController:findByCus");
+});

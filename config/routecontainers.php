@@ -33,4 +33,9 @@ return function($container)
       return new \App\Controllers\SorteoController;
     };
 
+    $container["ContratoController"] = function()
+    {
+      return new \App\Controllers\ContratoController;
+    };
+
 };
