@@ -7,7 +7,7 @@ use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\RequestInterface as Request;
 use Respect\Validation\Validator as v;
-use App\Validator;
+use App\Validation\Validator;
 
 class ContratoController
 {
