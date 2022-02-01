@@ -47,5 +47,5 @@ $app->group("/sorteo" , function() use ($app){
 //buscar por contratos
 
 $app->group("/contratos" , function() use ($app){
-    $app->get("/findByCus/{cus}" , "ContratoController:findByCus");
+    $app->get("/findByCus/{id}" , "ContratoController:findByCus");
 });

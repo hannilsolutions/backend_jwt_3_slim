@@ -1,8 +1,5 @@
 <?php
 
-
-
-
 namespace App\Controllers;
  
 use App\Requests\CustomRequestHandler;
