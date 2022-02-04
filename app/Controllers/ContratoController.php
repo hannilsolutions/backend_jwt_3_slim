@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
  
+use App\Models\Contrato;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -21,7 +22,7 @@ class ContratoController
     {
         $this->customResponse = new CustomResponse();
 
-        //$this->contrato = new Contrato();
+        $this->contrato = new Contrato();
 
         $this->validator =  new Validator();
     }
@@ -58,6 +59,47 @@ class ContratoController
         }else{
                 return $response->data;
         }
+    }
+
+    public function preferenciaFactura(Request $request , Response $response)
+    {
+        $this->validator->validate($request,[
+            "id_contrato"=>v::notEmpty(),
+            "preferencia_factura"=>v::notEmpty()
+         ]);
+ 
+         if($this->validator->failed())
+         {
+             $responseMessage = $this->validator->errors;
+             return $this->customResponse->is400Response($response,$responseMessage);
+         }
+         $verifyExist = $this->verifyExist(CustomRequestHandler::getParam($request , "id_contrato"));
+
+         if($verifyExist != false)
+         {
+            $responseMessage = "duplicado";
+            return $this->customResponse->is400Response($response , $responseMessage);
+         }
+
+         $this->contrato->create([
+        "id_contrato"=>CustomRequestHandler::getParam($request,"id_contrato"),
+         "preferencia_factura"=>CustomRequestHandler::getParam($request,"preferencia_factura"),
+         "observacion"=>CustomRequestHandler::getParam($request,"observacion"),
+         ]);
+ 
+         $responseMessage = "creado";
+ 
+         $this->customResponse->is200Response($response,$responseMessage);
+    }
+    public function verifyExist($contrato){
+
+        $count = $this->contrato->where(["id_contrato"=>$contrato])->count();
+
+        if($count==false)
+        {
+            return false;
+        }
+        return true;
     }
 }
 

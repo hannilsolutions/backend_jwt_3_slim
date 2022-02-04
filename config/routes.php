@@ -48,4 +48,5 @@ $app->group("/sorteo" , function() use ($app){
 
 $app->group("/contratos" , function() use ($app){
     $app->get("/findByCus/{id}" , "ContratoController:findByCus");
+    $app->post("/saveEncuesta" , "ContratoController:preferenciaFactura");
 });
