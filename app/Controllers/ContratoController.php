@@ -32,7 +32,8 @@ class ContratoController
      */
     public function findByCus(Request $request , Response $response , $id)
     {
-        $findByCus = $this->apiControl($id);
+        
+        $findByCus = $this->apiControl($id["id"]);
         $responseMessage = $findByCus;
         $this->customResponse->is200Response($response,$responseMessage);
 
@@ -46,7 +47,7 @@ class ContratoController
             "m" => 4,
             "title" => 'findByCus'
         );
-        $ch =   curl_init("http://131.221.41.20:8050/api/api_internet/v2/public/");
+        $ch =   curl_init("http://http://131.221.41.20:8050/api/api_internet/v2/public/");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
