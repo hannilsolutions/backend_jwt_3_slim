@@ -5,7 +5,7 @@ use App\Interfaces\SecretKeyInterface as Secret;
 return function ($app)
 {
     $app->add(new Tuupola\Middleware\JwtAuthentication([
-        "ignore"=>["/auth/login","/auth/register"],
+        "ignore"=>["/auth/login","/auth/register","/contratos/saveEncuesta" , "/contratos/findBycus"],
         "secret"=>"d3fc3547346f0ef9cc47b9d5951912559bda2322ed3a2794d0ae49f76110dc61",
         "error"=>function ($response,$arguments)
         {
