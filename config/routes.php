@@ -50,3 +50,8 @@ $app->group("/contratos" , function() use ($app){
     $app->get("/findByCus/{id}" , "ContratoController:findByCus");
     $app->post("/saveEncuesta" , "ContratoController:preferenciaFactura");
 });
+
+//facturas
+$app->group("/facturas" , function() use ($app){
+    $app->post("/findByOne" , "FacturaController:findByOne");
+});

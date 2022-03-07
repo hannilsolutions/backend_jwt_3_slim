@@ -38,4 +38,9 @@ return function($container)
       return new \App\Controllers\ContratoController;
     };
 
+    $container["FacturaController"] = function()
+    {
+      return new \App\Controllers\FacturaController;
+    };
+
 };
