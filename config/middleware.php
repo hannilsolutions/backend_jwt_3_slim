@@ -1,5 +1,5 @@
 <?php
-use App\Interfaces\SecretKeyInterface as Secret;
+#use App\Interfaces\SecretKeyInterface as Secret;
 
 
 return function ($app)
