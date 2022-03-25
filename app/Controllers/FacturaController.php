@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Request\CustomRequestHandler;
+use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\RequestInterface as Request;
@@ -31,16 +31,17 @@ class FacturaController
 
         if($this->validator->failed())
         {
-            $responseMessage = $this->validator->erros;
+            $responseMessage = $this->validator->errors;
 
             return $this->customResponse->is400Response($response,$responseMessage);
-        }
+        } 
 
         $findByOneControl = $this->findByOneApiControl(CustomRequestHandler::getParam($request, "factura") , CustomRequestHandler::getParam($request , "id_servicio"));
         
         $responseMessage = $findByOneControl;
       
         $this->customResponse->is200Response($response,$responseMessage);
+        
     }
 
     public function findByOneApiControl($factura, $servicio)
