@@ -28,6 +28,12 @@ class AuthController
 
         $this->validator = new Validator();
     }
+    public function Validate(Request $request , Response $response)
+    {
+        $responseMessage = "ok";
+
+        $this->customResponse->is200Response($response,$responseMessage);
+    }
 
     public function Register(Request $request,Response $response)
     {
