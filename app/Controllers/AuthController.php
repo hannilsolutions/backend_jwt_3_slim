@@ -99,9 +99,9 @@ class AuthController
            $responseMessage = $this->validator->errors;
            return $this->customResponse->is400Response($response,$responseMessage);
        }
+       $email = CustomRequestHandler::getParam($request,"email");
 
-       $verifyAccount = $this->verifyAccount(CustomRequestHandler::getParam($request,"password"),
-                                               CustomRequestHandler::getParam($request,"email"));
+       $verifyAccount = $this->verifyAccount(CustomRequestHandler::getParam($request,"password"), $email);
 
        if($verifyAccount==false)
        {
@@ -109,7 +109,7 @@ class AuthController
 
            return $this->customResponse->is400Response($response,$responseMessage);
        }
-       $verifyActive    = $this->verifyActive(CustomRequestHandler::getParam($request , "email"));
+       $verifyActive    = $this->verifyActive($email);
        
        #validacion para ver si el cliente se encuentra activo
        if($verifyActive==false){
@@ -118,11 +118,20 @@ class AuthController
            return $this->customResponse->is400Response($response , $responseMessage);
        }
 
+       #enviar información usuario
+       $getUsuario = $this->getUsuario($email);
        #generación de token
-       $responseMessage = GenerateTokenController::generateToken(CustomRequestHandler::getParam($request,"email"));
-
-       return $this->customResponse->is200Response($response,$responseMessage);
+       $responseMessage = GenerateTokenController::generateToken($email);
+       return $this->customResponse->is200ResponseLogin($response,$responseMessage , $getUsuario);
     }
+
+    #informacion del usuario
+    public function getUsuario($email)
+    {
+        $usuario = $this->user->where(["email"=>$email])->get();
+        return $usuario;
+    }
+
 
     #validar si el usuario se encuetra activo
     public function verifyActive($email){
