@@ -43,4 +43,9 @@ return function($container)
       return new \App\Controllers\FacturaController;
     };
 
+    $container["UploadsController"] = function()
+    {
+      return new \App\Controllers\UploadsController;
+    };
+
 };

@@ -56,3 +56,8 @@ $app->group("/contratos" , function() use ($app){
 $app->group("/facturas" , function() use ($app){
     $app->post("/findByOne" , "FacturaController:findByOne");
 });
+
+//uploads
+$app->group("/uploads" , function() use($app){
+    $app->put("/:origin/:file" , "UploadsController:uploads");
+});
