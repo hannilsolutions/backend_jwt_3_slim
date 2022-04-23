@@ -61,3 +61,8 @@ $app->group("/facturas" , function() use ($app){
 $app->group("/uploads" , function() use($app){
     $app->put("/:origin/:file" , "UploadsController:uploads");
 });
+
+//usuarios
+$app->group("usuarios" , function() use($app){
+    $app->get("/list" , "UsuarioController:List");
+});

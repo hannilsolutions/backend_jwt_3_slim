@@ -48,4 +48,9 @@ return function($container)
       return new \App\Controllers\UploadsController;
     };
 
+    $container["UsuarioController"] = function()
+    {
+      return new \App\Controllers\UsuarioController;
+    };
+
 };
