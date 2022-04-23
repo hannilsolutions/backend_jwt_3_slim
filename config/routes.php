@@ -63,6 +63,6 @@ $app->group("/uploads" , function() use($app){
 });
 
 //usuarios
-$app->group("usuarios" , function() use($app){
+$app->group("/usuarios" , function() use($app){
     $app->get("/list" , "UsuarioController:List");
 });
