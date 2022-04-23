@@ -36,7 +36,7 @@ class UsuarioController
     {
        $usuario = $this->usuario->get();
 
-        $this->customResponse->is200Response($response,$guestEntries);
+        $this->customResponse->is200Response($response,$usuario);
     }
 
 
