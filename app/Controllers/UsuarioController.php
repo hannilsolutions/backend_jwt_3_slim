@@ -34,7 +34,7 @@ class UsuarioController
 
     public function List(Request $request,Response $response , $id)
     {
-        $usuarios = $this->usuario->paginate($id);
+        $usuarios = $this->usuario->simplePaginate($id);
         $count = $this->usuario->count();
         $responseMenssage = ["total" => $count , "usuarios" => $usuarios];
         $this->customResponse->is200Response($response, $responseMenssage);
