@@ -32,11 +32,12 @@ class UsuarioController
 
      
 
-    public function List(Request $request,Response $response)
+    public function List(Request $request,Response $response , $id)
     {
-       $usuario = $this->usuario->get();
-
-        $this->customResponse->is200Response($response,$usuario);
+        $usuarios = $this->usuario->get()->paginate($id);
+        $count = $this->usuario->count();
+        $responseMenssage = ["total" => $count , "usuarios" => $usuarios];
+        $this->customResponse->is200Response($response, $responseMenssage);
     }
 
 
