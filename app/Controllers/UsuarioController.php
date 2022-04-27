@@ -45,7 +45,7 @@ class UsuarioController
 
     public function findByName(Request $request, Response $response, $name)
     {
-        $getFindByName = $this->usuarios
+        $getFindByName = $this->usuario
                                 ->where("user", "like", "%".$name["name"]."%")
                                 ->get();
         $this->customResponse->is200Response($response , $getFindByName);
