@@ -30,7 +30,7 @@ class RolesController
          $this->validator = new Validator();
     }
 
-     public function finByRole(Request $request , Response $response)
+     public function findByRole(Request $request , Response $response)
      {
          $roles = $this->roles->get();
 
