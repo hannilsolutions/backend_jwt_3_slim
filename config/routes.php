@@ -68,3 +68,9 @@ $app->group("/usuarios" , function() use($app){
     $app->get("/findByName/{name}" , "UsuarioController:findByName");
     $app->delete("/delete/{id}" , "UsuarioController:deleteById");
 });
+
+//roles
+
+$app->group("/roles" , function() use ($app){
+    $app->get("/list" , "RolesController:findByRole");
+});
