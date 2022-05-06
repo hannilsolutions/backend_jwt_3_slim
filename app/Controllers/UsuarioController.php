@@ -52,6 +52,13 @@ class UsuarioController
         $this->customResponse->is200Response($response , $responseMenssage);
     }
 
+    public function deleteById(Request $request , Response $response , $id)
+    {
+        $delete = $this->usuario->where(["id"=>$id])->delete();
+        $responseMenssage = "Eliminado";
+        $this->customResponse->is200Response($response , $responseMenssage);
+    }
+
 
      
 
