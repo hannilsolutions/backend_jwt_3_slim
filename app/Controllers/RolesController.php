@@ -34,7 +34,9 @@ class RolesController
      {
          $roles = $this->roles->get();
 
-         $this->customResponse->is200Response($response ,  $roles);
+         $responseMenssage = ["roles" => $roles];
+
+         $this->customResponse->is200Response($response ,  $responseMenssage);
      }
 
 

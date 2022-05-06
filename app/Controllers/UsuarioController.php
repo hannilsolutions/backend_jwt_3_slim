@@ -47,9 +47,8 @@ class UsuarioController
     {
         $getFindByName = $this->usuario
                                 ->where("user", "like", "%".$name["name"]."%")
-                                ->get();
-        $responseMenssage = ["roles" => $getFindByName];
-        $this->customResponse->is200Response($response , $responseMenssage);
+                                ->get(); 
+        $this->customResponse->is200Response($response , $getFindByName);
     }
 
     public function deleteById(Request $request , Response $response , $id)
