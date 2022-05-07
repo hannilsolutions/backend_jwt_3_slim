@@ -74,4 +74,5 @@ $app->group("/usuarios" , function() use($app){
 
 $app->group("/roles" , function() use ($app){
     $app->get("/list" , "RolesController:findByRole");
+    $app->get("/sidebar/{role}" , "RolesController:findSidebarByRol");
 });
