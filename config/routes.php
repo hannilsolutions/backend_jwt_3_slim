@@ -67,6 +67,7 @@ $app->group("/usuarios" , function() use($app){
     $app->get("/list/{id}" , "UsuarioController:List");
     $app->get("/findByName/{name}" , "UsuarioController:findByName");
     $app->delete("/delete/{id}" , "UsuarioController:deleteById");
+    $app->patch("/edit/{id}" , "UsuarioController:updateById");
 });
 
 //roles
