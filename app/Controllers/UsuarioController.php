@@ -73,8 +73,7 @@ class UsuarioController
         $this->validator->validate($request,[
             "user"=>v::notEmpty(),
             "email"=>v::notEmpty()->email(),
-            "role"=>v::notEmpty(),
-            "active",
+            "role"=>v::notEmpty()
         ]);
 
         if($this->validator->failed())
