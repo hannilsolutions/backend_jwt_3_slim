@@ -22,6 +22,8 @@ class RolesController
 
     protected  $validator;
 
+    protected $relations;
+
     public function  __construct()
     {
          $this->customResponse = new CustomResponse();
