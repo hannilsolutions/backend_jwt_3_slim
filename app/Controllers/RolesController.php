@@ -60,6 +60,7 @@ class RolesController
                     ->where("active" , "=" , "Y")
                     ->groupBy("group_id")
                     ->get();
+                    /*
          foreach($relationsRole as $group)
          {
             $temp = [
@@ -68,9 +69,9 @@ class RolesController
                 "submenu" => [$this->findVistaByRol($rol->group_id)]
             ];
             array_push($responseMenssage , $temp);
-         }
+         }*/
 
-         $this->customResponse->is200Response($response , $responseMenssage);
+         $this->customResponse->is200Response($response , $relationsRole);
 
      }
 
