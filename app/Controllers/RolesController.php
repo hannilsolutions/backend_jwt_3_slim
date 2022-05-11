@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Roles;
-use App\Models\Relations;
+use App\Models\Han_Relations;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -32,7 +32,7 @@ class RolesController
 
          $this->validator = new Validator();
 
-         $this->relations = new Relations();
+         $this->relations = new Han_Relations();
     }
 
      public function findByRole(Request $request , Response $response)
@@ -60,18 +60,18 @@ class RolesController
                     ->where("active" , "=" , "Y")
                     ->groupBy("group_id")
                     ->get();
-                    /*
+                    
          foreach($relationsRole as $group)
          {
             $temp = [
                 "title" => $group->title,
                 "icono" => $group->icono,
-                "submenu" => [$this->findVistaByRol($rol->group_id)]
+                "submenu" => $this->findVistaByGroup($group->group_id)
             ];
             array_push($responseMenssage , $temp);
-         }*/
+         }
 
-         $this->customResponse->is200Response($response , $relationsRole);
+         $this->customResponse->is200Response($response , $responseMenssage);
 
      }
 
@@ -84,10 +84,12 @@ class RolesController
          * * select * from han_relations 
          *inner join han_views on han_views.id = han_relations.vistas_id where group_id = '2' AND active = 'Y' */
         $vistas = $this->relations
+                        ->selectRaw("title, url")
                         ->leftjoin("han_views" , "han_views.id" , "=" , "han_relations.vistas_id")
-                        ->where(["group_id" => $group_id])
+                        ->where("group_id","=", $group_id)
                         ->where("active" , "=" , "Y")
                         ->get();
+        
         return $vistas;
      }
 
