@@ -49,12 +49,21 @@ class ContratoGPSController
          }
          $getVerifyKey = $this->verifyKey(CustomRequestHandler::getParam($request , "key"));
 
+         //validar si existe error en el token enviado desde la app
          if($getVerifyKey != true)
          {
             $responseMessage = "error key";
             return $this->customResponse->is400Response($response , $responseMessage);
          }
 
+         //validar si existe ya el contrato creado
+         $verifyExist = $this->verifyExist(CustomRequestHandler::getParam($request , "id_contrato")); 
+         if($verifyExist != false)
+         {
+            $responseMessage = "Actualizado con anterioridad";
+            return $this->customResponse->is400Response($response , $responseMessage);
+         }
+         //se crea contrato
          $this->contratoGps->create([
         "id_contrato"=>CustomRequestHandler::getParam($request,"id_contrato"),
          "latitud"=>CustomRequestHandler::getParam($request,"latitud"),
@@ -77,6 +86,16 @@ class ContratoGPSController
 
             return false;
         }
+    }
+    public function verifyExist($contrato)
+    {
+        $count = $this->contratoGps->where(["id_contrato"=>$contrato])->count();
+
+        if($count==false)
+        {
+            return false;
+        }
+        return true;
     }
      
 }
