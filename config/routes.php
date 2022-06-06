@@ -50,6 +50,7 @@ $app->group("/sorteo" , function() use ($app){
 $app->group("/contratos" , function() use ($app){
     $app->get("/findByCus/{id}" , "ContratoController:findByCus");
     $app->post("/saveEncuesta" , "ContratoController:preferenciaFactura");
+    $app->post("/gps/save" , "ContratoGPSController:save");
 });
 
 //facturas
@@ -76,3 +77,4 @@ $app->group("/roles" , function() use ($app){
     $app->get("/list" , "RolesController:findByRole");
     $app->get("/sidebar/{role}" , "RolesController:findSidebarByRol");
 });
+ 

@@ -58,4 +58,9 @@ return function($container)
       return new \App\Controllers\RolesController;
     };
 
+    $container["ContratoGPSController"] = function()
+    {
+      return new \App\Controllers\ContratoGPSController;
+    };
+
 };
