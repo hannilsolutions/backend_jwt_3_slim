@@ -74,7 +74,9 @@ class ContratoGPSController
  
          $this->customResponse->is200Response($response,$responseMessage);
     }
-
+    /**
+     * function valida key enviado desde la app, sha256
+     */
     public function verifyKey($key)
     {
         //HannilSolutions
@@ -87,6 +89,9 @@ class ContratoGPSController
             return false;
         }
     }
+    /**
+     * function valida si existe contrato ya creado
+     */
     public function verifyExist($contrato)
     {
         $count = $this->contratoGps->where(["id_contrato"=>$contrato])->count();
@@ -96,6 +101,16 @@ class ContratoGPSController
             return false;
         }
         return true;
+    }
+
+    /**
+     * get contratos cargador en coordenas
+     */
+    public function getContratoGps(Request $request , Response $response)
+    {
+        $getAllContratos = $this->contratoGps->get();
+
+        return $this->customResponse->is200Response($response . $getAllContratos);
     }
      
 }
