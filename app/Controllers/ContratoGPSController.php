@@ -110,7 +110,7 @@ class ContratoGPSController
     {
         $getAllContratos = $this->contratoGps->get();
 
-        return $this->customResponse->is200Response($response . $getAllContratos);
+        return $this->customResponse->is200Response($response , $getAllContratos);
     }
      
 }
