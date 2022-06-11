@@ -4,6 +4,7 @@
 namespace App\Controllers;
 
 use App\Models\User;
+use App\Controllers\RolesController;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -27,14 +28,18 @@ class AuthController
         $this->user = new User();
 
         $this->validator = new Validator();
+
+        $this->rol = new RolesController();
     }
+
+    ##validat token despues de loguin pero con mail
     public function Validate(Request $request , Response $response)
     {
         $responseMessage = "ok";
 
         $this->customResponse->is200Response($response,$responseMessage);
     }
-
+    //ENDPOTIN POST Registrar uusuario
     public function Register(Request $request,Response $response)
     {
         $this->validator->validate($request,[
@@ -69,11 +74,12 @@ class AuthController
 
     }
 
-
+//function para encriptar contraseña
     public  function hashPassword($password)
   {
     return password_hash($password,PASSWORD_DEFAULT);
   }
+//validar si existe un correo
 
     public function EmailExist($email)
     {
@@ -85,7 +91,7 @@ class AuthController
     }
     return true;
     }
-
+//ENDP POINT POST -> login generación de toke, menu y datos de usuario
 
     public function Login(Request $request, Response $response)
     {
@@ -120,17 +126,26 @@ class AuthController
 
        #enviar información usuario
        $getUsuario = $this->getUsuario($email);
+       #recuperar menu del logueado
+       $getMenu = $this->getMenu($email);
        #generación de token
        $responseMessage = GenerateTokenController::generateToken($email);
-       return $this->customResponse->is200ResponseLogin($response,$responseMessage , $getUsuario);
+       return $this->customResponse->is200ResponseLogin($response,$responseMessage , $getUsuario , $getMenu);
     }
 
-    #informacion del usuario
+    #function informacion del usuario
     public function getUsuario($email)
     {
         $usuario = $this->user->selectRaw('id, user,marca,active,email,url_img,role,created_at,updated_at')
                                 ->where(["email"=>$email])->get();
         return $usuario;
+    }
+    #function menu del cliente por correo
+    public function getMenu($email)
+    {
+      $menu = $this->rol->findSidebarByRol($email);
+
+      return $menu;
     }
 
 

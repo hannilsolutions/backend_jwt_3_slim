@@ -44,7 +44,7 @@ class RolesController
          $this->customResponse->is200Response($response ,  $responseMenssage);
      }
 
-     public function findSidebarByRol(Request $request , Response $response , $role)
+     public function findSidebarByRol(  $email)
      {
           //NAME = role => ADMIN_ADMIN
 
@@ -54,12 +54,40 @@ class RolesController
          * select * from han_relations 
          *inner join han_gruop on han_gruop.id = han_relations.group_id where roles_role = 'ADMIN_ADMIN' AND active = 'Y' group by group_id
          */
-        $relationsRole = $this->relations
+        /*
+        select 
+        han_relations.id as id_relations, 
+        han_relations.roles_role, 
+        han_relations.group_id,
+        han_relations.vistas_id,
+        han_relations.active,
+        han_gruop.id as id_gruop,
+        han_gruop.title,
+        han_gruop.icono
+        from han_relations
+        inner join han_gruop on han_gruop.id = han_relations.group_id
+        inner join users on users.role = han_relations.roles_role
+        WHERE users.email = 'web@internetinalambrico.com.co' AND han_relations.active = 'Y'
+        group by han_relations.group_id
+        */
+        /*$relationsRole = $this->relations
                     ->leftjoin("han_gruop" , "han_relations.group_id" , "=" , "han_gruop.id")
                     ->where(["roles_role"=>$role])
                     ->where("active" , "=" , "Y")
                     ->groupBy("group_id")
-                    ->get();
+                    ->get(); */
+
+        $relationsRole = $this->relations
+                        ->selectRaw(" han_relations.id as id_relations, han_relations.roles_role, han_relations.group_id, han_relations.vistas_id, han_relations.active,
+                                        han_gruop.id as id_gruop,
+                                        han_gruop.title,
+                                        han_gruop.icono")
+                        ->leftjoin("han_gruop" , "han_relations.group_id" , "=" , "han_gruop.id")
+                        ->leftjoin("users"      , "users.role" , "=" , "han_relations.roles_role")
+                        ->where(["users.email" => $email])
+                        ->where("han_relations.active" , "=" , "Y")
+                        ->groupBy("group_id")
+                        ->get();
                     
          foreach($relationsRole as $group)
          {
@@ -71,7 +99,7 @@ class RolesController
             array_push($responseMenssage , $temp);
          }
 
-         $this->customResponse->is200Response($response , $responseMenssage);
+         return  $responseMenssage;
 
      }
 
