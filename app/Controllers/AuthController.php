@@ -33,9 +33,11 @@ class AuthController
     }
 
     ##validat token despues de loguin pero con mail
-    public function Validate(Request $request , Response $response)
+    public function Validate(Request $request , Response $response , $jwt)
     {
-        $responseMessage = "ok";
+        $getDecodeJWT = GenerateTokenController::decodeToken($jwt["jwt"]);
+
+        $responseMessage = $getDecodeJWT;
 
         $this->customResponse->is200Response($response,$responseMessage);
     }

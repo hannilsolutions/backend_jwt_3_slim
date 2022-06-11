@@ -24,7 +24,7 @@ $app->group("/auth",function() use ($app){
 
     $app->post("/login","AuthController:Login");
     $app->post("/register","AuthController:Register");
-    $app->get("/validate" , "AuthController:Validate");
+    $app->get("/validate/{jwt}" , "AuthController:Validate");
 });
 
 $app->group("/clientes" , function() use($app){
