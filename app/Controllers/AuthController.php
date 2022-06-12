@@ -36,12 +36,17 @@ class AuthController
     public function Validate(Request $request , Response $response , $jwt)
     {
         $getDecodeJWT = GenerateTokenController::decodeToken($jwt["jwt"]);
-        print_r($getDecodeJWT);
-        $responseMessage = $getDecodeJWT->email;
 
-        
+        $responseMessage = $jwt;
 
-        $this->customResponse->is200Response($response,$responseMessage);
+        #enviar información usuario
+       $getUsuario = $this->getUsuario($getDecodeJWT->jti);
+
+       #recuperar menu del logueado
+       $getMenu = $this->getMenu($getDecodeJWT->jti);
+
+       return $this->customResponse->is200ResponseLogin($response,$responseMessage , $getUsuario , $getMenu);
+   
     }
     //ENDPOTIN POST Registrar uusuario
     public function Register(Request $request,Response $response)
