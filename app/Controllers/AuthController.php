@@ -37,7 +37,9 @@ class AuthController
     {
         $getDecodeJWT = GenerateTokenController::decodeToken($jwt["jwt"]);
 
-        $responseMessage = $getDecodeJWT;
+        $responseMessage = $getDecodeJWT->email;
+
+        
 
         $this->customResponse->is200Response($response,$responseMessage);
     }
