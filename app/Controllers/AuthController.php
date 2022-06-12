@@ -36,7 +36,7 @@ class AuthController
     public function Validate(Request $request , Response $response , $jwt)
     {
         $getDecodeJWT = GenerateTokenController::decodeToken($jwt["jwt"]);
-
+        print_r($getDecodeJWT);
         $responseMessage = $getDecodeJWT->email;
 
         
