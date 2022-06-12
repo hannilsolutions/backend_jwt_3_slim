@@ -37,7 +37,7 @@ class AuthController
     {
         $getDecodeJWT = GenerateTokenController::decodeToken($jwt["jwt"]);
 
-        $responseMessage = $jwt;
+        $responseMessage = $jwt["jwt"];
 
         #enviar información usuario
        $getUsuario = $this->getUsuario($getDecodeJWT->jti);
