@@ -112,6 +112,41 @@ class ContratoGPSController
 
         return $this->customResponse->is200Response($response , $getAllContratos);
     }
+
+    /**
+     * get list municipios segun el departamento
+     *  */
+    public function findMunicipios(Request $request , Response $response , $id)
+    {
+        
+        $findMunicipios = $this->controlmasFindByMunicipio($id["id"]);
+        $responseMessage = $findMunicipios;
+        return $this->customResponse->is200Response($response,$responseMessage);
+
+    }
+     
+
+    /**function consulta controlmas municipios */
+    public function controlmasFindByMunicipio($id)
+    {
+        $data = array(
+            "departamento"=> $id,
+            "key" => 'f24f0aaa81db035965e65f60c5e54c41',
+            "m" => 4,
+            "title" => 'findByMunicipio'
+        );
+        $ch =   curl_init("http://131.221.41.20:8050/api/api_internet/v2/public/");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $response = json_decode(curl_exec($ch));
+        curl_close($ch);
+        if($response->success==false) {
+                return false;
+        }else{
+                return $response->data;
+        }
+    }
      
 }
 

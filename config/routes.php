@@ -52,6 +52,7 @@ $app->group("/contratos" , function() use ($app){
     $app->post("/saveEncuesta" , "ContratoController:preferenciaFactura");
     $app->post("/gps/save" , "ContratoGPSController:save");
     $app->get("/gps/list" , "ContratoGPSController:getContratoGps");
+    $app->get("/municipios/{id}" , "ContratoGPSController:findMunicipios");
 });
 
 //facturas
