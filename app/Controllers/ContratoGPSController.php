@@ -120,10 +120,23 @@ class ContratoGPSController
     {
         
         $findMunicipios = $this->controlmasFindByMunicipio($id["id"]);
+        
         $responseMessage = $findMunicipios;
         
         $this->customResponse->is200Response($response,$responseMessage);
 
+    }
+
+    /*
+    *get lista barrios segun el municipio 1085
+    */
+    public function findBarrios(Request $request , Response $response , $id)
+    {
+        $findBarrios = $this->controlmasFindByBarrio($id["id"]);
+
+        $responseMessage    = $findBarrios;
+
+        $this->customResponse->is200Response($response , $responseMessage);
     }
      
 
@@ -135,6 +148,28 @@ class ContratoGPSController
             "key" => 'f24f0aaa81db035965e65f60c5e54c41',
             "m" => 4,
             "title" => 'findByMunicipio'
+        );
+        $ch =   curl_init("http://131.221.41.20:8050/api/api_internet/v2/public/");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $response = json_decode(curl_exec($ch));
+        curl_close($ch);
+        if($response->success==false) {
+                return false;
+        }else{
+                return $response->data;
+        }
+    }
+
+    /**function consulta controlmas Barrios */
+    public function controlmasFindByBarrio($id)
+    {
+        $data = array(
+            "municipio"=> $id,
+            "key" => 'f24f0aaa81db035965e65f60c5e54c41',
+            "m" => 4,
+            "title" => 'findByBarrio'
         );
         $ch =   curl_init("http://131.221.41.20:8050/api/api_internet/v2/public/");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
