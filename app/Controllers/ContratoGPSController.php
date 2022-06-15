@@ -120,9 +120,9 @@ class ContratoGPSController
     {
         
         $findMunicipios = $this->controlmasFindByMunicipio($id["id"]);
-        $responseMessage = $findMunicipios;
-        print_r($responseMessage);
-       // return $this->customResponse->is200Response($response,$responseMessage);
+        $responseMessage = [$findMunicipios];
+        
+        $this->customResponse->is200Response($response,$responseMessage);
 
     }
      
