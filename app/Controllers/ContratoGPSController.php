@@ -109,12 +109,13 @@ class ContratoGPSController
     public function getContratoGps(Request $request , Response $response , $barrio)
     {
         $getContratosByBarrioControl = $this->getContratosByBarrioControl($barrio['barrio']);
+        print_r($getContratosByBarrioControl);
 
-        $getAllContratos = $this->contratoGps
-                                ->whereIn('id_contrato' , $getContratosByBarrioControl);
-                                ->get();
+        //$getAllContratos = $this->contratoGps
+                //                ->whereIn('id_contrato' , $getContratosByBarrioControl);
+                   //             ->get();
 
-        return $this->customResponse->is200Response($response , $getAllContratos);
+         //$this->customResponse->is200Response($response , $getAllContratos);
     }
 
     /**
