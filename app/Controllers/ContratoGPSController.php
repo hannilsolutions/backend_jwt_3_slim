@@ -195,7 +195,7 @@ class ContratoGPSController
     public function getContratosByBarrioControl($barrio)
     {
         $data = array(
-            "barrio"=> $id,
+            "barrio"=> $barrio,
             "key" => 'f24f0aaa81db035965e65f60c5e54c41',
             "m" => 4,
             "title" => 'findContratoByBarrio'
