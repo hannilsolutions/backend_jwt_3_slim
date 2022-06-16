@@ -51,7 +51,7 @@ $app->group("/contratos" , function() use ($app){
     $app->get("/findByCus/{id}" , "ContratoController:findByCus");
     $app->post("/saveEncuesta" , "ContratoController:preferenciaFactura");
     $app->post("/gps/save" , "ContratoGPSController:save");
-    $app->get("/gps/list" , "ContratoGPSController:getContratoGps");
+    $app->get("/gps/list/{barrio}" , "ContratoGPSController:getContratoGps");
     $app->get("/municipios/{id}" , "ContratoGPSController:findMunicipios");
     $app->get("/barrios/{id}" , "ContratoGPSController:findBarrios");
 });

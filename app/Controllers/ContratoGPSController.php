@@ -106,9 +106,13 @@ class ContratoGPSController
     /**
      * get contratos cargador en coordenas
      */
-    public function getContratoGps(Request $request , Response $response)
+    public function getContratoGps(Request $request , Response $response , $barrio)
     {
-        $getAllContratos = $this->contratoGps->get();
+        $getContratosByBarrioControl = $this->getContratosByBarrioControl($barrio['barrio']);
+
+        $getAllContratos = $this->contratoGps
+                                ->whereIn('id_contrato' , $getContratosByBarrioControl);
+                                ->get();
 
         return $this->customResponse->is200Response($response , $getAllContratos);
     }
@@ -182,6 +186,31 @@ class ContratoGPSController
         }else{
                 return $response->data;
         }
+    }
+
+    /**
+    function consulta controlmas de contratos x barrio
+    */
+    public function getContratosByBarrioControl($barrio)
+    {
+        $data = array(
+            "barrio"=> $id,
+            "key" => 'f24f0aaa81db035965e65f60c5e54c41',
+            "m" => 4,
+            "title" => 'findContratoByBarrio'
+        );
+        $ch =   curl_init("http://131.221.41.20:8050/api/api_internet/v2/public/");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $response = json_decode(curl_exec($ch));
+        curl_close($ch);
+        if($response->success==false) {
+                return false;
+        }else{
+                return $response->data;
+        }
+
     }
      
 }
