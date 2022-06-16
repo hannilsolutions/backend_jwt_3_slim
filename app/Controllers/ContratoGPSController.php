@@ -109,13 +109,19 @@ class ContratoGPSController
     public function getContratoGps(Request $request , Response $response , $barrio)
     {
         $getContratosByBarrioControl = $this->getContratosByBarrioControl($barrio['barrio']);
-        print_r($getContratosByBarrioControl);
 
-        //$getAllContratos = $this->contratoGps
-                //                ->whereIn('id_contrato' , $getContratosByBarrioControl);
-                   //             ->get();
+        
 
-         //$this->customResponse->is200Response($response , $getAllContratos);
+        if($getContratosByBarrioControl != "sin registros")
+        {
+            $responseMessage    = $this->contratoGps
+                                    ->whereIn('id_contrato' , $getContratosByBarrioControl);
+                                    ->get();
+        }else{
+            $responseMessage = "error buscando";
+        }
+
+       $this->customResponse->is200Response($response , $responseMessage);
     }
 
     /**
