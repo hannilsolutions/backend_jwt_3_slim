@@ -104,11 +104,23 @@ class ContratoGPSController
     }
 
     /**
-     * get contratos cargador en coordenas
+     * post contratos buscados por nombre de barrios consulta a controlmas y busca en servidor
+     int en tabla de cargados
      */
-    public function getContratoGps(Request $request , Response $response , $barrio)
+    public function getContratoGps(Request $request , Response $response)
     {
-        $getContratosByBarrioControl = $this->getContratosByBarrioControl($barrio['barrio']);
+
+        $this->validator->validate($request,[
+            "barrio"   =>  v::notEmpty(),
+         ]);
+ 
+         if($this->validator->failed())
+         {
+             $responseMessage = $this->validator->errors;
+             return $this->customResponse->is400Response($response,$responseMessage);
+         }
+
+        $getContratosByBarrioControl = $this->getContratosByBarrioControl(CustomRequestHandler::getParam($request , "barrio"));
 
         
 
