@@ -115,7 +115,7 @@ class ContratoGPSController
         if($getContratosByBarrioControl != "sin registros")
         {
             $responseMessage    = $this->contratoGps
-                                    ->whereIn('id_contrato' , [$getContratosByBarrioControl]);
+                                    ->whereIn('id_contrato' , [85010, 9023, 19023]);
                                     ->get();
         }else{
             $responseMessage = "error buscando";
