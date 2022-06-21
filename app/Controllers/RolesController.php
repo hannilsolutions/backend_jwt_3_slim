@@ -67,7 +67,7 @@ class RolesController
         from han_relations
         inner join han_gruop on han_gruop.id = han_relations.group_id
         inner join users on users.role = han_relations.roles_role
-        WHERE users.email = 'web@internetinalambrico.com.co' AND han_relations.active = 'Y'
+        WHERE users.email = 'seguridadst@internetinalambrico.com.co' AND han_relations.active = 'Y'
         group by han_relations.group_id
         */
         /*$relationsRole = $this->relations
@@ -94,7 +94,7 @@ class RolesController
             $temp = [
                 "title" => $group->title,
                 "icono" => $group->icono,
-                "submenu" => $this->findVistaByGroup($group->group_id)
+                "submenu" => $this->findVistaByGroup($group->group_id , $group->roles_role)
             ];
             array_push($responseMenssage , $temp);
          }
@@ -106,7 +106,7 @@ class RolesController
      /**
       * */
 
-     public function findVistaByGroup($group_id)
+     public function findVistaByGroup($group_id , $role)
      {
         /**
          * * select * from han_relations 
@@ -116,6 +116,7 @@ class RolesController
                         ->leftjoin("han_views" , "han_views.id" , "=" , "han_relations.vistas_id")
                         ->where("group_id","=", $group_id)
                         ->where("active" , "=" , "Y")
+                        ->where("roles_role" , "=" , $role)
                         ->get();
         
         return $vistas;
