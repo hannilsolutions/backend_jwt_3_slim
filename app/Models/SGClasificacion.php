@@ -4,7 +4,7 @@ namespace App\Models;
 
 use \Illuminate\Database\Eloquent\Model;
 
-class SGClasificacionController extends  Model
+class SGClasificacion extends  Model
 {
 
     protected $table="han_sg_clasificacion";

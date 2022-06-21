@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\SGClasificacionController;
+use App\Models\SGClasificacion;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
