@@ -44,7 +44,7 @@ class SGClasificacionController
         }
 
         $this->sgClasificacion->create([
-           "nombre"=>CustomRequestHandler::getParam($request,"nombre"),
+           "nombre"=>CustomRequestHandler::getParam($request,"nombre")
         ]);
 
         $responseMessage = "creado";
