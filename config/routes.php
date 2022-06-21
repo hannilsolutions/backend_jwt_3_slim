@@ -84,5 +84,6 @@ $app->group("/roles" , function() use ($app){
 //sistema de gestion sst
 $app->group("/seguridad" , function() use ($app){
     $app->post("/clasificacion/save" , "SGClasificacionController:save");
+    $app->get("/clasificacion/list" , "SGClasificacionController:list");
 });
  

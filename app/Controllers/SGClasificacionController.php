@@ -52,4 +52,11 @@ class SGClasificacionController
         $this->customResponse->is200Response($response,$responseMessage);
 
     } 
+
+    public function list(Request $request,Response $response)
+    {
+        $getList =  $this->sgClasificacion->get();
+
+        $this->customResponse->is200Response($response,$getList);
+    }
 }
