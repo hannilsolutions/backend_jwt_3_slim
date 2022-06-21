@@ -80,4 +80,9 @@ $app->group("/roles" , function() use ($app){
     $app->get("/list" , "RolesController:findByRole");
     $app->get("/sidebar/{role}" , "RolesController:findSidebarByRol");
 });
+
+//sistema de gestion sst
+$app->group("/seguridad" , function() use ($app){
+    $app->post("/clasificacion/save" , "SGClasificacionController:save");
+});
  

@@ -63,4 +63,9 @@ return function($container)
       return new \App\Controllers\ContratoGPSController;
     };
 
+    $container["SGClasificacionController"] = function()
+    {
+      return new \App\Controllers\SGClasificacionController;
+    };
+
 };
