@@ -13,7 +13,7 @@ class SGPeligros extends  Model
     [
     "id_peligro",
     "nombre",
-    "controles",
+    "consecuencias",
     "id_empresa",
     "id_clasificacion",
 	"created_at",

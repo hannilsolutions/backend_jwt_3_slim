@@ -35,7 +35,7 @@ class SGPeligroController
 
         $this->validator->validate($request,[
            "nombre"=>v::notEmpty(),
-           "controles"=>v::notEmpty(),
+           "consecuencias"=>v::notEmpty(),
            "id_empresa"=>v::notEmpty(),
            "id_clasificacion"=>v::notEmpty() 
         ]);
@@ -48,7 +48,7 @@ class SGPeligroController
 
         $this->sgPeligro->create([
            "nombre"=>CustomRequestHandler::getParam($request,"nombre"),
-           "controles"=>CustomRequestHandler::getParam($request,"controles"),
+           "consecuencias"=>CustomRequestHandler::getParam($request,"consecuencias"),
            "id_empresa"=>CustomRequestHandler::getParam($request,"id_empresa"),
            "id_clasificacion"=>CustomRequestHandler::getParam($request,"id_clasificacion"),
         ]);
