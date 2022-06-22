@@ -61,6 +61,18 @@ class SGPeligroController
 
     public function list(Request $request,Response $response)
     {
+        $this->validator->validate($request,[
+            "id_clasificacion"=>v::notEmpty(),
+            "id_empresa" => v::notEmpty()
+        ]);
+
+        if($this->validator->failed())
+        {
+            $responseMessage = $this->validator->errors;
+
+            return $this->customResponse->is400Response($response , $responseMessage);
+        }
+
         $getList =  $this->sgPeligro
                         ->selectRaw("han_sg_peligros.id_peligro, 
                                     han_sg_peligros.nombre,
@@ -69,6 +81,8 @@ class SGPeligroController
                                     han_sg_peligros.id_clasificacion,
                                     han_sg_clasificacion.nombre as nombreClasificacion")
                         ->leftjoin("han_sg_clasificacion" ,"han_sg_clasificacion.id_clasificacion", "=" ,"han_sg_peligros.id_clasificacion")
+                        ->where(["han_sg_peligros.id_clasificacion" => CustomRequestHandler::getParam($request , "id_clasificacion")])
+                        ->where(["han_sg_peligros.id_empresa"   => CustomRequestHandler::getParam($request , "id_empresa")])
                         ->get();
 
         $this->customResponse->is200Response($response,$getList);

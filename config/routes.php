@@ -86,6 +86,6 @@ $app->group("/seguridad" , function() use ($app){
     $app->post("/clasificacion/save" , "SGClasificacionController:save");
     $app->get("/clasificacion/list" , "SGClasificacionController:list");
     $app->post("/peligro/save" , "SGPeligroController:save");
-    $app->get("/peligro/list" , "SGPeligroController:list");
+    $app->post("/peligro/list" , "SGPeligroController:list");
 });
  
