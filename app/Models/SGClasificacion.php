@@ -10,7 +10,7 @@ class SGClasificacion extends  Model
     protected $table="han_sg_clasificacion";
     
     protected $fillable = 
-    ["id",
+    ["id_clasificacion",
     "nombre",
 	"created_at",
 	"updated_at"];
