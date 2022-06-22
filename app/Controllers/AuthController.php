@@ -145,7 +145,7 @@ class AuthController
     #function informacion del usuario
     public function getUsuario($email)
     {
-        $usuario = $this->user->selectRaw('id, user,marca,active,email,url_img,role,created_at,updated_at')
+        $usuario = $this->user->selectRaw('id, user,marca,active,email,url_img,role,created_at,updated_at, id_empresa')
                                 ->where(["email"=>$email])->get();
         return $usuario;
     }
