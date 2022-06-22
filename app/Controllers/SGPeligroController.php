@@ -1,0 +1,68 @@
+<?php
+
+namespace App\Controllers;
+
+use App\Models\SGPeligros;
+use App\Requests\CustomRequestHandler;
+use App\Response\CustomResponse;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\RequestInterface as Request;
+use Respect\Validation\Validator as v;
+use App\Validation\Validator;
+
+
+
+class SGPeligroController
+{
+
+    protected  $customResponse;
+
+    protected  $sgPeligro;
+
+    protected  $validator;
+
+    public function  __construct()
+    {
+         $this->customResponse = new CustomResponse();
+
+         $this->sgPeligro = new SGPeligros();
+
+         $this->validator = new Validator();
+    }
+
+    public function save(Request $request,Response $response)
+    {
+
+        $this->validator->validate($request,[
+           "nombre"=>v::notEmpty(),
+           "controles"=>v::notEmpty(),
+           "id_empresa"=>v::notEmpty(),
+           "id_clasificacion"=>v::notEmpty() 
+        ]);
+
+        if($this->validator->failed())
+        {
+            $responseMessage = $this->validator->errors;
+            return $this->customResponse->is400Response($response,$responseMessage);
+        }
+
+        $this->sgPeligro->create([
+           "nombre"=>CustomRequestHandler::getParam($request,"nombre"),
+           "controles"=>CustomRequestHandler::getParam($request,"controles"),
+           "id_empresa"=>CustomRequestHandler::getParam($request,"id_empresa"),
+           "id_clasificacion"=>CustomRequestHandler::getParam($request,"id_clasificacion"),
+        ]);
+
+        $responseMessage = "creado";
+
+        $this->customResponse->is200Response($response,$responseMessage);
+
+    } 
+
+    public function list(Request $request,Response $response)
+    {
+        $getList =  $this->sgPeligro->get();
+
+        $this->customResponse->is200Response($response,$getList);
+    }
+}
