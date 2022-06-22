@@ -68,4 +68,9 @@ return function($container)
       return new \App\Controllers\SGClasificacionController;
     };
 
+    $container["SGPeligroController"] = function()
+    {
+      return new \App\Controllers\SGPeligroController;
+    };
+
 };
