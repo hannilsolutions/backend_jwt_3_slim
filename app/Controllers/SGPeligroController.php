@@ -61,7 +61,15 @@ class SGPeligroController
 
     public function list(Request $request,Response $response)
     {
-        $getList =  $this->sgPeligro->get();
+        $getList =  $this->sgPeligro
+                        ->selectRaw("han_sg_peligros.id_peligro", 
+                                    "han_sg_peligros.nombre",
+                                    "han_sg_peligros.consecuencias"
+                                    "han_sg_peligros.id_empresa",
+                                    "han_sg_peligros.id_clasificacion",
+                                    "han_sg_clasificacion.nombre as nombreClasificacion")
+                        ->leftjoin("han_sg_clasificacion" ,"han_sg_clasificacion.id_clasificacion", "=" ,"han_sg_peligros.id_clasificacion")
+                        ->get();
 
         $this->customResponse->is200Response($response,$getList);
     }
