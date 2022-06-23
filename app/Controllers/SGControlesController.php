@@ -74,10 +74,12 @@ class SGControlesController
 		$deteleById = $this->sgControles
 							->where(["id_control"	=>	$id])
 							->delete();
-	}
-	$responseMenssage = "eliminado";
+							
+		$responseMenssage = "eliminado";
 
-	$this->customResponse->is200Response($response , $responseMenssage);
+		$this->customResponse->is200Response($response , $responseMenssage);
+	}
+	
 
 
 }
