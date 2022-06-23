@@ -17,3 +17,5 @@ class Contrato extends  Model
      "updated_at"];
     
 }
+
+?>

@@ -20,3 +20,5 @@ class SGPeligros extends  Model
 	"updated_at"];
     
 }
+
+?>

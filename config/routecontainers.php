@@ -73,4 +73,9 @@ return function($container)
       return new \App\Controllers\SGPeligroController;
     };
 
+    $container["SGControlesController"] = function()
+    {
+      return new \App\Controllers\SGControlesController;
+    };
+
 };

@@ -19,3 +19,5 @@ class Pago extends Model
     "comentario_reversado" , "fecha_reversado","created_at","updated_at"];
 
 }
+
+?>

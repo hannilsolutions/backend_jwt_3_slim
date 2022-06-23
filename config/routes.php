@@ -83,9 +83,15 @@ $app->group("/roles" , function() use ($app){
 
 //sistema de gestion sst
 $app->group("/seguridad" , function() use ($app){
+    #clasificaciones
     $app->post("/clasificacion/save" , "SGClasificacionController:save");
     $app->get("/clasificacion/list" , "SGClasificacionController:list");
+    #peligros
     $app->post("/peligro/save" , "SGPeligroController:save");
     $app->post("/peligro/list" , "SGPeligroController:list");
+    #controles
+    $app->post("/controles/save" , "SGControlesController:save");
+    $app->get("/controles/findByPeligro/{id}" , "SGControlesController:findByPeligro");
+    $app->delete("/controles/deleteById/{id}" , "SGControlesController:deleteById");
 });
  

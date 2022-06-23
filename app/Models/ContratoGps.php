@@ -17,3 +17,4 @@ class ContratoGps extends  Model
      "updated_at"];
     
 }
+?>

@@ -20,3 +20,5 @@ class Han_Relations extends Model
 ];
 
 }
+
+?>

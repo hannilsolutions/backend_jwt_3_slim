@@ -4,14 +4,16 @@ namespace App\Models;
 
 use \Illuminate\Database\Eloquent\Model;
 
-class SGClasificacion extends  Model
+class SGControles extends  Model
 {
 
-    protected $table="han_sg_clasificacion";
+    protected $table="han_sg_controles";
     
     protected $fillable = 
-    ["id_clasificacion",
+    [
+    "id_control",
     "nombre",
+    "id_peligro",
 	"created_at",
 	"updated_at"];
     

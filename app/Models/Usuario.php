@@ -24,3 +24,5 @@ class Usuario extends Model
 ];
 
 }
+
+?>
