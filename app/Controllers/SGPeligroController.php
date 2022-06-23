@@ -59,6 +59,17 @@ class SGPeligroController
 
     } 
 
+    public function deleteById(Request $request , Response $response , $id)
+    {
+        $deleteById = $this->SGPeligros
+                            ->where(["id_peligro" => $id])
+                            ->delete();
+        $responseMessage="eliminado";
+
+        $this->customResponse->is200Response($response , $responseMessage);
+    }
+    
+
     public function list(Request $request,Response $response)
     {
         $this->validator->validate($request,[

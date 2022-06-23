@@ -89,6 +89,7 @@ $app->group("/seguridad" , function() use ($app){
     #peligros
     $app->post("/peligro/save" , "SGPeligroController:save");
     $app->post("/peligro/list" , "SGPeligroController:list");
+    $app->delete("peligro/deleteById/{}" , "SGPeligroController:deleteById");
     #controles
     $app->post("/controles/save" , "SGControlesController:save");
     $app->get("/controles/findByPeligro/{id}" , "SGControlesController:findByPeligro");
