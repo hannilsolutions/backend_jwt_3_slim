@@ -68,6 +68,7 @@ class ContratoGPSController
         "id_contrato"=>CustomRequestHandler::getParam($request,"id_contrato"),
          "latitud"=>CustomRequestHandler::getParam($request,"latitud"),
          "longitud"=>CustomRequestHandler::getParam($request,"longitud"),
+         "fecha"=>date("Y-m-d")
          ]);
  
          $responseMessage = "creado";

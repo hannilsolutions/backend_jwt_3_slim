@@ -13,6 +13,7 @@ class ContratoGps extends  Model
     ["id_contrato",
     "latitud",
     "longitud" , 
+    "fecha",
     "created_at" ,
      "updated_at"];
     
