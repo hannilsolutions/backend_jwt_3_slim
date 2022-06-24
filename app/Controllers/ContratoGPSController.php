@@ -231,6 +231,30 @@ class ContratoGPSController
         }
 
     }
+
+    /*
+    * POST findByBetween buscar en un rangos de fechas
+    */
+
+    public function findByBetween(Request $request , Response $response)
+    {
+        $this->validator->validate($request , [
+            "valor1" => v::notEmpty(),
+            "valor2" => v::notEmpty()
+        ]);
+
+        if ($this->validator->failed()) {
+            
+            $responseMessage = $this->validator->error;
+
+            return $this->customResponse->is400Response($response, $responseMessage);
+        }
+
+        $responseMessage = $this->contratoGps
+                                ->whereBetween('fecha', [CustomRequestHandler::getParam($request , "valor1"), CustomRequestHandler::getParam($request , "valor2")])
+                                ->get();
+        $this->customResponse->is200Response($response , $responseMessage);
+    }
      
 }
 
