@@ -25,6 +25,8 @@ class RolesController
 
     protected $relations;
 
+    protected $group;
+
     public function  __construct()
     {
          $this->customResponse = new CustomResponse();
