@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Roles;
 use App\Models\Han_Relations;
+use App\Models\HanGruop;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -33,8 +34,13 @@ class RolesController
          $this->validator = new Validator();
 
          $this->relations = new Han_Relations();
+
+         $this->group = new HanGruop();
     }
 
+/*
+*GET list roles
+*/
      public function findByRole(Request $request , Response $response)
      {
          $roles = $this->roles->get();
@@ -43,6 +49,9 @@ class RolesController
 
          $this->customResponse->is200Response($response ,  $responseMenssage);
      }
+/*
+*buscar menu de acuerdo al correo
+*/
 
      public function findSidebarByRol(  $email)
      {
@@ -104,7 +113,8 @@ class RolesController
      }
 
      /**
-      * */
+      *armar vistar de acuerdo al grupo 
+      */
 
      public function findVistaByGroup($group_id , $role)
      {
@@ -120,6 +130,13 @@ class RolesController
                         ->get();
         
         return $vistas;
+     }
+
+     public function findByGroup(Request $request , Response $response)
+     {
+            $getGroup = $this->group->get();
+
+            $this->customResponse->is200Response($response , $getGroup);
      }
 
 
