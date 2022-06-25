@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Roles;
 use App\Models\Han_Relations;
-use App\Models\HanGruop;
+use App\Models\Han_Gruop;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -37,7 +37,7 @@ class RolesController
 
          $this->relations = new Han_Relations();
 
-         $this->group = new HanGruop();
+         $this->group = new Han_Gruop();
     }
 
 /*
