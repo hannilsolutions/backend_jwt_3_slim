@@ -60,6 +60,23 @@ class RolesController
 /*
 *GET buscar roles x rol
 */
+/*
+
+select 
+han_relations.roles_role, 
+han_relations.group_id , 
+han_gruop.title as grupo , 
+han_relations.vistas_id , 
+han_views.title as vista , 
+han_relations.active 
+
+from han_relations
+
+left join han_gruop on han_gruop.id = han_relations.group_id
+left join han_views on han_views.id = han_relations.vistas_id
+
+WHERE han_relations.roles_role = 'ADMIN_ADMIN'
+*/
 
     public function findRoleByRol(Request $request , Response $response , $role)
     {
@@ -72,10 +89,10 @@ class RolesController
                                     han_relations.active")
                                 ->leftjoin("han_gruop" , "han_relations.group_id" , "=" , "han_gruop.id")
                                 ->leftjoin("han_views" , "han_relations.vistas_id" , "=" , "han_views.id")
-                                ->where(["han_relations.roles_role"=> $role])
+                                ->where("han_relations.roles_role" , "=" , $role["role"])
                                 ->orderBy("han_relations.title")
                                 ->get();
-                                
+
         $this->customResponse->is200Response($response , $getRoleByRol);
     }
 /*

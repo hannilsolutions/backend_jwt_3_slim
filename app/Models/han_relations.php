@@ -16,7 +16,9 @@ class Han_Relations extends Model
     "roles_role",
     "group_id",
     "vistas_id",
-    "active"
+    "active",
+    "created_at",
+    "updated_at"
 ];
 
 }
