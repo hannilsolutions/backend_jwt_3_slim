@@ -83,14 +83,14 @@ WHERE han_relations.roles_role = 'ADMIN_ADMIN'
         $getRoleByRol = $this->relations
                                 ->selectRaw("han_relations.roles_role,
                                     han_relations.group_id,
-                                    han_gruop.title,
+                                    han_gruop.title as grupo,
                                     han_relations.vistas_id,
                                     han_views.title as vista,
                                     han_relations.active")
                                 ->leftjoin("han_gruop" , "han_relations.group_id" , "=" , "han_gruop.id")
                                 ->leftjoin("han_views" , "han_relations.vistas_id" , "=" , "han_views.id")
                                 ->where("han_relations.roles_role" , "=" , $role["role"])
-                                ->orderBy("han_relations.title")
+                                ->orderBy("han_relations.group_id")
                                 ->get();
 
         $this->customResponse->is200Response($response , $getRoleByRol);
