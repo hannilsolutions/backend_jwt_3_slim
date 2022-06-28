@@ -56,6 +56,28 @@ class RolesController
 
          $this->customResponse->is200Response($response ,  $responseMenssage);
      }
+
+/*
+*GET buscar roles x rol
+*/
+
+    public function findRoleByRol(Request $request , Response $response , $role)
+    {
+        $getRoleByRol = $this->relations
+                                ->selectRaw("han_relations.roles_role,
+                                    han_relations.group_id,
+                                    han_gruop.title,
+                                    han_relations.vistas_id,
+                                    han_views.title as vista,
+                                    han_relations.active")
+                                ->leftjoin("han_gruop" , "han_relations.group_id" , "=" , "han_gruop.id")
+                                ->leftjoin("han_views" , "han_relations.vistas_id" , "=" , "han_views.id")
+                                ->where(["han_relations.roles_role"=> $role])
+                                ->orderBy("han_relations.title")
+                                ->get();
+                                
+        $this->customResponse->is200Response($response , $getRoleByRol);
+    }
 /*
 *buscar menu de acuerdo al correo
 */
@@ -138,12 +160,40 @@ class RolesController
         
         return $vistas;
      }
-
+     /*
+     *GET lista de grupos
+     */
      public function findByGroup(Request $request , Response $response)
      {
             $getGroup = $this->group->get();
 
             $this->customResponse->is200Response($response , $getGroup);
+     }
+     /*
+     *POST save group
+     */
+
+     public function saveGroup(Request $request , Response $response)
+     {
+        $this->validator->validate($request , [
+            "title" => v::notEmpty(),
+            "icono" => v::notEmpty()
+        ]);
+
+        if ($this->validator->failed()) {
+            
+            $responseMenssage = $this->validator->errors;
+
+            return $this->customResponse->is400Response($response , $responseMenssage);
+        }
+
+        $this->group->create([
+            "title" => CustomRequestHandler::getParam($request , "title"),
+            "icono" => CustomRequestHandler::getParam($request , "icono")
+                    ]);
+        $responseMenssage = "creado";
+
+        $this->customResponse->is200Response($response , $responseMenssage);
      }
 
      /*
