@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Roles;
 use App\Models\Han_Relations;
 use App\Models\Han_Gruop;
+use App\Models\Han_Views;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -27,6 +28,8 @@ class RolesController
 
     protected $group;
 
+    protected $view;
+
     public function  __construct()
     {
          $this->customResponse = new CustomResponse();
@@ -38,6 +41,8 @@ class RolesController
          $this->relations = new Han_Relations();
 
          $this->group = new Han_Gruop();
+
+         $this->view = new Han_Views();
     }
 
 /*
@@ -140,6 +145,46 @@ class RolesController
 
             $this->customResponse->is200Response($response , $getGroup);
      }
+
+     /*
+     *GET buscar vistas
+     */
+     public function findByViews(Request $request , Response $response)
+     {
+        $getListViews = $this->view->get();
+
+        $this->customResponse->is200Response($response  , $getListViews);
+     }
+
+     /*
+     *POST save vistas
+     */
+     public function saveView(Request $request , Response $response)
+     {
+        $this->validator->validate($request , [
+            "title"=> v::notEmpty(),
+            "url" => v::notEmpty()
+        ]);
+
+        if ($this->validator->failed()) {
+            
+            $responseMenssage = $this->validator->errors;
+
+            return $this->customResponse->is400Response($response , $responseMenssage);
+        }
+
+        $this->view->create([
+            "title" => CustomRequestHandler::getParam($request , "title"),
+            "url"   => CustomRequestHandler::getParam($request , "url")
+        ]);
+
+        $responseMenssage = "creado";
+
+        $this->customResponse->is200Response($response , $responseMenssage);
+
+     }
+
+
 
 
 
