@@ -2,12 +2,14 @@
 
 namespace App\Controllers;
 
+use App\Models\Han_Uploads;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\RequestInterface as Request;
 use Respect\Validation\Validator as v;
 use App\Validation\Validator;
+use Psr\Http\UploadedFile;
 
 
 
@@ -16,6 +18,7 @@ class UploadsController
 
     protected  $customResponse;
 
+    protected $uploads;
 
     protected  $validator;
 
@@ -23,17 +26,22 @@ class UploadsController
     {
          $this->customResponse = new CustomResponse();
 
+         $this->uploads = new Han_Uploads();
 
          $this->validator = new Validator();
     }
 
+    /*
+    *POST file */
+    
+
     public function uploads(Request $request,Response $response)
     {
 
-        $this->validator->validate($request,[
-           "id"=>v::notEmpty(),
-           "url_img"=>v::notEmpty(),
-           "destino"=>v::notEmpty(),
+        $this->validator->validate($request,[ 
+           "titulo"=>v::notEmpty(),
+           "categoria"=>v::notEmpty(),
+           "tipo"=>v::notEmpty()
         ]);
 
         if($this->validator->failed())
@@ -44,13 +52,13 @@ class UploadsController
 
         $uploadedFiles = $request->getUploadedFiles();
 
-        $uploadedFile = $uploadedFiles['url_img'];
+        $uploadedFile = $uploadedFiles['file_uploads'];
 
         if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
 
-            $filename = $this->moveUploadedFile(CustomRequestHandler::getParam($request,"destino") ,$uploadedFile);
+            $filename = $this->moveUploadedFile(CustomRequestHandler::getParam($request,"categoria") ,$uploadedFile);
 
-            $response->write('uploaded ' . $filename . '<br/>');
+            //$response->write('uploaded ' . $filename . '<br/>');
         }
 
         $responseMessage = "cargado con exito";
