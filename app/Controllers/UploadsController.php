@@ -59,9 +59,10 @@ class UploadsController
             $filename = $this->moveUploadedFile(CustomRequestHandler::getParam($request,"categoria") ,$uploadedFile);
 
             //$response->write('uploaded ' . $filename . '<br/>');
+            $responseMessage = $filename;
         }
 
-        $responseMessage = "cargado con exito";
+        //$responseMessage = "cargado con exito";
 
         $this->customResponse->is200Response($response,$responseMessage);
 
@@ -74,7 +75,7 @@ class UploadsController
         $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
         $filename = sprintf('%s.%0.8s', $basename, $extension);
 
-        $uploadedFile->moveTo($directory ."/". $filename);
+        //$uploadedFile->moveTo($directory ."/". $filename);
 
         return $filename;
     }
