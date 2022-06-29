@@ -82,6 +82,8 @@ $app->group("/roles" , function() use ($app){
     $app->get("/list" , "RolesController:findByRole");
     $app->get("/sidebar/{role}","RolesController:findSidebarByRol");
     $app->get("/rol/{role}" , "RolesController:findRoleByRol");
+    #cargar relations
+    $app->post("/relations/save" , "RolesController:saveRelations");
     #grupo menu
     $app->get("/group/list" ,   "RolesController:findByGroup");
     $app->post("/group/save" , "RolesController:saveGroup");

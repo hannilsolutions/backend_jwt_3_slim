@@ -95,6 +95,37 @@ WHERE han_relations.roles_role = 'ADMIN_ADMIN'
 
         $this->customResponse->is200Response($response , $getRoleByRol);
     }
+
+    /*
+    *POST save saveRelations -> guarda las vistas de cada ROL
+    */
+    public function saveRelations(Request $request , Response $response)
+    {
+        $this->validator->validate($request , [
+            "roles_role" => v::notEmpty(),
+            "group_id" => v::notEmpty(),
+            "vistas_id" => v::notEmpty(),
+            "active" => v::notEmpty()
+        ]);
+
+        if($this->validator->failed())
+        {
+            $responseMenssage = $this->validator->errors;
+
+            return $this->customResponse->is400Response($response , $responseMenssage);
+        }
+
+        $this->relations->create([
+            "roles_role" => CustomRequestHandler::getParam($request , "roles_role"),
+            "group_id"  =>  CustomRequestHandler::getParam($request , "group_id"),
+            "vistas_id" => CustomRequestHandler::getParam($request , "vistas_id"),
+            "active"    => CustomRequestHandler::getParam($request , "active")
+        ]);
+
+        $responseMenssage =  "creado";
+
+        $this->customResponse->is200Response($response , $responseMenssage);
+    }
 /*
 *buscar menu de acuerdo al correo
 */
@@ -250,6 +281,9 @@ WHERE han_relations.roles_role = 'ADMIN_ADMIN'
         $this->customResponse->is200Response($response , $responseMenssage);
 
      }
+
+     /*
+     */
 
 
 
