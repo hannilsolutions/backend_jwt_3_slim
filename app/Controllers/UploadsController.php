@@ -68,7 +68,7 @@ class UploadsController
 
     }
 
-   public  function moveUploadedFile( $destino , UploadedFile $uploadedFile)
+   public  function moveUploadedFile( $destino ,  $uploadedFile)
     {
         //$directory = __DIR__.'/../app/Files/'.$destino;
         $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
