@@ -13,7 +13,7 @@ class Han_Views extends Model
  
     protected $fillable =[
     "id",
-    "titile",
+    "title",
     "url",
     "created_at",
     "updated_at"
