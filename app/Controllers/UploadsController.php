@@ -56,7 +56,7 @@ class UploadsController
 
         if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
 
-           $filename = $this->moveUploadedFile(CustomRequestHandler::getParam($request,"categoria") , $uploadedFile);
+           $filename = $this->moveUploadedFile(CustomRequestHandler::getParam($request,"categoria") , $uploadedFile , CustomRequestHandler::getParam($request,"fecha"));
             //$destino = CustomRequestHandler::getParam($request , "categoria");
 
             //$directory = __DIR__."/Files/$destino";
@@ -81,7 +81,7 @@ class UploadsController
 
     }
 
-    function moveUploadedFile( $destino , $uploadedFile)
+    function moveUploadedFile( $destino , $uploadedFile , $fecha)
     {
         $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
 
@@ -95,7 +95,8 @@ class UploadsController
         $this->uploads->create([
                     "titulo" => $filename,
                     "categoria" => $destino,
-                    "tipo"      => $extension
+                    "tipo"      => $extension,
+                    "fecha"     => $fecha
                 ]);
 
         return $filename;
