@@ -39,7 +39,8 @@ class UploadsController
     {
 
         $this->validator->validate($request,[
-           "categoria"=>v::notEmpty()
+           "categoria"=>v::notEmpty(),
+           "fecha" => v::notEmpty()
         ]);
 
         if($this->validator->failed())
@@ -83,7 +84,7 @@ class UploadsController
     function moveUploadedFile( $destino , $uploadedFile)
     {
         $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
-        
+
         $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
         $filename = sprintf('%s.%0.8s', $basename, $extension);
 
