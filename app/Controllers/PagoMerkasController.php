@@ -31,7 +31,8 @@ class PagoMerkasController
     }
 
     #guardar datos
-    public function save(Request $request, Response $response){
+    public function save(Request $request, Response $response)
+    {
 
         #validar campos vacios
         $this->validator->validate($request,[
@@ -67,6 +68,30 @@ class PagoMerkasController
          $responseMessage = "creado";
  
          return $this->customResponse->is200Response($response,$responseMessage);
+    }
+
+    /*
+    *POST BETWEEN buscar por fechas
+    */
+    public function findByBetween(Request $request , Response $response)
+    {
+        $this->validator->validate($request , [
+            "valor1"    => v::notEmpty(),
+            "valor2"    => v::notEmpty()
+        ]);
+
+        if ($this->validator->failed()) {
+            
+            $responseMessage = $this->validator->errors;
+
+            return $this->customResponse->is400Response($response , $responseMessage);
+        }
+
+        $getBetweenPagos = $this->pagoMerkas
+                                ->whereBetween('fecha', [CustomRequestHandler::getParam($request , "valor1"), CustomRequestHandler::getParam($request , "valor2")])
+                                ->get();
+
+        $this->customResponse->is200Response($response , $getBetweenPagos);
     }
 
     #consulta de todos los registros
