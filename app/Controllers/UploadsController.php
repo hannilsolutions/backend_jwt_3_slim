@@ -38,15 +38,14 @@ class UploadsController
     public function uploads(Request $request,Response $response)
     {
 
-        $this->validator->validate($request,[ 
-           "titulo"=>v::notEmpty(),
-           "categoria"=>v::notEmpty(),
-           "tipo"=>v::notEmpty()
+        $this->validator->validate($request,[
+           "categoria"=>v::notEmpty()
         ]);
 
         if($this->validator->failed())
         {
             $responseMessage = $this->validator->errors;
+
             return $this->customResponse->is400Response($response,$responseMessage);
         }
 
@@ -56,20 +55,22 @@ class UploadsController
 
         if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
 
-           // $filename = $this->moveUploadedFile(CustomRequestHandler::getParam($request,"categoria") ,$uploadedFile);
-            $destino = CustomRequestHandler::getParam($request , "categoria");
+           $filename = $this->moveUploadedFile(CustomRequestHandler::getParam($request,"categoria") , $uploadedFile);
+            //$destino = CustomRequestHandler::getParam($request , "categoria");
 
-            $directory = __DIR__.'/Files/'.$destino;
+            //$directory = __DIR__."/Files/$destino";
 
-            $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
+           // $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
 
-            $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
+            //$basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
         
-            $filename = sprintf('%s.%0.8s', $basename, $extension);
+           // $filename = sprintf('%s.%0.8s', $basename, $extension);
 
-            $uploadedFile->moveTo($directory."/".$filename);
+           // $uploadedFile->moveTo("/home/internet/public_html/apps/Files/$destino/$filename");
 
             //$response->write('uploaded ' . $filename . '<br/>');
+            
+
             $responseMessage = $filename;
         }
 
@@ -79,17 +80,27 @@ class UploadsController
 
     }
 
-   public  function moveUploadedFile( $destino , UploadedFile $uploadedFile)
+    function moveUploadedFile( $destino , $uploadedFile)
     {
-        $directory = __DIR__.'/Files/'.$destino;
         $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
+        
         $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
         $filename = sprintf('%s.%0.8s', $basename, $extension);
 
-        $uploadedFile->moveTo($directory."/".$filename);
+        $uploadedFile->moveTo("/home/internet/public_html/apps/Files/$destino/$filename");
+
+        //$uploadedFile->moveTo("/var/www/html/Files/$destino/$filename");
+
+        $this->uploads->create([
+                    "titulo" => $filename,
+                    "categoria" => $destino,
+                    "tipo"      => $extension
+                ]);
 
         return $filename;
     }
+
+   
 
 
 }

@@ -17,6 +17,7 @@ class Han_Uploads extends Model
     "categoria",
     "tipo",
     "fecha",
+    "estado",
     "created_at",
     "updated_at"
 ];
