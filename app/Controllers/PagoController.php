@@ -30,6 +30,29 @@ class PagoController
          $this->validator = new Validator();
     }
 
+    /*
+    *POST findByBetwenn
+    */
+    public function findByBetween(Request $request , Response $response)
+    {
+        $this->validator->validate($request , [
+            "valor1" => v::notEmpty(),
+            "valor2" => v::notEmpty()
+        ] );
+
+        if ($this->validator->failed())
+         {
+           $responseMessage = $this->validator->errors;
+
+           return $this->customResponse->is400Response($response , $responseMessage);
+        }
+
+             $getFindByBetween =  $this->pago
+                        ->whereBetween('fecha_recaudo', [CustomRequestHandler::getParam($request , "valor1"), CustomRequestHandler::getParam($request , "valor2")])
+                        ->get();
+            $this->customResponse->is200Response($response , $getFindByBetween);
+    }
+
     #guardar datos
     public function save(Request $request, Response $response){
 

@@ -18,6 +18,7 @@ $app->group("/pagos", function() use ($app){
     $app->patch("/reversado/{id}" , "PagoController:reversarPago");
     $app->get("/{id}" , "PagoController:findOne");
     $app->get("/suma/mes" , "PagoController:sumaMes");
+    $app->get("/findByBetween" , "PagoController:findByBetween");
 });
 
 $app->group("/auth",function() use ($app){
