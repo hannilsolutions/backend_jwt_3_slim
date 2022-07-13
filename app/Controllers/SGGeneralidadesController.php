@@ -34,8 +34,32 @@ class SGGeneralidadesController
 							->selectRaw("DISTINCT tipo")
 							->where(["id_empresa" => $id])
 							->get();
-							
+
 		$this->customResponse->is200Response($response , $getDistTipo);
+
+	}
+
+	public function findByTipo(Request $request , Response $response)
+	{
+		$this->validator->validate($request , [
+			"tipo" => v::notEmpty(),
+			"id_empresa" => v::notEmpty()
+		]);
+
+		if($this->validator->failed())
+		{
+			$responseMessage = $this->validator->errors;
+
+			return $this->customResponse->is400Response($response  , $responseMessage);
+		}
+
+		$getFindByTipo = $this->generalidades
+								->where(["tipo" => CustomRequestHandler::getParam($request , "tipo")])
+								->where(["id_empresa"=> CustomRequestHandler::getParam($request , "id_empresa")])
+								->get();
+
+		$this->customResponse->is200Response($response , $getFindByTipo);
+
 
 	}
 }

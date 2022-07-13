@@ -112,6 +112,7 @@ $app->group("/seguridad" , function() use ($app){
     #generalidades
     #reporta disct de empresa
     $app->get("/generalidades/disct/{id}" , "SGGeneralidadesController:tipoDisct");
+    $app->post("/generalidades/findByTipo" , "SGGeneralidadesController:findByTipo");
 
 });
  
