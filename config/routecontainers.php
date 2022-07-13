@@ -78,4 +78,9 @@ return function($container)
       return new \App\Controllers\SGControlesController;
     };
 
+    $container["SGGeneralidadesController"] = function()
+    {
+      return new \App\Controllers\SGGeneralidadesController;
+    };
+
 };

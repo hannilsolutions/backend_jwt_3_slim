@@ -108,5 +108,10 @@ $app->group("/seguridad" , function() use ($app){
     $app->post("/controles/save" , "SGControlesController:save");
     $app->get("/controles/findByPeligro/{id}" , "SGControlesController:findByPeligro");
     $app->delete("/controles/deleteById/{id}" , "SGControlesController:deleteById");
+
+    #generalidades
+    #reporta disct de empresa
+    $app->get("/generalidades/disct/{id}" , "SGGeneralidadesController:tipoDisct");
+
 });
  
