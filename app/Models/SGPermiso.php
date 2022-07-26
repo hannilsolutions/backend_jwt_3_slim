@@ -18,6 +18,7 @@ class SGPermiso extends  Model
     "hora_cierre",
 	"lugar_de_trabajo",
     "id_usuario",
+    "id_empresa",
 	"created_at",
     "updated_at"];
     
