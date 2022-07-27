@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\SGPermiso;
+use App\Models\SGEmpresa;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -18,6 +19,8 @@ class SGPermisoController
 
     protected $validator;
 
+    protected $sgEmpresa;
+
     public function __construct()
     {
         $this->customResponse = new CustomResponse();
@@ -25,8 +28,12 @@ class SGPermisoController
         $this->sgPermiso = new SGPermiso();
 
         $this->validator = new Validator();
-    }
 
+        $this->sgEmpresa = new SGEmpresa();
+    }
+    /*
+    *ENDPOINT: POST
+    */
     public function save(Request $request , Response $response)
     {
         $this->validator->validate($request , [
@@ -44,13 +51,19 @@ class SGPermisoController
             return $this->customResponse->is400Response($response , $responseMenssage);
         }
 
+        $indicativo = $this->findByIndicativo(CustomRequestHandler::getParam($request , "id_empresa"));
+
+        $prefijo    = $this->findByPrefijoEmpresa(CustomRequestHandler::getParam($request , "id_empresa"));
+
         $this->sgPermiso->create([
             "fecha_inicio" => CustomRequestHandler::getParam($request , "fecha_inicio"),
             "hora_inicio" => CustomRequestHandler::getParam($request , "hora_inicio"),
             "lugar_de_trabajo" => CustomRequestHandler::getParam($request , "lugar_de_trabajo"),
             "id_usuario" => CustomRequestHandler::getParam($request , "id_usuario"),
             "id_empresa" => CustomRequestHandler::getParam($request , "id_empresa"),
-            "estado" => "1"
+            "estado" => "1",
+            "prefijo" => $prefijo, 
+            "indicativo" => $indicativo
         ]);
 
         $responseMenssage = "creado";
@@ -58,6 +71,7 @@ class SGPermisoController
         $this->customResponse->is200Response($response , $responseMenssage) ;
     }
 
+    //ENDPOINT:GET
     public function findByUsuarioOpen(Request $request , Response $response , $id)
     {
         $getFindByUsuarioOpen = $this->sgPermiso
@@ -66,5 +80,26 @@ class SGPermisoController
                                     ->get();
 
         $this->customResponse->is200Response($response , $getFindByUsuarioOpen);
+    }
+
+    public function findByIndicativo($id_empresa)
+    {
+        $indicativo = 0;
+
+        $getFindByIndicativo = $this->sgPermiso->selectRaw("indicativo")->where("id_empresa" , "=" , $id_empresa)->orderBy('prefijo' , 'desc')->first();
+
+        if($getFindByPrefijo > 0)
+        {
+            return $indicativo + 1;
+        }else{
+            return $indicativo;
+        }
+    }
+
+    public function findByPrefijoEmpresa($id_empresa)
+    {
+        $getFindByPrefijoEmpresa = $this->sgEmpresa->selectRaw("prefijo")->where("id_empresa" , "=" , $id_empresa)->first();
+
+        return $getFindByPrefijoEmpresa;
     }
 }
