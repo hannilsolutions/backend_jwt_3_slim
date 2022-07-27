@@ -59,7 +59,10 @@ class SGPermisoController
 
     public function findByUsuarioOpen(Request $request , Response $response , $id)
     {
-        $getFindByUsuarioOpen = $this->sgPermiso->where(["id_usuario" => $id])->get();
+        $getFindByUsuarioOpen = $this->sgPermiso
+                                    ->where(["id_usuario" => $id])
+                                    ->where("estado" , "=" , "1")
+                                    ->get();
 
         $this->customResponse->is200Response($response , $getFindByUsuarioOpen);
     }
