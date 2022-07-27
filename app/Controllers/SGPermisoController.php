@@ -50,6 +50,7 @@ class SGPermisoController
             "lugar_de_trabajo" => CustomRequestHandler::getParam($request , "lugar_de_trabajo"),
             "id_usuario" => CustomRequestHandler::getParam($request , "id_usuario"),
             "id_empresa" => CustomRequestHandler::getParam($request , "id_empresa"),
+            "estado" => "1"
         ]);
 
         $responseMenssage = "creado";
