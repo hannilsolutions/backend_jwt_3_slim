@@ -116,7 +116,7 @@ $app->group("/seguridad" , function() use ($app){
 
     #permiso de trabajo
     $app->post("/permiso/save" , "SGPermisoController:save");
-    $app->get("/permiso/get/{id}" , "SGPermisoController:findByUsuario");
+    $app->get("/permiso/findByUsuarioOpen/{id}" , "SGPermisoController:findByUsuarioOpen");
 
 });
  

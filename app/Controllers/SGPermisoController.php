@@ -56,4 +56,11 @@ class SGPermisoController
 
         $this->customResponse->is200Response($response , $responseMenssage) ;
     }
+
+    public function findByUsuarioOpen(Request $request , Response $response , $id)
+    {
+        $getFindByUsuarioOpen = $this->sgPermiso->where(["id_usuario" => $id])->get();
+
+        $this->customResponse->is200Response($response , $getFindByUsuarioOpen);
+    }
 }
