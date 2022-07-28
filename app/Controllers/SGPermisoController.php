@@ -42,6 +42,7 @@ class SGPermisoController
             "lugar_de_trabajo" => v::notEmpty(),
             "id_usuario" => v::notEmpty(),
             "id_empresa" => v::notEmpty(),
+            "id_permiso_trabajo" => v::notEmpty()
         ]);
 
         if($this->validator->failed())
@@ -63,7 +64,8 @@ class SGPermisoController
             "id_empresa" => CustomRequestHandler::getParam($request , "id_empresa"),
             "estado" => "1",
             "prefijo" => $prefijo, 
-            "indicativo" => $indicativo
+            "indicativo" => $indicativo,
+            "id_permiso_trabajo" => CustomRequestHandler::getParam($request , "id_permiso_trabajo"),
         ]);
 
         $responseMenssage = "creado";
@@ -84,22 +86,33 @@ class SGPermisoController
 
     public function findByIndicativo($id_empresa)
     {
-        $indicativo = 0;
+        $indicativo = 1;
 
-        $getFindByIndicativo = $this->sgPermiso->selectRaw("indicativo")->where("id_empresa" , "=" , $id_empresa)->orderBy('prefijo' , 'desc')->first();
+        $getFindByIndicativo = $this->sgPermiso->selectRaw("indicativo")->where("id_empresa" , "=" , $id_empresa)->orderBy('prefijo' , 'desc')->get();
 
-        if($getFindByPrefijo > 0)
+        if($getFindByIndicativo > 0)
         {
-            return $indicativo + 1;
-        }else{
-            return $indicativo;
+            foreach($getFindByIndicativo as $item)
+            {
+                $indicativo = $item->indicativo  + 1 ; 
+            }
+
         }
+
+        return $indicativo;
     }
 
     public function findByPrefijoEmpresa($id_empresa)
     {
-        $getFindByPrefijoEmpresa = $this->sgEmpresa->selectRaw("prefijo")->where("id_empresa" , "=" , $id_empresa)->first();
+        $prefijo = '';
 
-        return $getFindByPrefijoEmpresa;
+        $getFindByPrefijoEmpresa = $this->sgEmpresa->selectRaw("prefijo")->where("id_empresa" , "=" , $id_empresa)->get();
+
+        foreach($getFindByPrefijoEmpresa as $item)
+        {
+            $prefijo = $item->prefijo;
+        }
+
+        return $prefijo;
     }
 }
