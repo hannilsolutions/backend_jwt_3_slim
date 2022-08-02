@@ -93,7 +93,7 @@ class SGPermisoController
       
         foreach ($getFindByIndicativo as $item) {
 
-            $indicativo = $item->indicativo + 1;
+            $indicativo = $item["indicativo"] + 1;
         }
         
 
