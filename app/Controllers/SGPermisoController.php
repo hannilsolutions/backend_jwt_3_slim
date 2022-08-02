@@ -99,7 +99,7 @@ class SGPermisoController
             }
 
         }
-
+        print_r($getFindByIndicativo);
         return $indicativo;
     }
 
