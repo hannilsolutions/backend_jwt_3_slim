@@ -92,7 +92,7 @@ class SGPermisoController
 
       
         //$indicativo = $item["indicativo"] + 1;
-         var_dump($getFindByIndicativo);
+         echo $getFindByIndicativo["indicativo"];
         
 
         return $indicativo;
