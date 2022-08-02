@@ -88,12 +88,12 @@ class SGPermisoController
     {
         $indicativo = 1;
  
-        $getFindByIndicativo = $this->sgPermiso->selectRaw("indicativo")->where("id_empresa" , "=" , $id_empresa)->first();
+        $getFindByIndicativo = $this->sgPermiso->selectRaw("indicativo")->where("id_empresa" , "=" , $id_empresa)->count();
 
-      
-        //$indicativo = $item["indicativo"] + 1;
-         //echo $getFindByIndicativo["indicativo"];
-        var_dump($getFindByIndicativo);
+        if($getFindByIndicativo > 0)
+        {
+            $indicativo = $getFindByIndicativo + 1;
+        }
 
         return $indicativo;
     }
