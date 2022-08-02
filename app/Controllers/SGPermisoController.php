@@ -88,7 +88,8 @@ class SGPermisoController
     {
         $indicativo = 1;
 
-        $getFindByIndicativo = $this->sgPermiso->selectRaw("indicativo")->where("id_empresa" , "=" , $id_empresa)->orderBy('indicativo' , 'desc')->first();
+       // $getFindByIndicativo = $this->sgPermiso->selectRaw("indicativo")->where("id_empresa" , "=" , $id_empresa)->orderBy('indicativo' , 'desc')->first();
+        $getFindByIndicativo = $this->sgPermiso->selectRaw("indicativo")->latest()->first();
 
         if($getFindByIndicativo > 0)
         {
