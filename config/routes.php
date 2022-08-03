@@ -121,5 +121,8 @@ $app->group("/seguridad" , function() use ($app){
 
     #tiposPermisos
     $app->get("/tipoTrabajo/{id}" , "SGTipoTrabajoController:getTipoTrabajo");
+
+    #empleados_permisos
+    $apt->post("permisosEmpleados/save" , "SGPermisosEmpleadosController:save");
 });
  
