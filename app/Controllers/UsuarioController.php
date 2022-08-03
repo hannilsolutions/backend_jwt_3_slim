@@ -94,6 +94,16 @@ class UsuarioController
         $this->customResponse->is200Response($response,$responseMessage);
     }
 
+    /*
+    *ENDPOINT GET id_empresa 
+    */
+
+    public function findByIdempresa(Request $request , Response $response  , $id)
+    {
+        $getFindByIdempresa = $this->usuario->where("id_empresa" , "=" , $id["id"])->get();
+
+        $this->customResponse->is200Response($response , $getFindByIdempresa);
+    }
      
 
 }

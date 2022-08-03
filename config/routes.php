@@ -76,6 +76,7 @@ $app->group("/usuarios" , function() use($app){
     $app->get("/findByName/{name}" , "UsuarioController:findByName");
     $app->delete("/delete/{id}" , "UsuarioController:deleteById");
     $app->patch("/edit/{id}" , "UsuarioController:updateById");
+    $app->get("/findByIdempresa/{id}" , "UsuarioController:findByIdempresa");
 });
 
 //roles
