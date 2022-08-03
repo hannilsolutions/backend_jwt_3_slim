@@ -79,7 +79,7 @@ class SGPermisosEmpleadosController
 
     public function deleteById(Request $request , Response $response , $id)
     {
-        $this->sgPermisoEmpleado->where(["id_permiso_trabajo" => $id])->delete();
+        $this->sgPermisoEmpleado->where(["id_permisos_empleado" => $id])->delete();
 
         $responseMessage = "Eliminado";
 
