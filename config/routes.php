@@ -123,6 +123,8 @@ $app->group("/seguridad" , function() use ($app){
     $app->get("/tipoTrabajo/{id}" , "SGTipoTrabajoController:getTipoTrabajo");
 
     #empleados_permisos
-    $apt->post("permisosEmpleados/save" , "SGPermisosEmpleadosController:save");
+    $app->post("/permisosEmpleados/save" , "SGPermisosEmpleadosController:save");
+    $app->get("/permisosEmpleados/list/{id}" , "SGPermisosEmpleadosController:findByIdpermiso");
+
 });
  
