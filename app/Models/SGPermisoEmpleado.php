@@ -7,7 +7,7 @@ use \Illuminate\Database\Eloquent\Model;
 class SGPermisoEmpleado extends  Model
 {
 
-    protected $table="han_sg_permiso_empleados";
+    protected $table="han_sg_permisos_empleados";
     
     protected $fillable = 
     ["id_permisos_empleado",
