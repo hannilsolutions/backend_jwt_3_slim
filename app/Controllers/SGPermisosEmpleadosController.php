@@ -54,6 +54,10 @@ class SGPermisosEmpleadosController
             "id_user"   => CustomRequestHandler::getParam($request , "id_user"),
             "id_empresa" => CustomRequestHandler::getParam($request , "id_empresa")
         ]);
+
+        $responseMessage  = "creado";
+
+        $this->customResponse->is200Response($response , $responseMessage);
     }
     /**
      * ENDPOINT GET empleado de permiso asignado
