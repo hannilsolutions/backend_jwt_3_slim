@@ -77,5 +77,14 @@ class SGPermisosEmpleadosController
         $this->customResponse->is200Response($response , $getFindByIdpermiso);
     }
 
+    public function deleteById(Request $request , Response $response , $id)
+    {
+        $this->sgPermisoEmpleado->where(["id_permiso_trabajo" => $id])->delete();
+
+        $responseMessage = "Eliminado";
+
+        $this->customResponse->is200Response($response  , $responseMessage);
+    }
+
 
 }

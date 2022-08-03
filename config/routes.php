@@ -125,6 +125,7 @@ $app->group("/seguridad" , function() use ($app){
     #empleados_permisos
     $app->post("/permisosEmpleados/save" , "SGPermisosEmpleadosController:save");
     $app->get("/permisosEmpleados/list/{id}" , "SGPermisosEmpleadosController:findByIdpermiso");
+    $app->delete("/permisosEmpleados/deleteById/{id}" , "SGPermisosEmpleadosController:deleteById");
 
 });
  
