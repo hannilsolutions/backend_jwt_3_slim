@@ -52,7 +52,7 @@ class SGPermisosEmpleadosController
         {
             $responseMessage = "Empleado ya seleccionado";
 
-            $this->customResponse->is400Response($response , $responseMessage);
+            return $this->customResponse->is400Response($response , $responseMessage);
         }
 
         $this->sgPermisoEmpleado->create([
