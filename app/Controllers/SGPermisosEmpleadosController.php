@@ -48,6 +48,12 @@ class SGPermisosEmpleadosController
 
             return $this->customResponse->is400Response($response , $responseMessage);
         }
+        if($this->verifyExistEmpleado(CustomRequestHandler::getParam($request , "id_user") , CustomRequestHandler::getParam($request , "id_permiso_trabajo")))
+        {
+            $responseMessage = "Empleado ya seleccionado";
+
+            $this->customResponse->is400Response($response , $responseMessage);
+        }
 
         $this->sgPermisoEmpleado->create([
             "id_permiso_trabajo" => CustomRequestHandler::getParam($request , "id_permiso_trabajo") , 
@@ -84,6 +90,22 @@ class SGPermisosEmpleadosController
         $responseMessage = "Eliminado";
 
         $this->customResponse->is200Response($response  , $responseMessage);
+    }
+
+    /*
+    *validar si empleado ya se encuentra en permiso de trabajo
+    */
+    public function verifyExistEmpleado($user , $permiso)
+    {
+        $count = $this->sgPermisoEmpleado->where(["id_permiso_trabajo" => $permiso])
+                                            ->where(["id_user" => $user])
+                                            ->count();
+        if($count == 0)
+        {
+            return false;
+        }
+
+        return true;
     }
 
 
