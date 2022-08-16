@@ -48,7 +48,7 @@ class SGPermisosEmpleadosController
 
             return $this->customResponse->is400Response($response , $responseMessage);
         }
-        if($this->verifyExistEmpleado(CustomRequestHandler::getParam($request , "id_user") , CustomRequestHandler::getParam($request , "id_permiso_trabajo")))
+        if($this->verifyExistEmpleado(CustomRequestHandler::getParam($request , "id_user")))
         {
             $responseMessage = "Empleado ya seleccionado";
 
@@ -95,10 +95,16 @@ class SGPermisosEmpleadosController
     /*
     *validar si empleado ya se encuentra en permiso de trabajo
     */
-    public function verifyExistEmpleado($user , $permiso)
+    public function verifyExistEmpleado($user )
+    #SELECT * FROM han_sg_permisos_empleados 
+
+    #inner join han_sg_permiso_trabajo on han_sg_permiso_trabajo.id_permiso = han_sg_permisos_empleados.id_permiso_trabajo
+
+    #WHERE han_sg_permisos_empleados.id_user = 1 and han_sg_permiso_trabajo.estado = 1
     {
-        $count = $this->sgPermisoEmpleado->where(["id_permiso_trabajo" => $permiso])
-                                            ->where(["id_user" => $user])
+        $count = $this->sgPermisoEmpleado->join("han_sg_permiso_trabajo" , "han_sg_permiso_trabajo.id_permiso" , "=" , "han_sg_permisos_empleados.id_permiso_trabajo")
+                                            ->where(["han_sg_permisos_empleados.id_user" => $user])
+                                            ->where("han_sg_permiso_trabajo.estado" , "=" , "1")                                            
                                             ->count();
         if($count == 0)
         {
