@@ -128,5 +128,9 @@ $app->group("/seguridad" , function() use ($app){
     $app->delete("/permisosEmpleados/deleteById/{id}" , "SGPermisosEmpleadosController:deleteById");
     $app->get("/permisosEmpleados/findByEmpleado/{id}" , "SGPermisosEmpleadosController:findByEmpleado");
 
+    #empleado_generalidades
+    $app->post("/empleadoGeneralidades/create" , "SGEmpleadoGeneralidades:create");
+    $app->get("/empleadoGeneralidades/findByEmpleado/{id}" , "SGEmpleadoGeneralidades:findByEmpleado");
+
 });
  

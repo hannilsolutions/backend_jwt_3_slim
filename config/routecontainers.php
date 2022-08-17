@@ -98,4 +98,9 @@ return function($container)
       return new \App\Controllers\SGPermisosEmpleadosController;
     };
 
+    $container["SGEmpleadoGeneralidadesController"] = function()
+    {
+      return new \App\Controllers\SGEmpleadoGeneralidadesController;
+    };
+
 };
