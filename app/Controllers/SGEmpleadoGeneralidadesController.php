@@ -55,7 +55,7 @@ class SGEmpleadoGeneralidadesController
 		{
 			$responseMessage = $this->validator->errors;
 
-			$this->customResponse->is400Response($response , $responseMessage);
+			return $this->customResponse->is400Response($response , $responseMessage);
 		}
 
 		$generalidadesEmpresa = getListGeneralidades(CustomRequestHandler::getParam($request , "id_empresa") , CustomRequestHandler::getParam($request , "tipo"));

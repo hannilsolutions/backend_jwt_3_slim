@@ -4,7 +4,7 @@ namespace App\Models;
 
 use \Illuminate\Database\Eloquent\Model;
 
-class SGEmpleadoGeneralidadesController extends  Model
+class SGEmpleadoGeneralidades extends  Model
 {
 
     protected $table="han_sg_empleados_generalidades";
