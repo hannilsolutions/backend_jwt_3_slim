@@ -47,21 +47,20 @@ class SGEmpleadoGeneralidadesController
 			"id_empresa" => v::notEmpty()
 		]);
 
-		$empleado = CustomRequestHandler::getParam($request , "empleado_id");
-
-		$permiso = CustomRequestHandler::getParam($request  , "permiso_id");
-
 		if($this->validator->failed())
 		{
 			$responseMessage = $this->validator->errors;
 
 			return $this->customResponse->is400Response($response , $responseMessage);
 		}
+		$empleado = CustomRequestHandler::getParam($request , "empleado_id");
 
-		$generalidadesEmpresa = getListGeneralidades(CustomRequestHandler::getParam($request , "id_empresa") , CustomRequestHandler::getParam($request , "tipo"));
+		$permiso = CustomRequestHandler::getParam($request  , "permiso_id");
+
+		$getGeneralidadesEmpresa = getListGeneralidades(CustomRequestHandler::getParam($request , "id_empresa") , CustomRequestHandler::getParam($request , "tipo"));
 
 		#create el tipo
-		foreach($getListGeneralidades as $item)
+		foreach($getGeneralidadesEmpresa as $item)
 		{
 			$this->sgEmpleadoGeneralidades->create([
 				"empleado_id" => $empleado,
