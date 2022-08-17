@@ -57,7 +57,7 @@ class SGEmpleadoGeneralidadesController
 
 		$permiso = CustomRequestHandler::getParam($request  , "permiso_id");
 
-		$getGeneralidadesEmpresa = getListGeneralidades(CustomRequestHandler::getParam($request , "id_empresa") , CustomRequestHandler::getParam($request , "tipo"));
+		$getGeneralidadesEmpresa = $this->getListGeneralidades(CustomRequestHandler::getParam($request , "id_empresa") , CustomRequestHandler::getParam($request , "tipo"));
 
 		#create el tipo
 		foreach($getGeneralidadesEmpresa as $item)
