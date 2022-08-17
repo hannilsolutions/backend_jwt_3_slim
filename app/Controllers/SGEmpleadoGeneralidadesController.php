@@ -22,6 +22,8 @@ class SGEmpleadoGeneralidadesController
 
 	protected $validator;
 
+	protected $generalidades;
+
 	public function __construct()
 	{
 		$this->customResponse = new CustomResponse();
