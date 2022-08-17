@@ -114,5 +114,39 @@ class SGPermisosEmpleadosController
         return true;
     }
 
+    /*
+    *ENPOINT GET
+    */
+    /*SELECT 
+            han_sg_permisos_empleados.id_permisos_empleado,
+            han_sg_permiso_trabajo.fecha_inicio,
+            han_sg_permiso_trabajo.hora_inicio,
+            han_sg_permiso_trabajo.prefijo,
+            han_sg_permiso_trabajo.lugar_de_trabajo,
+            han_sg_permiso_trabajo.indicativo,
+            han_sg_permiso_trabajo.id_permiso
+            FROM han_sg_permisos_empleados
+
+            inner join han_sg_permiso_trabajo on han_sg_permiso_trabajo.id_permiso = han_sg_permisos_empleados.id_permiso_trabajo
+
+            where han_sg_permiso_trabajo.estado = 1 and han_sg_permisos_empleados.id_user = 22 */
+
+    public function findByEmpleado(Request $request , Response $response , $id)
+    {
+        $getFindByEmpleado = $this->sgPermisoEmpleado->selectRaw("han_sg_permisos_empleados.id_permisos_empleado,
+            han_sg_permiso_trabajo.fecha_inicio,
+            han_sg_permiso_trabajo.hora_inicio,
+            han_sg_permiso_trabajo.prefijo,
+            han_sg_permiso_trabajo.lugar_de_trabajo,
+            han_sg_permiso_trabajo.indicativo,
+            han_sg_permiso_trabajo.id_permiso")
+            ->join("han_sg_permiso_trabajo" , "han_sg_permiso_trabajo.id_permiso" , "=" , "han_sg_permisos_empleados.id_permiso_trabajo")
+            ->where(["han_sg_permisos_empleados.id_user" => $id])
+            ->where("han_sg_permiso_trabajo.estado" , "=" , "1")
+            ->get();
+        
+        $this->customResponse->is200Response($response , $getFindByEmpleado);
+    }
+
 
 }
