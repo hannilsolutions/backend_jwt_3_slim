@@ -76,6 +76,37 @@ class SGEmpleadoGeneralidadesController
 
 	}
 
+	/*
+	*ENDPOINT POST 
+	*/
+	public function findByEmpleadoAndPermisoAndTipo(Request $request , Response $response)
+	{
+		$this->validator->validate($request , [
+			"empleado_id" => v::notEmpty(),
+			"permiso_id"	=> v::notEmpty(),
+			"tipo" => v::notEmpty(),
+		]);
+
+		if($this->validator->failed())
+		{
+			$responseMessage = $this->validator->failed();
+
+			return $this->customResponse->is400Response($response , $responseMessage);
+		}
+
+		$getListGeneralidadesEmpleado = $this->sgEmpleadoGeneralidades->selectRaw("
+							han_sg_empleados_generalidades.empleado_generalidades_id ,
+							han_sg_empleados_generalidades.active, 
+							han_sg_generalidades.nombre")
+		->join("han_sg_generalidades" , "han_sg_generalidades.id_generalidades" , "=" , "han_sg_empleados_generalidades.generalidades_id")
+		->where(["han_sg_empleados_generalidades.empleado_id" => CustomRequestHandler::getParam($request , "empleado_id")])
+		->where(["han_sg_empleados_generalidades.permiso_id" => CustomRequestHandler::getParam($request , "permiso_id")])
+		->where(["han_sg_generalidades.tipo" => CustomRequestHandler::getParam($response , "tipo")])
+		->get();
+
+		$this->customResponse->is200Response($response , $getListGeneralidadesEmpleado);
+	}
+
 	public function getListGeneralidades($id_empresa , $tipo)
 	{
 		$getListGeneralidades = $this->generalidades

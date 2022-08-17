@@ -130,7 +130,7 @@ $app->group("/seguridad" , function() use ($app){
 
     #empleado_generalidades
     $app->post("/empleadoGeneralidades/create" , "SGEmpleadoGeneralidadesController:create");
-    $app->get("/empleadoGeneralidades/findByEmpleado/{id}" , "SGEmpleadoGeneralidadesController:findByEmpleado");
+    $app->post("/empleadoGeneralidades/findByEmpleadoAndPermisoAndTipo" , "SGEmpleadoGeneralidadesController:findByEmpleadoAndPermisoAndTipo");
 
 });
  
