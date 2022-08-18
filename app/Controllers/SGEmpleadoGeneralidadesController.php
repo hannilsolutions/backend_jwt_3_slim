@@ -106,6 +106,31 @@ class SGEmpleadoGeneralidadesController
 
 		$this->customResponse->is200Response($response , $getListGeneralidadesEmpleado);
 	}
+	/*
+	*ENDPOINT PATCH 
+	**/
+	public function editActive(Request $request , Response $response , $id)
+	{
+		 $this->validator->validate($request , [
+		 	"active" => v::notEmpty()
+		 ]);
+
+		 if ($this->validator->failed()) {
+		 	
+		 	$responseMessage = $this->validator->errors;
+
+		 	return $this->customResponse->is400Response($response , $responseMessage);
+		 }
+
+		$this->sgEmpleadoGeneralidades->where(["empleado_generalidades_id" => $id])->update([
+
+			"active" => CustomRequestHandler::getParam($request , "active")
+		]);
+
+		$responseMessage = "actualizado";
+
+		$this->customResponse->is200Response($response , $responseMessage);
+	}
 
 	public function getListGeneralidades($id_empresa , $tipo)
 	{
