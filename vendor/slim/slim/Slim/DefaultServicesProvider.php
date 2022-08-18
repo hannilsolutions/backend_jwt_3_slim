@@ -2,17 +2,18 @@
 /**
  * Slim Framework (https://slimframework.com)
  *
- * @license https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
+ * @link      https://github.com/slimphp/Slim
+ * @copyright Copyright (c) 2011-2017 Josh Lockhart
+ * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
-
 namespace Slim;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Handlers\Error;
-use Slim\Handlers\NotAllowed;
-use Slim\Handlers\NotFound;
 use Slim\Handlers\PhpError;
+use Slim\Handlers\Error;
+use Slim\Handlers\NotFound;
+use Slim\Handlers\NotAllowed;
 use Slim\Handlers\Strategies\RequestResponse;
 use Slim\Http\Environment;
 use Slim\Http\Headers;
@@ -22,18 +23,22 @@ use Slim\Interfaces\CallableResolverInterface;
 use Slim\Interfaces\InvocationStrategyInterface;
 use Slim\Interfaces\RouterInterface;
 
+/**
+ * Slim's default Service Provider.
+ */
 class DefaultServicesProvider
 {
     /**
      * Register Slim's default services.
      *
-     * @param Container $container A DI container implementing ArrayAccess and psr/container.
+     * @param Container $container A DI container implementing ArrayAccess and container-interop.
      */
     public function register($container)
     {
         if (!isset($container['environment'])) {
             /**
-             * This service MUST return a shared instance of \Slim\Http\Environment.
+             * This service MUST return a shared instance
+             * of \Slim\Http\Environment.
              *
              * @return Environment
              */
@@ -73,7 +78,8 @@ class DefaultServicesProvider
 
         if (!isset($container['router'])) {
             /**
-             * This service MUST return a shared instance of \Slim\Interfaces\RouterInterface.
+             * This service MUST return a SHARED instance
+             * of \Slim\Interfaces\RouterInterface.
              *
              * @param Container $container
              *
@@ -84,6 +90,7 @@ class DefaultServicesProvider
                 if (isset($container->get('settings')['routerCacheFile'])) {
                     $routerCacheFile = $container->get('settings')['routerCacheFile'];
                 }
+
 
                 $router = (new Router)->setCacheFile($routerCacheFile);
                 if (method_exists($router, 'setContainer')) {
@@ -96,7 +103,8 @@ class DefaultServicesProvider
 
         if (!isset($container['foundHandler'])) {
             /**
-             * This service MUST return a SHARED instance InvocationStrategyInterface.
+             * This service MUST return a SHARED instance
+             * of \Slim\Interfaces\InvocationStrategyInterface.
              *
              * @return InvocationStrategyInterface
              */
@@ -107,13 +115,15 @@ class DefaultServicesProvider
 
         if (!isset($container['phpErrorHandler'])) {
             /**
-             * This service MUST return a callable that accepts three arguments:
+             * This service MUST return a callable
+             * that accepts three arguments:
              *
-             * 1. Instance of ServerRequestInterface
-             * 2. Instance of ResponseInterface
-             * 3. Instance of Error
+             * 1. Instance of \Psr\Http\Message\ServerRequestInterface
+             * 2. Instance of \Psr\Http\Message\ResponseInterface
+             * 3. Instance of \Error
              *
-             * The callable MUST return an instance of ResponseInterface.
+             * The callable MUST return an instance of
+             * \Psr\Http\Message\ResponseInterface.
              *
              * @param Container $container
              *
@@ -126,13 +136,15 @@ class DefaultServicesProvider
 
         if (!isset($container['errorHandler'])) {
             /**
-             * This service MUST return a callable that accepts three arguments:
+             * This service MUST return a callable
+             * that accepts three arguments:
              *
              * 1. Instance of \Psr\Http\Message\ServerRequestInterface
              * 2. Instance of \Psr\Http\Message\ResponseInterface
              * 3. Instance of \Exception
              *
-             * The callable MUST return an instance of ResponseInterface.
+             * The callable MUST return an instance of
+             * \Psr\Http\Message\ResponseInterface.
              *
              * @param Container $container
              *
@@ -147,12 +159,14 @@ class DefaultServicesProvider
 
         if (!isset($container['notFoundHandler'])) {
             /**
-             * This service MUST return a callable that accepts two arguments:
+             * This service MUST return a callable
+             * that accepts two arguments:
              *
-             * 1. Instance of ServerRequestInterface
-             * 2. Instance of ResponseInterface
+             * 1. Instance of \Psr\Http\Message\ServerRequestInterface
+             * 2. Instance of \Psr\Http\Message\ResponseInterface
              *
-             * The callable MUST return an instance of ResponseInterface.
+             * The callable MUST return an instance of
+             * \Psr\Http\Message\ResponseInterface.
              *
              * @return callable
              */
@@ -163,13 +177,15 @@ class DefaultServicesProvider
 
         if (!isset($container['notAllowedHandler'])) {
             /**
-             * This service MUST return a callable that accepts three arguments:
+             * This service MUST return a callable
+             * that accepts three arguments:
              *
-             * 1. Instance of ServerRequestInterface
-             * 2. Instance of ResponseInterface
+             * 1. Instance of \Psr\Http\Message\ServerRequestInterface
+             * 2. Instance of \Psr\Http\Message\ResponseInterface
              * 3. Array of allowed HTTP methods
              *
-             * The callable MUST return an instance of ResponseInterface.
+             * The callable MUST return an instance of
+             * \Psr\Http\Message\ResponseInterface.
              *
              * @return callable
              */
@@ -180,7 +196,7 @@ class DefaultServicesProvider
 
         if (!isset($container['callableResolver'])) {
             /**
-             * Instance of CallableResolverInterface
+             * Instance of \Slim\Interfaces\CallableResolverInterface
              *
              * @param Container $container
              *
