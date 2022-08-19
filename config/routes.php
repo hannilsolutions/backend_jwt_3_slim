@@ -133,5 +133,8 @@ $app->group("/seguridad" , function() use ($app){
     $app->post("/empleadoGeneralidades/findByEmpleadoAndPermisoAndTipo" , "SGEmpleadoGeneralidadesController:findByEmpleadoAndPermisoAndTipo");
     $app->patch("/empleadoGeneralidades/editActive/{id}" , "SGEmpleadoGeneralidadesController:editActive");
 
+    #empresa
+    $app->get("/empresa/list" , "SGEmpresaController:list");
+
 });
  

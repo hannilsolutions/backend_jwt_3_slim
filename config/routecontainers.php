@@ -103,4 +103,9 @@ return function($container)
       return new \App\Controllers\SGEmpleadoGeneralidadesController;
     };
 
+    $container["SGEmpresaController"] = function()
+    {
+      return new \App\Controllers\SGEmpresaController;
+    };
+
 };

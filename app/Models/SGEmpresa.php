@@ -19,6 +19,9 @@ class SGEmpresa extends  Model
 	"codigo_soporte",
     "direccion",
     "prefijo",
+    "html1",
+    "html2",
+    "html3",
 	"created_at",
     "updated_at"];
     
