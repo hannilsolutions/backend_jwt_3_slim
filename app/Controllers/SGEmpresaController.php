@@ -9,7 +9,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\RequestInterface as Request;
 use Respect\Validation\Validator as v;
 use App\Validation\Validator;
-
+use Exception;
 
 
 class SGEmpresaController
@@ -63,8 +63,9 @@ class SGEmpresaController
 			return $this->customResponse->is400Response($response , $responseMenssage);
 
 		}
-
-		$this->sgEmpresa->where(["id_empresa" => $id])->update([
+		try
+		{
+			$this->sgEmpresa->where(["id_empresa" => $id])->update([
 
 		    "razon_social" => CustomRequestHandler::getParam($request , "razon_social"),
 		    "nit" => CustomRequestHandler::getParam($request , "nit"),
@@ -82,6 +83,13 @@ class SGEmpresaController
 		$responseMenssage = "actualizado";
 
 		$this->customResponse->is200Response($response , $responseMenssage);
+		
+		}catch(Exception $e)
+		{
+			$this->customResponse->is400Response($response , $e->getMessage());
+		}
+
+		
 	}
 
 
