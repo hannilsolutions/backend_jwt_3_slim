@@ -135,6 +135,7 @@ $app->group("/seguridad" , function() use ($app){
 
     #empresa
     $app->get("/empresa/list" , "SGEmpresaController:list");
+    $app->patch("/empresa/updated/{id}" , "SGEmpresaController:updated");
 
 });
  
