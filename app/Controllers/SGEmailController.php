@@ -69,7 +69,7 @@ class SGEmailController
 		#enviamos msm mail
 		$getSendMail = $this->sendMail($getPlantillaEmpresa , $getToken , CustomRequestHandler::getParam($request , "email") , CustomRequestHandler::getParam($request , "user"));
 
-		if (!$getSendMail) {
+		if ($getSendMail != true) {
 			
 			$responseMessage = $getSendMail;
 
@@ -136,10 +136,13 @@ class SGEmailController
 			    $this->mail->Body = $plantilla["html1"].$name.$plantilla["html2"].$token.$plantilla["html3"];
 
 			    $this->mail->send(); 
+
 			    return true;
+
 		}catch (Exception $e)
 		{
-				echo $plantilla["mail_send"];
+				 
+
 				return $this->mail->ErrorInfo;
 
 		}
