@@ -98,7 +98,7 @@ class SGEmailController
 		
 		$plantilla = array();
 
-		foreach($plantilla as $item)
+		foreach($gethtml as $item)
 		{
 			$plantilla["html1"] 	= $item->html1;
 			$plantilla["html2"] 	= $item->html2;
