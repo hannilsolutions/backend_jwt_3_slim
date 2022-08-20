@@ -143,7 +143,7 @@ class SGEmailController
 		{
 				 
 
-				return $this->mail->ErrorInfo;
+				echo $this->mail->ErrorInfo;
 
 		}
 
