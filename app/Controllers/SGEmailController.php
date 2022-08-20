@@ -65,7 +65,7 @@ class SGEmailController
 
 		#generamos token
 		$getToken = $this->generateTokenFirma();
-		echo var_dump($getPlantillaEmpresa);
+		 
 		#enviamos msm mail
 		$getSendMail = $this->sendMail($getPlantillaEmpresa , $getToken , CustomRequestHandler::getParam($request , "email") , CustomRequestHandler::getParam($request , "user"));
 
@@ -117,6 +117,7 @@ class SGEmailController
 	{
 
 		try{
+				$this->mail->CharSet = "UTF-8";
 			    $this->mail->SMTPDebug = 0;                      //Enable verbose debug output
 			    $this->mail->isSMTP();                                            //Send using SMTP
 			    $this->mail->Host       = $plantilla["host"];                     //Set the SMTP server to send through
@@ -135,7 +136,7 @@ class SGEmailController
 			    $this->mail->Body = $plantilla["html1"].$name.$plantilla["html2"].$token.$plantilla["html3"];
 
 			    $this->mail->send();
-
+			    echo $plantilla["mail_send"];
 			    return true;
 		}catch (Exception $e)
 		{
