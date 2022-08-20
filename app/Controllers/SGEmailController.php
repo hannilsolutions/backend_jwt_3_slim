@@ -118,7 +118,7 @@ class SGEmailController
 
 		try{
 				$this->mail->CharSet = "UTF-8";
-			    $this->mail->SMTPDebug = 0;                      //Enable verbose debug output
+			    $this->mail->SMTPDebug = 2;                      //Enable verbose debug output
 			    $this->mail->isSMTP();                                            //Send using SMTP
 			    $this->mail->Host       = $plantilla["host"];                     //Set the SMTP server to send through
 				$this->mail->SMTPAuth   = true;                                   //Enable SMTP authentication
@@ -143,7 +143,7 @@ class SGEmailController
 		{
 				 
 
-				echo $this->mail->ErrorInfo;
+				return $this->mail->ErrorInfo;
 
 		}
 
