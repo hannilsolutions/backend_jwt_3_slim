@@ -137,5 +137,8 @@ $app->group("/seguridad" , function() use ($app){
     $app->get("/empresa/list" , "SGEmpresaController:list");
     $app->patch("/empresa/updated/{id}" , "SGEmpresaController:updated");
 
+    #emailsend
+    $app->post("/sendMail/tokenFirma" , "SGEmailController:sendMailFirma");
+
 });
  

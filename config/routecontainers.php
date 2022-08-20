@@ -108,4 +108,9 @@ return function($container)
       return new \App\Controllers\SGEmpresaController;
     };
 
+    $container["SGEmailController"] = function()
+    {
+      return new \App\Controllers\SGEmailController;
+    };
+
 };
