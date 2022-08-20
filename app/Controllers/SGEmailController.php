@@ -67,11 +67,11 @@ class SGEmailController
 		$getToken = $this->generateTokenFirma();
 		 
 		#enviamos msm mail
-		$getSendMail = $this->sendMail($getPlantillaEmpresa , $getToken , CustomRequestHandler::getParam($request , "email") , CustomRequestHandler::getParam($request , "user"));
+		$getSendMail = $this->sendFunctionMail($getPlantillaEmpresa , $getToken , CustomRequestHandler::getParam($request , "email") , CustomRequestHandler::getParam($request , "user"));
 
 		if ($getSendMail != true) {
 			
-			$responseMessage = $getSendMail;
+			$responseMessage = "error enviando";
 
 			return $this->customResponse->is400Response($response , $responseMessage);
 		}
@@ -147,6 +147,17 @@ class SGEmailController
 
 		}
 
+	}
+
+	public function sendFunctionMail($plantilla , $token , $destination , $name)
+	{
+		$subject = 'Código de confirmación';
+		$msm = $plantilla["html1"].$name.$plantilla["html2"].$token.$plantilla["html3"];
+		$msm = wordwrap($msm , 70);
+
+		mail($destination ,$subject , $msm );
+
+		return true;
 	}
 
 
