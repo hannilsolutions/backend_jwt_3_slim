@@ -22,6 +22,10 @@ class SGEmpresa extends  Model
     "html1",
     "html2",
     "html3",
+    "host",
+    "mail_send",
+    "password",
+    "port",
 	"created_at",
     "updated_at"];
     

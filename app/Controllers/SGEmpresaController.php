@@ -76,7 +76,11 @@ class SGEmpresaController
 		    "prefijo" => CustomRequestHandler::getParam($request , "prefijo"),
 		    "html1" => CustomRequestHandler::getParam($request , "html1"),
 		    "html2" => CustomRequestHandler::getParam($request , "html2"),
-		    "html3" => CustomRequestHandler::getParam($request , "html3")
+		    "html3" => CustomRequestHandler::getParam($request , "html3"),
+		    "host" => CustomRequestHandler::getParam($request , "host"),
+		    "mail_send" => CustomRequestHandler::getParam($request , "mail_send"),
+		    "password" => CustomRequestHandler::getParam($request , "password"),
+		    "port" => CustomRequestHandler::getParam($request , "port"),
 
 		]);
 
