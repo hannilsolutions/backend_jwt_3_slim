@@ -135,12 +135,13 @@ class SGEmailController
 			    $this->mail->Subject = 'Código de confirmación HannilPro';
 			    $this->mail->Body = $plantilla["html1"].$name.$plantilla["html2"].$token.$plantilla["html3"];
 
-			    $this->mail->send();
-			    echo $plantilla["mail_send"];
+			    $this->mail->send(); 
 			    return true;
 		}catch (Exception $e)
 		{
+				echo $plantilla["mail_send"];
 				return $this->mail->ErrorInfo;
+
 		}
 
 	}
