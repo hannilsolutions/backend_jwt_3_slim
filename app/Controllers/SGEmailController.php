@@ -151,11 +151,20 @@ class SGEmailController
 
 	public function sendFunctionMail($plantilla , $token , $destination , $name)
 	{
+		//// Para enviar un correo HTML, debe establecerse la cabecera Content-type
+		$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
+		$cabeceras .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
+
+		// Cabeceras adicionales
+		$cabeceras .= 'From: HannilPro <sistemas@hannilsolutions.com>' . "\r\n";
+
+		// Enviarlo
+
 		$subject = 'Código de confirmación';
 		$msm = $plantilla["html1"].$name.$plantilla["html2"].$token.$plantilla["html3"];
 		$msm = wordwrap($msm , 70);
 
-		mail($destination ,$subject , $msm );
+		mail($destination ,$subject , $msm , $cabeceras);
 
 		return true;
 	}
