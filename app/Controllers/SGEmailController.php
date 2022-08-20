@@ -19,7 +19,7 @@ use PHPMailer\PHPMailer\SMTP;
 class SGEmailController
 {
 
-	protected $email;
+	protected $mail;
 
 	protected $validator;
 
@@ -32,7 +32,7 @@ class SGEmailController
 
 	public function __construct()
 	{
-		$this->email = new PHPMailer(true);
+		$this->mail = new PHPMailer(true);
 
 		$this->validator = new Validator();
 
