@@ -178,7 +178,7 @@ class SGEmailController
 		try{
 			$this->usuario->where("id" , "=" , $id_user)->update([
 				"token_pw" => $token,
-				"fecha_caducidad" => date("Y-m-d H:mm:ss")
+				"fecha_caducidad" => date("YYYY-MM-DD HH:MI:SS")
 			]);
 			return true;
 		}catch(Exception $e)
