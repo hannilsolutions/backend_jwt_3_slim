@@ -69,16 +69,15 @@ class SGEmailController
 		#enviamos msm mail
 		$getSendMail = $this->sendFunctionMail($getPlantillaEmpresa , $getToken , CustomRequestHandler::getParam($request , "email") , CustomRequestHandler::getParam($request , "user"));
 
-		if ($getSendMail != true) {
+		if (!$getSendMail) {
 			
-			$responseMessage = "error enviando";
+			$responseMessage = "error enviando correo";
 
 			return $this->customResponse->is400Response($response , $responseMessage);
 		}
 		#actualizar token en user agrega tiempo de expirar
-
-		#enviar correo
-
+		$setTokenUser = $this->updatedTokenUsuario(CustomRequestHandler::getParam($request , "id_user") , $getToken);
+		
 		$responseMessage = "enviado";
 
 		$this->customResponse->is200Response($response , $responseMessage);
@@ -164,10 +163,31 @@ class SGEmailController
 		$msm = $plantilla["html1"].$name.$plantilla["html2"].$token.$plantilla["html3"];
 		$msm = wordwrap($msm , 70);
 
-		mail($destination ,$subject , $msm , $cabeceras);
+		if(!mail($destination ,$subject , $msm , $cabeceras))
+		{
+			return false;
+		}
 
 		return true;
+
+	
 	}
+
+	public function updatedTokenUsuario($id_user , $token)
+	{
+		try{
+			$this->usuario->where("id" , "=" , $id_user)->update([
+				"token_pw" => $token,
+				"fecha_caducidad" => date("Y-m-d H:mm:ss")
+			]);
+			return true;
+		}catch(Exception $e)
+		{
+			return false;
+		}
+
+		
+	} 
 
 
 	
