@@ -222,7 +222,7 @@ class SGEmailController
 			return $this->customResponse->is400Response($response , $responseMessage);
 		}
 		#validamos si el token es igual al enviado
-		$token_pw = CustomRequestHandler::getParam($request , "token_pw");
+		$token_pw = CustomRequestHandler::getParam($request , "token");
 
 		if($getInfoToken["token_pw"] != $token_pw)
 		{
