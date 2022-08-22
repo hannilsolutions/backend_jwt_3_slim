@@ -24,6 +24,8 @@ class Usuario extends Model
     "role", 
     "firma",
     "id_empresa",
+    "private_key",
+    "public_key",
     "created_at",
     "updated_at"
 ];

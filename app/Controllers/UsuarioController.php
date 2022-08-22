@@ -104,6 +104,41 @@ class UsuarioController
 
         $this->customResponse->is200Response($response , $getFindByIdempresa);
     }
+
+    /*
+    *ENDPOINT GET Generar firma digital
+    */
+    public function generateFirmaElectronica(Request $request , Response $response , $id)
+    {
+        $path = '/home/internet/public_html/apps/Files/usuarios/frmEOL/'.$id;
+        
+        if (!is_dir($path)) 
+        {
+            mkdir($path, 0777, true);
+        }
+
+        $new_key_pair = openssl_pkey_new(array(
+            "private_key_bits" => 2048,
+            "private_key_type" => OPENSSL_KEYTYPE_RSA,
+        ));
+        openssl_pkey_export($new_key_pair, $private_key_pem);
+
+        $details = openssl_pkey_get_details($new_key_pair);
+        $public_key_pem = $details['key'];
+         
+         
+        file_put_contents($path.'/private_key1.pem', $private_key_pem);
+        file_put_contents($path.'/public_key1.pem', $public_key_pem); 
+
+        $this->usuario->where(["id" => $id])->update([
+                "private_key" => $private_key_pem,
+                "public_key" => $public_key_pem,
+        ]);
+
+        $responseMessage = "firma creada";
+
+        $this->customResponse->is200Response($response , $responseMenssage);
+    }
      
 
 }
