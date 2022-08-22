@@ -110,7 +110,7 @@ class UsuarioController
     */
     public function generateFirmaElectronica(Request $request , Response $response , $id)
     {
-        $path = '/home/internet/public_html/apps/Files/usuarios/frmEOL/'.$id;
+        $path = '/home/internet/public_html/apps/Files/usuarios/frmEOL/'.$id["id"];
         
         if (!is_dir($path)) 
         {
@@ -137,7 +137,7 @@ class UsuarioController
 
         $responseMessage = "firma creada";
 
-        $this->customResponse->is200Response($response , $responseMenssage);
+        $this->customResponse->is200Response($response , $responseMessage);
     }
      
 
