@@ -188,6 +188,71 @@ class SGEmailController
 
 		
 	} 
+	/*
+	*ENPOINT POST validar token creado dos minutos
+	*/
+	public function validateToken(Request $request , Response $response )
+	{
+		$this->validator->validate($request , [
+			"token" => v::notEmpty(),
+			"id_user" => v::notEmpty()
+		]);
+
+		if ($this->validator->failed()) {
+			
+			$responseMessage = $this->validator->errors;
+
+			return $this->customResponse->is400Response($response , $responseMessage);
+		}
+
+		#traemos info de cliente
+		$getInfoToken = $this->findUserById(CustomRequestHandler::getParam($request , "id_user"));
+
+		#fecha de expiracion
+		$fecha_caducidad = date("Y-m-d H:i:s");
+
+		#reduccion de fechacliente con fecha caducidad
+		$residuoFechas = strtotime($fecha_caducidad) - strtotime($getInfoToken["fecha_caducidad"]);
+
+		#validamos el valor inferior a 120 segundo
+		if($residuoFechas > 120)
+		{
+			$responseMessage = "Token Expired";
+
+			return $this->customResponse->is400Response($response , $responseMessage);
+		}
+		#validamos si el token es igual al enviado
+		$token_pw = CustomRequestHandler::getParam($request , "token_pw");
+
+		if($getInfoToken["token_pw"] != $token_pw)
+		{
+			$responseMessage = "token errado";
+
+			return $this->customResponse->is400Response($response , $responseMessage);
+		}
+
+		$responseMessage = "validado";
+
+		$this->customResponse->is200Response($response  , $responseMessage);
+
+	}
+
+	public function findUserById($id)
+	{
+		$user = array();
+
+		$getUser = $this->usuario->selectRaw("token_pw , fecha_caducidad")
+											->where("id" , "=" , $id)
+											->get();
+		foreach($getUser as $item)
+		{
+			$user["token_pw"] = $item->token_pw;
+
+			$user["fecha_caducidad"] = $item->fecha_caducidad;
+		}
+
+		return $user;
+	}
 
 
 	

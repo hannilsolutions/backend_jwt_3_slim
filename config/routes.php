@@ -139,6 +139,7 @@ $app->group("/seguridad" , function() use ($app){
 
     #emailsend
     $app->post("/sendMail/tokenFirma" , "SGEmailController:sendMailFirma");
+    $app->post("/tokenFirma/validate" , "SGEmailController:validateToken");
 
 });
  
