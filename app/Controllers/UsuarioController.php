@@ -171,7 +171,7 @@ class UsuarioController
 
         $passwordHash = $this->hashPassword(CustomRequestHandler::getParam($request,"password"));
 
-        $this->usuario->where(["id" => $id])->update(["password"] => $passwordHash);
+        $this->usuario->where(["id" => $id])->update(["password" => $passwordHash] );
 
         $responseMessage = "contraseña actualizada";
 
