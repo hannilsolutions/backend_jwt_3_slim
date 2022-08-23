@@ -151,7 +151,39 @@ class UsuarioController
 
         $this->customResponse->is200Response($response , $getFindKeyById);
     }
-     
+
+    /*
+    *ENDPOINT PATCH UPDATED PASSWORD
+    */
+
+    public function updatedPassword(Request $request , Response $response , $id)
+    {
+        $this->validator->validate($request , [
+            "password" => v::notEmpty()
+        ]);
+
+        if($this->validator->failed())
+        {
+            $responseMessage = $this->validator->errors;
+
+            return $this->customResponse->is400Response($response , $responseMessage);
+        }
+
+        $passwordHash = $this->hashPassword(CustomRequestHandler::getParam($request,"password"));
+
+        $this->usuario->where(["id" => $id])->update(["password"] => $passwordHash);
+
+        $responseMessage = "contraseña actualizada";
+
+        $this->customResponse->is200Response($response , $responseMessage);
+    }
+
+    //function para encriptar contraseña
+    public  function hashPassword($password)
+        {
+            return password_hash($password,PASSWORD_DEFAULT);
+        }
+         
 
 }
 
