@@ -220,7 +220,7 @@ class SGPermisosEmpleadosController
     //validamos si existe el archivo pem
     public function validarExistFile($carpeta , $archivo)
     {
-        $nombre_fichero = '/home/internet/public_html/apps/Files/usuarios/frmEOL/'.$carpetaUser.'/'.$archivo;
+        $nombre_fichero = '/home/internet/public_html/apps/Files/usuarios/frmEOL/'.$carpeta.'/'.$archivo;
 
         if (file_exists($nombre_fichero)) {
                 return true;
