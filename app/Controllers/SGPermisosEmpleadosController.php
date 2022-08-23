@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\SGPermisoEmpleado;
+use App\Models\SGEmpleadoGeneralidades;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -21,6 +22,8 @@ class SGPermisosEmpleadosController
 
     protected $validator;
 
+    protected $sgEmpleadoGeneralidades;
+
     public function __construct()
     {
         $this->customResponse = new CustomResponse();
@@ -28,6 +31,8 @@ class SGPermisosEmpleadosController
         $this->sgPermisoEmpleado = new SGPermisoEmpleado();
 
         $this->validator = new Validator();
+
+        $this->sgEmpleadoGeneralidades = new SGEmpleadoGeneralidades();
 
     }
 
@@ -146,6 +151,82 @@ class SGPermisosEmpleadosController
             ->get();
         
         $this->customResponse->is200Response($response , $getFindByEmpleado);
+    }
+    /*
+    *  ENDPOINT POST
+    SELECT * from han_sg_empleados_generalidades WHERE han_sg_empleados_generalidades.permiso_id = 34 and han_sg_empleados_generalidades.empleado_id = 10 
+    */
+
+    public function firmarEmpleado(Request $request , Response $response )
+    {
+        $this->validator->validate($request , [
+            "id_permiso" => v::notEmpty(),
+            "id_empleado" => v::notEmpty(),
+            "id_permisos_empleado" => v::notEmpty()
+        ]);
+
+        if ($this->validator->failed()) {
+
+            $responseMessage = $this->validator->errors;
+
+            return $this->customResponse->is400Response($response , $responseMessage);
+        }
+
+        //consultar informacion de empleado_generalidades para firmar
+        $getDataFirma = $this->sgEmpleadoGeneralidades
+                            ->where("empleado_id", "=", CustomRequestHandler::getParam($request , "id_empleado"))
+                            ->where("permiso_id" , "=" , CustomRequestHandler::getParam($request , "id_permiso"))
+                            ->get();
+        #cargar firma
+        $carpetaUser = CustomRequestHandler::getParam($request , "id_empleado");
+
+        
+        if(!$this->validarExistFile($carpetaUser , "private_key1.pem"))
+        {
+            $responseMessage = "no existe archivo pem";
+
+            return $this->customResponse->is400Response($response , $responseMessage);
+        }
+        $path = '/home/internet/public_html/apps/Files/usuarios/frmEOL/'.$carpetaUser.'/private_key1.pem';
+
+        $private_key_pem = fopen($path , "r");
+
+        $cert = fread($private_key_pem, 8192);
+
+        fclose($private_key_pem);
+
+        openssl_sign($getDataFirma, $firma, $cert, OPENSSL_ALGO_SHA256);
+
+        //crear directorio donde va a estar la firma
+        $pathFirma = '/home/internet/public_html/apps/Files/usuarios/firmaPermisos/'.$carpetaUser;
+        
+        if (!is_dir($pathFirma)) 
+        {
+            mkdir($pathFirma, 0777, true);
+        }
+        $permiso = CustomRequestHandler::getParam($request , "id_permiso");
+
+        $pathFirmaData = '/home/internet/public_html/apps/Files/usuarios/firmaPermisos/'.$carpetaUser.'/'.date("Y-m-d H:s:i").'_'.$permiso.'_firma.dat';
+
+        file_put_contents($pathFirmaData , $firma);
+
+        $this->sgPermisoEmpleado->where("id_permisos_empleado" , "=" , CustomRequestHandler::getParam($request , "id_permisos_empleado"))->update(["firma" => $pathFirmaData]);
+
+        $responseMessage = "firma creada con éxito";
+
+        $this->customResponse->is200Response($response , $responseMessage);
+    }
+
+    //validamos si existe el archivo pem
+    public function validarExistFile($carpeta , $archivo)
+    {
+        $nombre_fichero = '/home/internet/public_html/apps/Files/usuarios/frmEOL/'.$carpetaUser.'/'.$archivo;
+
+        if (file_exists($nombre_fichero)) {
+                return true;
+        } else {
+                return false;
+        }
     }
 
 

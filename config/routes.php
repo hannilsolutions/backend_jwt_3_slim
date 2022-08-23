@@ -130,6 +130,7 @@ $app->group("/seguridad" , function() use ($app){
     $app->get("/permisosEmpleados/list/{id}" , "SGPermisosEmpleadosController:findByIdpermiso");
     $app->delete("/permisosEmpleados/deleteById/{id}" , "SGPermisosEmpleadosController:deleteById");
     $app->get("/permisosEmpleados/findByEmpleado/{id}" , "SGPermisosEmpleadosController:findByEmpleado");
+    $app->post("/permisosEmpleados/firmarEmpleado" , "SGPermisosEmpleadosController:firmarEmpleado");
 
     #empleado_generalidades
     $app->post("/empleadoGeneralidades/create" , "SGEmpleadoGeneralidadesController:create");
