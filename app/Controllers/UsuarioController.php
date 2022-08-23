@@ -139,6 +139,18 @@ class UsuarioController
 
         $this->customResponse->is200Response($response , $responseMessage);
     }
+
+    /*
+    *ENDPOINT GET user for id
+    */
+    public function findKeyById(Request $request , Response $response , $id)
+    {
+        $getFindKeyById = $this->usuario->selectRaw(
+                            "private_key , public_key"
+                            )->where(["id" => $id])->get();
+
+        $this->customResponse->is200Response($response , $getFindKeyById);
+    }
      
 
 }
