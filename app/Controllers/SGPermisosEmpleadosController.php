@@ -139,6 +139,7 @@ class SGPermisosEmpleadosController
     public function findByEmpleado(Request $request , Response $response , $id)
     {
         $getFindByEmpleado = $this->sgPermisoEmpleado->selectRaw("han_sg_permisos_empleados.id_permisos_empleado,
+            han_sg_permisos_empleados.firma,
             han_sg_permiso_trabajo.fecha_inicio,
             han_sg_permiso_trabajo.hora_inicio,
             han_sg_permiso_trabajo.prefijo,
