@@ -28,6 +28,34 @@ class ContratoGPSController
     }
 
     /**
+     * ENDPOINT PACTH 
+     * */
+    public function updatedContratoGps(Request  $request , Response $response , $id)
+    {
+        $this->validator->validate($request , [
+               
+            "longitud"  => v::notEmpty(),
+            "latitud"   => v::notEmpty()
+        ]);
+
+        if ($this->validator->failed()) {
+            
+            $responseMessage = $this->validator->errors;
+
+            $this->customResponse->is400Response($response , $responseMessage);
+        }
+
+        $this->contratoGps->where(["id_contrato" => $id])->update([
+            "longitud" => CustomRequestHandler::getParam($request , "longitud"),
+            "latitud" => CustomRequestHandler::getParam($request , "latitud")
+        ]);
+
+        $responseMessage = "actualizado";
+
+        $this->customResponse->is200Response($response , $responseMessage);
+    }
+
+    /**
      * contratoGps -> latitud - longitud  
      * post
      */
