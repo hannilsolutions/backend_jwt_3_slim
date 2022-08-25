@@ -58,6 +58,7 @@ $app->group("/contratos" , function() use ($app){
     $app->get("/barrios/{id}" , "ContratoGPSController:findBarrios");
     #gps betwenn
     $app->post("/gps/findByBetween" , "ContratoGPSController:findByBetween");
+    $app->get("/gps/findById/{id}" , "ContratoGPSController:gpsFindById");
 });
 
 //facturas

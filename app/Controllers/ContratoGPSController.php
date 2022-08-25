@@ -256,6 +256,17 @@ class ContratoGPSController
                                 ->get();
         $this->customResponse->is200Response($response , $responseMessage);
     }
+
+    /*
+    *ENDPOINT GET buscar contratos en internetinalambrico.com.co
+
+    */
+    public function gpsFindById(Request $request , Response $response , $id)
+    {
+        $getFindById = $this->contratoGps->where(["id_contrato" => $id])->get();
+
+        $this->customResponse->is200Response($response , $getFindById);
+    }
      
 }
 
