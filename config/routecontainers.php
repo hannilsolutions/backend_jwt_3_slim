@@ -113,4 +113,9 @@ return function($container)
       return new \App\Controllers\SGEmailController;
     };
 
+    $container["SGVehiculoController"]  = function()
+    {
+      return new \App\Controllers\SGVehiculoController;
+    };
+
 };

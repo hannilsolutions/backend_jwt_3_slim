@@ -147,5 +147,10 @@ $app->group("/seguridad" , function() use ($app){
     $app->post("/sendMail/tokenFirma" , "SGEmailController:sendMailFirma");
     $app->post("/tokenFirma/validate" , "SGEmailController:validateToken");
 
+    #vehiculos
+    $app->post("/vehiculo/save" , "SGVehiculoController:save");
+    $app->get("/vehiculo/listFindByIdUsuario/{id}" , "SGVehiculoController:listFindByIdUsuario");
+    $app->get("/vehiculo/findById/{id}" , "SGVehiculoController:findById");
+
 });
  

@@ -47,7 +47,8 @@ class ContratoGPSController
 
         $this->contratoGps->where(["id_contrato" => $id])->update([
             "longitud" => CustomRequestHandler::getParam($request , "longitud"),
-            "latitud" => CustomRequestHandler::getParam($request , "latitud")
+            "latitud" => CustomRequestHandler::getParam($request , "latitud"),
+            "fecha" => date("Y-m-d")
         ]);
 
         $responseMessage = "actualizado";
