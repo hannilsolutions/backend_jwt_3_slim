@@ -118,4 +118,10 @@ return function($container)
       return new \App\Controllers\SGVehiculoController;
     };
 
+    $container["MarcasController"] = function()
+    {
+
+      return new \App\Controllers\MarcasController;
+    };
+
 };

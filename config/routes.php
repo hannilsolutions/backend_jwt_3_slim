@@ -153,4 +153,12 @@ $app->group("/seguridad" , function() use ($app){
     $app->get("/vehiculo/findById/{id}" , "SGVehiculoController:findById");
 
 });
+
+#marcas
+$app->group("/marcas" , function() use ($app) { 
+    #save
+    $app->post("/save" , "MarcasController:save");
+    $app->get("/list" , "MarcasController:list");
+    $app->delete("/delete/{id}" , "MarcasController:delete");
+});
  
