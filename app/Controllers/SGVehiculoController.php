@@ -80,7 +80,7 @@ class SGVehiculoController
 	*/
 	public function listFindByIdUsuario(Request $request , Response $response , $id)
 	{
-		$getVehiculoByUser $this->vehiculo->where(["id_usuario" => $id])->get();
+		$getVehiculoByUser = $this->vehiculo->where(["id_usuario" => $id])->get();
 
 		return $this->customResponse->is200Response($response , $getVehiculoByUser);
 	}
