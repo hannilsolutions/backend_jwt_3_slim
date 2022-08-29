@@ -44,7 +44,7 @@ class SGGeneralidadesController
 			return $this->customResponse->is400Response($response , $responseMessage);
 		}
 
-		$this->create([
+		$this->generalidades->create([
 			"nombre" => CustomRequestHandler::getParam($request , "nombre"),
 			"tipo" 	 => CustomRequestHandler::getParam($request , "tipo"),
 			"id_empresa" => CustomRequestHandler::getParam($request , "id_empresa")
