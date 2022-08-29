@@ -119,6 +119,7 @@ $app->group("/seguridad" , function() use ($app){
     #reporta disct de empresa
     $app->get("/generalidades/disct/{id}" , "SGGeneralidadesController:tipoDisct");
     $app->post("/generalidades/findByTipo" , "SGGeneralidadesController:findByTipo");
+    $app->post("/generalidades/save" , "SGGeneralidadesController:save");
 
     #permiso de trabajo
     $app->post("/permiso/save" , "SGPermisoController:save");

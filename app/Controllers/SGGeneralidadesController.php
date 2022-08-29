@@ -28,6 +28,33 @@ class SGGeneralidadesController
 		$this->validator = new Validator();
 	}
 
+	public function save(Request $request , Response $response)
+	{
+		$this->validator->validate($request  , [
+
+			"nombre" => v::notEmpty(),
+			"tipo" => v::notEmpty(),
+			"id_empresa" => v::notEmpty(),
+		]);
+
+		if($this->validator->failed())
+		{
+			$responseMessage = $this->validator->errors;
+
+			return $this->customResponse->is400Response($response , $responseMessage);
+		}
+
+		$this->create([
+			"nombre" => CustomRequestHandler::getParam($request , "nombre"),
+			"tipo" 	 => CustomRequestHandler::getParam($request , "tipo"),
+			"id_empresa" => CustomRequestHandler::getParam($request , "id_empresa")
+		]);
+
+		$responseMessage = "creado";
+
+		$this->customResponse->is200Response($response , $responseMessage);
+	}
+
 	public function tipoDisct(Request $request , Response $response , $id)
 	{
 		$getDistTipo = $this->generalidades
