@@ -97,6 +97,7 @@ class SGEmpleadoGeneralidadesController
 		$getListGeneralidadesEmpleado = $this->sgEmpleadoGeneralidades->selectRaw("
 							han_sg_empleados_generalidades.empleado_generalidades_id ,
 							han_sg_empleados_generalidades.active, 
+							han_sg_empleados_generalidades.inspeccion,
 							han_sg_generalidades.nombre")
 		->join("han_sg_generalidades" , "han_sg_generalidades.id_generalidades" , "=" , "han_sg_empleados_generalidades.generalidades_id")
 		->where(["han_sg_empleados_generalidades.empleado_id" => CustomRequestHandler::getParam($request , "empleado_id")])
@@ -124,7 +125,8 @@ class SGEmpleadoGeneralidadesController
 
 		$this->sgEmpleadoGeneralidades->where(["empleado_generalidades_id" => $id])->update([
 
-			"active" => CustomRequestHandler::getParam($request , "active")
+			"active" => CustomRequestHandler::getParam($request , "active"),
+			"inspeccion" => CustomRequestHandler::getParam($request , "inspeccion"),
 		]);
 
 		$responseMessage = "actualizado";
