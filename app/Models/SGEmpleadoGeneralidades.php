@@ -16,6 +16,7 @@ class SGEmpleadoGeneralidades extends  Model
     "generalidades_id" ,
      "created_at",
      "active",
+     "inspeccion",
     "updated_at"];
     
 }
