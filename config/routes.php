@@ -72,6 +72,7 @@ $app->group("/uploads" , function() use($app){
     $app->post("/origin" , "UploadsController:uploads");
     $app->get("/listCategoria/{count}/{categoria}" , "UploadsController:listCategoria");
     $app->delete("/delete/{id}" , "UploadsController:delete");
+    $app->get("/supergiros/cargue/{id}/{filename}" , "UploadsController:supergirosCargue");
 });
 
 //usuarios
