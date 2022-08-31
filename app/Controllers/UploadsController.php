@@ -86,7 +86,15 @@ class UploadsController
         $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
 
         $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
+
         $filename = sprintf('%s.%0.8s', $basename, $extension);
+
+        $path      = "/home/internet/public_html/apps/Files/".$destino;
+
+        if (!is_dir($path)) {
+
+            mkdir($path, 0777, true);
+        }
 
         $uploadedFile->moveTo("/home/internet/public_html/apps/Files/$destino/$filename");
 
@@ -101,6 +109,66 @@ class UploadsController
 
         return $filename;
     }
+
+    /**
+     * ENDPOINT GET list by category with limit variable
+     * */
+
+    function listCategoria(Request $request , Response $response , $count , $categoria)
+    {
+        $getList = $this->uploads->where(["categoria" => $categoria])->limit($count["count"])->get();
+
+        $this->customResponse->is200Response($response , $getList);
+    }
+
+    /**
+     * ENDPOINT DELETE eliminar upload and archivo
+     * */
+    function delete(Request $request , Response $response , $id)
+    {
+        $this->validator->validate($request , [
+            "name" => v::notEmpty(),
+            "category" => v::notEmpty()
+        ]);
+
+        if ($this->validator->failed()) {
+
+            $responseMessage = $this->validator->errors;
+
+            return $this->customResponse->is400Response($response , $responseMessage);
+        }
+        $folder = CustomRequestHandler::getParam($request  , "category");
+
+        $filename = CustomRequestHandler::getParam($request , "name");
+
+        $pathFile = "/home/internet/public_html/apps/Files/".$folder."/".$filename;
+
+        if (file_exists($pathFile)) {
+            #comienza a eliminar archivo
+            if(!unlink($pathFile))
+            {
+                $responseMessage = "Error eliminando el archivo";
+
+                return $this->customResponse->is400Response($response , $responseMessage);
+            }
+
+        }else {
+
+            $responseMessage = "archivo no encontrado";
+
+            return $this->customResponse->is400Response($response , $responseMessage);
+        }
+
+        $this->uploads->where(["id" => $id])->delete();
+
+        $responseMessage = "eliminado";
+
+        $this->customResponse->is200Response($response , $responseMessage);
+
+    }
+
+
+
 
    
 
