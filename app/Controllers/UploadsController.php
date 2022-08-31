@@ -114,7 +114,7 @@ class UploadsController
      * ENDPOINT GET list by category with limit variable
      * */
 
-    function listCategoria(Request $request , Response $response , $count , $categoria)
+    public function listCategoria(Request $request , Response $response , $count , $categoria)
     {
         $getList = $this->uploads->where(["categoria" => $categoria])->limit($count["count"])->get();
 
@@ -124,7 +124,7 @@ class UploadsController
     /**
      * ENDPOINT DELETE eliminar upload and archivo
      * */
-    function delete(Request $request , Response $response , $id)
+    public function delete(Request $request , Response $response , $id)
     {
         $this->validator->validate($request , [
             "name" => v::notEmpty(),

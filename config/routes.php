@@ -71,7 +71,7 @@ $app->group("/facturas" , function() use ($app){
 $app->group("/uploads" , function() use($app){
     $app->post("/origin" , "UploadsController:uploads");
     $app->get("/listCategoria/{count}/{categoria}" , "UploadsController:listCategoria");
-    $app->delete("/delete/{id}");
+    $app->delete("/delete/{id}" , "UploadsController:delete");
 });
 
 //usuarios
