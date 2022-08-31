@@ -114,9 +114,9 @@ class UploadsController
      * ENDPOINT GET list by category with limit variable
      * */
 
-    public function listCategoria(Request $request , Response $response , $count , $categoria)
+    public function listCategoria(Request $request , Response $response , $data )
     {
-        $getList = $this->uploads->where(["categoria" => $categoria])->limit($count["count"])->get();
+        $getList = $this->uploads->where("categoria" ,  "=" , $data["categoria"])->limit($data["count"])->get();
 
         $this->customResponse->is200Response($response , $getList);
     }
