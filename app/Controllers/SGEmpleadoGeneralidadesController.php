@@ -133,6 +133,7 @@ class SGEmpleadoGeneralidadesController
 
 		$this->customResponse->is200Response($response , $responseMessage);
 	}
+	 
 
 	public function getListGeneralidades($id_empresa , $tipo)
 	{

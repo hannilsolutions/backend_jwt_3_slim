@@ -162,8 +162,8 @@ class SGPermisosEmpleadosController
     {
         $this->validator->validate($request , [
             "id_permiso" => v::notEmpty(),
-            "id_empleado" => v::notEmpty(),
-            "id_permisos_empleado" => v::notEmpty()
+            "id_empleado" => v::notEmpty()
+           // "id_permisos_empleado" => v::notEmpty()
         ]);
 
         if ($this->validator->failed()) {
@@ -171,6 +171,13 @@ class SGPermisosEmpleadosController
             $responseMessage = $this->validator->errors;
 
             return $this->customResponse->is400Response($response , $responseMessage);
+        }
+        #consultamos el id_permiso_empleado de la tabla 
+        $getIdPermisoEmpleado = $this->sgPermisoEmpleado->selectRaw("id_permisos_empleado")->where("id_permiso_trabajo" ,"=" ,CustomRequestHandler::getParam($request , "id_permiso"))->where("id_user" , "=" , CustomRequestHandler::getParam($request , "id_empleado"))->get();
+        #reconrremos la info
+        foreach($getIdPermisoEmpleado as $item)
+        {
+            $id_permiso_empleado = $item->id_permisos_empleado;
         }
 
         //consultar informacion de empleado_generalidades para firmar
@@ -211,7 +218,7 @@ class SGPermisosEmpleadosController
 
         file_put_contents($pathFirmaData , $firma);
 
-        $this->sgPermisoEmpleado->where("id_permisos_empleado" , "=" , CustomRequestHandler::getParam($request , "id_permisos_empleado"))->update(["firma" => $pathFirmaData]);
+        $this->sgPermisoEmpleado->where("id_permisos_empleado" , "=" , $id_permiso_empleado)->update(["firma" => $pathFirmaData]);
 
         $responseMessage = "firma creada con éxito";
 
