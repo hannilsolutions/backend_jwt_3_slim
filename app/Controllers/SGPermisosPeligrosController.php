@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\SGPermisosPeligros; 
+use App\Models\SGControles;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -21,6 +22,8 @@ class SGPermisosPeligrosController
 
 	protected $customResponse;
 
+	protected $sgControles;
+
 	public function __construct()
 	{
 		$this->validator = new Validator();
@@ -28,6 +31,8 @@ class SGPermisosPeligrosController
 		$this->sgPermisosPeligros = new SGPermisosPeligros();
 
 		$this->customResponse = new CustomResponse();
+
+		$this->sgControles = new SGControles();
 
 	}
 
@@ -107,13 +112,36 @@ class SGPermisosPeligrosController
 	{
 		$getListByPermiso = $this->sgPermisosPeligros->selectRaw(
 								"han_sg_permisos_peligros.permiso_peligro_id,
+								han_sg_permisos_peligros.peligro_id,
 								peligros.nombre as peligro_nombre,
 								clasificacion.nombre as clasificacion_nombre"
 								)->join("han_sg_peligros as peligros" , 		"peligros.id_peligro" , "=" , "han_sg_permisos_peligros.peligro_id" )
 								->join("han_sg_clasificacion as clasificacion" , "clasificacion.id_clasificacion", "=", "peligros.id_clasificacion")
 								->where(["han_sg_permisos_peligros.permiso_id" => $id])->get();
+		$responseMessage = array();
 
-		$this->customResponse->is200Response($response , $getListByPermiso);
+		foreach($getListByPermiso as $item)
+		{
+			$temp = [
+				"peligro_nombre" => $item->peligro_nombre,
+				"permiso_peligro_id" => $item->permiso_peligro_id,
+				"clasificacion_nombre" => $item->clasificacion_nombre,
+				"controles" => $this->controles($item->peligro_id)
+			];
+
+			array_push($responseMessage , $temp);
+		}	
+
+		$this->customResponse->is200Response($response , $responseMessage);
+	}
+	/**
+	 * 
+	 * */
+	public function controles($peligro_id)
+	{	
+		$getlistControles = $this->sgControles->where("id_peligro" , "=" , $peligro_id)->get();
+
+		return $getlistControles;
 	}
 
 
