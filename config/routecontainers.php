@@ -124,4 +124,9 @@ return function($container)
       return new \App\Controllers\MarcasController;
     };
 
+    $container["SGPermisosPeligrosController"] = function()
+    {
+      return new \App\Controllers\SGPermisosPeligrosController;
+    };
+
 };

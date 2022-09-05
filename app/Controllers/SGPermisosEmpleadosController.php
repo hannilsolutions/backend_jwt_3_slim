@@ -174,6 +174,7 @@ class SGPermisosEmpleadosController
         }
         #consultamos el id_permiso_empleado de la tabla 
         $getIdPermisoEmpleado = $this->sgPermisoEmpleado->selectRaw("id_permisos_empleado")->where("id_permiso_trabajo" ,"=" ,CustomRequestHandler::getParam($request , "id_permiso"))->where("id_user" , "=" , CustomRequestHandler::getParam($request , "id_empleado"))->get();
+        
         #reconrremos la info
         foreach($getIdPermisoEmpleado as $item)
         {
