@@ -114,6 +114,7 @@ class SGPermisosPeligrosController
 								"han_sg_permisos_peligros.permiso_peligro_id,
 								han_sg_permisos_peligros.peligro_id,
 								peligros.nombre as peligro_nombre,
+								peligros.consecuencias as peligro_consecuencias,
 								clasificacion.nombre as clasificacion_nombre"
 								)->join("han_sg_peligros as peligros" , 		"peligros.id_peligro" , "=" , "han_sg_permisos_peligros.peligro_id" )
 								->join("han_sg_clasificacion as clasificacion" , "clasificacion.id_clasificacion", "=", "peligros.id_clasificacion")
@@ -126,6 +127,7 @@ class SGPermisosPeligrosController
 				"peligro_nombre" => $item->peligro_nombre,
 				"permiso_peligro_id" => $item->permiso_peligro_id,
 				"clasificacion_nombre" => $item->clasificacion_nombre,
+				"peligro_consecuencias" => $item->peligro_consecuencias,
 				"controles" => $this->controles($item->peligro_id)
 			];
 
