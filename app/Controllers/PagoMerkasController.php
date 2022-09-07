@@ -30,7 +30,8 @@ class PagoMerkasController
          $this->validator = new Validator();
     }
 
-    #guardar datos
+    /**
+     * ENDPOINT POST => save*/
     public function save(Request $request, Response $response)
     {
 
@@ -94,7 +95,8 @@ class PagoMerkasController
         $this->customResponse->is200Response($response , $getBetweenPagos);
     }
 
-    #consulta de todos los registros
+    /**
+     * ENDPOINT POST => all by fecha*/
     public function all(Request $request , Response $response)
     {
         $this->validator->validate($request ,[
@@ -119,7 +121,9 @@ class PagoMerkasController
         return $this->customResponse->is200Response($response , $pagosMerkas);
     }
 
-    #consulta de valor de todos los registros
+    /**
+     * ENDPOINT POST => conteo de pagos en tal fecha*/
+
     public function countPagos(Request $request , Response $response )
     {
         $this->validator->validate($request , [
@@ -139,8 +143,10 @@ class PagoMerkasController
         }
         return $this->customResponse->is200Response($response , $countPagos);
     }
-    #update estado 1 = enviado correctamente, 2 error en el cargue 
-    #patch
+    /**
+     *ENDPOINT PACTH =>  update estado 1 = enviado correctamente, 2 error en el cargue NO USADO
+     **/
+     
     public function updateReciboCaja(Request $request , Response $response , $id)
     {
         $this->validator->validate($request , [
@@ -176,7 +182,8 @@ class PagoMerkasController
         return true;
     }
 
-    #consulta de pagos cargados a merkas estado 0 
+    /**
+     * ENDPOINT GET => consultar para cargar estado 0 y dia */ 
     public function countEstado(Request $request , Response $response)
     {
         
@@ -184,13 +191,6 @@ class PagoMerkasController
         
         #validar si existe un valor
         $verificarEstado = $this->verifyCountEstado($dia);
-
-        if($verificarEstado == false)
-        {
-            $responseMessage = "sin registros";
-
-           return $this->customResponse->is400Response($response , $responseMessage);
-        }
 
         $registrosSendMerkas = $this->pagoMerkas->where([
             ['fecha' , '=' , $dia],
@@ -215,6 +215,7 @@ class PagoMerkasController
             return true;
         
     }
- 
+
+   
 
 }
