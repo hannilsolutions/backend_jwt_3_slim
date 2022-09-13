@@ -22,7 +22,7 @@ class SGVehiculos extends  Model
     "created_at",
     "fecha",
     "updated_at",
-    "vehiculo_tipo ",
+    "vehiculo_tipo",
     "id_empresa"
  ];
     
