@@ -40,6 +40,8 @@ class SGVehiculoController
 			"vehiculo_placa" => v::notEmpty(),
 			"vehiculo_cilindraje" => v::notEmpty(),
 			"id_usuario" => v::notEmpty(),
+			"id_empresa" => v::notEmpty(),	
+			"vehiculo_tipo" => v::notEmpty()
 
 		]);
 
@@ -67,6 +69,9 @@ class SGVehiculoController
 			"vehiculo_cilindraje" => CustomRequestHandler::getParam($request , "vehiculo_cilindraje"),
 			"vehiculo_modelo" => CustomRequestHandler::getParam($request , "vehiculo_modelo"),
 			"id_usuario" => CustomRequestHandler::getParam($request , "id_usuario"),
+			"vehiculo_imagen" => CustomRequestHandler::getParam($request , "vehiculo_imagen"),
+			"id_empresa" => CustomRequestHandler::getParam($request , "id_empresa"),
+			"vehiculo_tipo" => CustomRequestHandler::getParam($request , "vehiculo_tipo"),
 			"fecha" => date("Y-m-d")
 		]);
 
@@ -149,7 +154,7 @@ class SGVehiculoController
 
 			return $this->customResponse->is400Response($response , $responseMessage);
 		}
-		
+
 		if($this->placaExist(CustomRequestHandler::getParam($request , "vehiculo_placa")))
 		{
 			$responseMessage = "la placa ya existe";
