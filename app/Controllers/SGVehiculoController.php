@@ -119,6 +119,60 @@ class SGVehiculoController
 		$this->customResponse->is200Response($response , $getFindByEmpresa);
 	}
 
+	/**
+	 * ENDPOINT DELETE ELIMINAR POR ID*/
+	public function deleteById(Request $request , Response $response , $id)
+	{
+
+		$this->vehiculo->where(["vehiculo_id" => $id])->delete();
+
+		$responseMessage = "Eliminado";
+
+		$this->customResponse->is200Response($response , $responseMessage);
+	}
+
+	/**
+	 * ENDPOINT PATCH FOR ID*/
+	public function updated(Request $request , Response $response , $id)
+	{
+		$this->validator->validate($request , [
+			"vehiculo_nombre_tarjeta" => v::notEmpty(),
+			"id_marca"	 			=> v::notEmpty(),
+			"vehiculo_color" => v::notEmpty(),
+			"vehiculo_placa" => v::notEmpty(),
+			"vehiculo_cilindraje" => v::notEmpty(),
+			"id_usuario" => v::notEmpty(),
+		]);
+		if ($this->validator->failed()) {
+			
+			$responseMessage = $this->validator->errors;
+
+			return $this->customResponse->is400Response($response , $responseMessage);
+		}
+		
+		if($this->placaExist(CustomRequestHandler::getParam($request , "vehiculo_placa")))
+		{
+			$responseMessage = "la placa ya existe";
+
+			return $this->customResponse->is400Response($response , $responseMessage);
+		}
+
+
+		$this->vehiculo->where(["vehiculo_id" => $id])->update([
+			"vehiculo_nombre_tarjeta" => CustomRequestHandler::getParam($request , "vehiculo_nombre_tarjeta"),
+			"id_marca"	 			=> CustomRequestHandler::getParam($request , "id_marca"),
+			"vehiculo_color" => CustomRequestHandler::getParam($request , "vehiculo_color"),
+			"vehiculo_placa" => CustomRequestHandler::getParam($request , "vehiculo_placa"),
+			"vehiculo_cilindraje" => CustomRequestHandler::getParam($request , "vehiculo_cilindraje"),
+			"vehiculo_modelo" => CustomRequestHandler::getParam($request , "vehiculo_modelo"),
+			"id_usuario" => CustomRequestHandler::getParam($request , "id_usuario"),
+		]);
+
+		$responseMessage = "Actualizado";
+
+		$this->customResponse->is200Response($response , $responseMessage);
+	}
+
 }
 
 ?>

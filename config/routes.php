@@ -161,6 +161,8 @@ $app->group("/seguridad" , function() use ($app){
     $app->get("/vehiculo/listFindByIdUsuario/{id}" , "SGVehiculoController:listFindByIdUsuario");
     $app->get("/vehiculo/findById/{id}" , "SGVehiculoController:findById");
     $app->get("/vehiculo/listFindByEmpresa/{id}" , "SGVehiculoController:listFindByEmpresa");
+    $app->delete("/vehiculo/delete/{id}" , "SGVehiculoController:deleteById");
+    $app->patch("/vehiculo/updated/{id}" , "SGVehiculoController:updated");
 
 });
 
