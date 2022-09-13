@@ -109,6 +109,16 @@ class SGVehiculoController
 		}
 	}
 
+	/*
+	*ENDPOINT POST BUSCAR X EMPRESA
+	*/
+	public function listFindByEmpresa(Request $request  , Response $response , $id)
+	{
+		$getFindByEmpresa = $this->vehiculo->where(["id_empresa" => $id])->get();
+
+		$this->customResponse->is200Response($response , $getFindByEmpresa);
+	}
+
 }
 
 ?>

@@ -10,7 +10,7 @@ class SGVehiculos extends  Model
     protected $table="han_sg_vehiculos";
     
     protected $fillable = 
-    ["id_vehiculo",
+    ["vehiculo_id",
     "vehiculo_nombre_tarjeta",
     "id_marca",
     "vehiculo_color",
@@ -21,7 +21,9 @@ class SGVehiculos extends  Model
     "vehiculo_imagen",
     "created_at",
     "fecha",
-    "updated_at"
+    "updated_at",
+    "vehiculo_tipo ",
+    "id_empresa"
  ];
     
 }
