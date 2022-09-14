@@ -95,7 +95,7 @@ class SGVehiculoController
 	*/
 	public function findById(Request  $request  , Response $response , $id)
 	{
-		$getFindById = $this->vehiculo->where(["id_vehiculo" => $id])->get();
+		$getFindById = $this->vehiculo->where(["vehiculo_id" => $id])->get();
 
 		$this->customResponse->is200Response($response , $getFindById);
 	}
