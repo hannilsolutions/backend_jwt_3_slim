@@ -141,12 +141,16 @@ class SGVehiculoController
 	public function updated(Request $request , Response $response , $id)
 	{
 		$this->validator->validate($request , [
-			"vehiculo_nombre_tarjeta" => v::notEmpty(),
-			"id_marca"	 			=> v::notEmpty(),
-			"vehiculo_color" => v::notEmpty(),
-			"vehiculo_placa" => v::notEmpty(),
-			"vehiculo_cilindraje" => v::notEmpty(),
-			"id_usuario" => v::notEmpty(),
+			"vehiculo_nombre_tarjeta" => CustomRequestHandler::getParam($request , "vehiculo_nombre_tarjeta"),
+			"id_marca"	 			=> CustomRequestHandler::getParam($request , "id_marca"),
+			"vehiculo_color" => CustomRequestHandler::getParam($request , "vehiculo_color"),
+			"vehiculo_placa" => CustomRequestHandler::getParam($request , "vehiculo_placa"),
+			"vehiculo_cilindraje" => CustomRequestHandler::getParam($request , "vehiculo_cilindraje"),
+			"vehiculo_modelo" => CustomRequestHandler::getParam($request , "vehiculo_modelo"),
+			"id_usuario" => CustomRequestHandler::getParam($request , "id_usuario"),
+			"vehiculo_imagen" => CustomRequestHandler::getParam($request , "vehiculo_imagen"),
+			"id_empresa" => CustomRequestHandler::getParam($request , "id_empresa"),
+			"vehiculo_tipo" => CustomRequestHandler::getParam($request , "vehiculo_tipo"),
 		]);
 		if ($this->validator->failed()) {
 			
@@ -171,6 +175,9 @@ class SGVehiculoController
 			"vehiculo_cilindraje" => CustomRequestHandler::getParam($request , "vehiculo_cilindraje"),
 			"vehiculo_modelo" => CustomRequestHandler::getParam($request , "vehiculo_modelo"),
 			"id_usuario" => CustomRequestHandler::getParam($request , "id_usuario"),
+			"vehiculo_imagen" => CustomRequestHandler::getParam($request , "vehiculo_imagen"),
+			"id_empresa" => CustomRequestHandler::getParam($request , "id_empresa"),
+			"vehiculo_tipo" => CustomRequestHandler::getParam($request , "vehiculo_tipo")
 		]);
 
 		$responseMessage = "Actualizado";
