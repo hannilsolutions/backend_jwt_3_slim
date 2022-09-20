@@ -119,7 +119,17 @@ class SGVehiculoController
 	*/
 	public function listFindByEmpresa(Request $request  , Response $response , $id)
 	{
-		$getFindByEmpresa = $this->vehiculo->where(["id_empresa" => $id])->get();
+		$getFindByEmpresa = $this->vehiculo->selectRaw("han_sg_vehiculos.vehiculo_id , 
+												han_sg_vehiculos.vehiculo_nombre_tarjeta,
+												han_sg_vehiculos.vehiculo_color,
+												han_sg_vehiculos.vehiculo_placa,
+												han_sg_vehiculos.vehiculo_tipo,
+												han_marca.marca_nombre,
+												users.user
+												")
+											->join("han_marca" , "han_marca.id_marca" , "=" , "han_sg_vehiculos.id_marca")
+											->join("users" , "user.id" , "=" , "han_sg_vehiculos.id_usuario")
+											->where(["id_empresa" => $id])->get();
 
 		$this->customResponse->is200Response($response , $getFindByEmpresa);
 	}
