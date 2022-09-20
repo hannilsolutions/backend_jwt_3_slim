@@ -128,7 +128,7 @@ class SGVehiculoController
 												users.user
 												")
 											->join("han_marca" , "han_marca.id_marca" , "=" , "han_sg_vehiculos.id_marca")
-											->join("users" , "user.id" , "=" , "han_sg_vehiculos.id_usuario")
+											->join("users" , "users.id" , "=" , "han_sg_vehiculos.id_usuario")
 											->where(["han_sg_vehiculos.id_empresa" => $id])->get();
 
 		$this->customResponse->is200Response($response , $getFindByEmpresa);
