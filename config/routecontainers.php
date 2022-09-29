@@ -129,4 +129,9 @@ return function($container)
       return new \App\Controllers\SGPermisosPeligrosController;
     };
 
+    $container["SGDocumentoController"] = function() {
+
+      return new \App\Controllers\SGDocumentoController;
+    };
+
 };

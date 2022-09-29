@@ -164,6 +164,10 @@ $app->group("/seguridad" , function() use ($app){
     $app->delete("/vehiculo/delete/{id}" , "SGVehiculoController:deleteById");
     $app->patch("/vehiculo/updated/{id}" , "SGVehiculoController:updated");
 
+    #Documentos
+    $app->post("/documento/save" , "SGDocumentoController:save");
+    $app->post("/documento/findByTipo" , "SGDocumentoController:findByTipo");
+
 });
 
 #marcas
