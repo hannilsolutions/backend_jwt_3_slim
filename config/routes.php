@@ -167,6 +167,7 @@ $app->group("/seguridad" , function() use ($app){
     #Documentos
     $app->post("/documento/save" , "SGDocumentoController:save");
     $app->post("/documento/findByTipo" , "SGDocumentoController:findByTipo");
+    $app->get("/documento/{id}" , "SGDocumentoController:getDocumentoUrl");
 
 });
 

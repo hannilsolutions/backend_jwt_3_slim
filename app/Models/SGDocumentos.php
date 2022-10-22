@@ -13,6 +13,7 @@ class SGDocumentos extends  Model
     [
     "documento_id",
     "documento_nombre",
+    "documento_filename",
     "documento_url",
     "documento_caducidad",
 	"documento_inicio",

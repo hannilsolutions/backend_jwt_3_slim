@@ -92,12 +92,13 @@ class SGDocumentoController
             mkdir($path, 0777, true);
         }
 
-        $uploadedFile->moveTo("/home/internet/public_html/apps/Files/$destino/$referencia/$filename");
+        $uploadedFile->moveTo("/home/internet/public_html/apps/Files/Documentos/$destino/$referencia/$filename");
 
         //$uploadedFile->moveTo("/var/www/html/Files/$destino/$filename");
 
         $this->documento->create([
                     "documento_url" => $path."/".$filename,
+                    "documento_filename" => $filename,
                     "documento_tipo" => $destino,
                     "documento_nombre" => CustomRequestHandler::getParam($request , "documento_poliza"),
                     "documento_caducidad" => "SI",
@@ -151,6 +152,28 @@ class SGDocumentoController
 										->get();
 
 		$this->customResponse->is200Response($response , $getFindByTipo);
+	}
+
+	/**
+	 * ENDPOINT GET URL*/
+	public function getDocumentoUrl(Request $request , Response $response , $id)
+	{
+		try{
+			$getInfo = $this->documento->where(["documento_id"=>$id])->get();
+		///armar url
+		foreach($getInfo as $item)
+		{
+			$url = "Files/Documentos/".$item->documento_tipo."/".$item->referencia_id."/".$item->documento_filename;
+		}
+
+		$this->customResponse->is200Response($response , $url);
+
+		}catch(Exception $e)
+		{
+			$errorMessage = $e->getMessage();
+
+			$this->customResponse->is400Response($response , $errorMessage);
+		}
 	}
 
 }
