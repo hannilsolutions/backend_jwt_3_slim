@@ -85,7 +85,7 @@ class SGDocumentoController
 
         $referencia = CustomRequestHandler::getParam($request , "referencia_id");
 
-        $path      = "/home/internet/public_html/apps/Files/".$destino."/".$referencia;
+        $path      = "/home/internet/public_html/apps/Files/Documentos/".$destino."/".$referencia;
 
         if (!is_dir($path)) {
 
