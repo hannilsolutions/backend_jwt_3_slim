@@ -207,6 +207,69 @@ class AuthController
         return true;
     }
 
+    /**
+     * ENDPOINT POST recovery*/
+    public function recovery(Request $request , Response $response)
+    {
+        $this->validator->validate($request , [
+            "email" => notEmpty()
+        ]);
+
+        if ($this->validator->failed()) {
+            
+            $responseMessage = $this->validator->errors;
+
+            $this->customResponse->is400Response($response , $responseMessage);
+        }
+
+        //validar si existe el correo
+            $existMail = $this->EmailExist($this->CustomRequestHandler::getParam($request , "email"));
+
+            if (!$existMail) {
+
+                $responseMessage = "Correo inválido";
+
+                return $this->customResponse->is400Response($response , $responseMessage);
+            }
+        //validar si esta activo
+            $mailActivo = $this->verifyActive($this->CustomRequestHandler::getParam($request , "email"));
+
+            if (!$mailActivo) {
+                
+                $responseMessage = "Correo Inactivo";
+
+                return $this->customResponse->is400Response($response , $responseMessage);
+            }
+
+            //recuperar infor de cliente
+            $getUser = $this->getUsuario($this->customResponse::getParam($request , "email"));
+
+            $id = '';
+
+            foreach($getUser as $item)
+            {
+                $id = $item->id;
+            }
+            //generar token
+            $this->usuario->where("id" , "=" , $id)->update([
+                "token_pw" => $this->generateTokenFirma(),
+                "fecha_caducidad" => date("Y-m-d H:i:s")
+            ]);
+
+            $responseMessage = 'Token generado';
+
+            $this->customResponse->is200Response($response , $responseMessage);
+    }
+
+    public function generateTokenFirma()
+    {
+        $bytes = openssl_random_pseudo_bytes(3);
+        $hex   = bin2hex($bytes);
+
+        return $hex;
+    }
+
+
 }
 
 ?>
