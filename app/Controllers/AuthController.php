@@ -219,7 +219,7 @@ class AuthController
             
             $responseMessage = $this->validator->errors;
 
-            $this->customResponse->is400Response($response , $responseMessage);
+            return $this->customResponse->is400Response($response , $responseMessage);
         }
 
         //validar si existe el correo
