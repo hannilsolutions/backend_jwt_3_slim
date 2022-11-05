@@ -212,7 +212,7 @@ class AuthController
     public function recovery(Request $request , Response $response)
     {
         $this->validator->validate($request , [
-            "email" => notEmpty()
+            "email" => v::notEmpty()
         ]);
 
         if ($this->validator->failed()) {
