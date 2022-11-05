@@ -223,7 +223,7 @@ class AuthController
         }
 
         //validar si existe el correo
-            $existMail = $this->EmailExist($this->CustomRequestHandler::getParam($request , "email"));
+            $existMail = $this->EmailExist(CustomRequestHandler::getParam($request , "email"));
 
             if (!$existMail) {
 
@@ -232,7 +232,7 @@ class AuthController
                 return $this->customResponse->is400Response($response , $responseMessage);
             }
         //validar si esta activo
-            $mailActivo = $this->verifyActive($this->CustomRequestHandler::getParam($request , "email"));
+            $mailActivo = $this->verifyActive(CustomRequestHandler::getParam($request , "email"));
 
             if (!$mailActivo) {
                 
@@ -242,7 +242,7 @@ class AuthController
             }
 
             //recuperar infor de cliente
-            $getUser = $this->getUsuario($this->customResponse::getParam($request , "email"));
+            $getUser = $this->getUsuario(CustomRequestHandler::getParam($request , "email"));
 
             $id = '';
 
@@ -251,7 +251,7 @@ class AuthController
                 $id = $item->id;
             }
             //generar token
-            $this->usuario->where("id" , "=" , $id)->update([
+            $this->user->where("id" , "=" , $id)->update([
                 "token_pw" => $this->generateTokenFirma(),
                 "fecha_caducidad" => date("Y-m-d H:i:s")
             ]);
