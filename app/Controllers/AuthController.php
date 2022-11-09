@@ -250,16 +250,51 @@ class AuthController
             {
                 $id = $item->id;
             }
+            $token = $this->generateTokenFirma();
+            
+            $this->mailRecovery(CustomRequestHandler::getParam($request , "email") , $token);
+
+            
+
             //generar token
             $this->user->where("id" , "=" , $id)->update([
-                "token_pw" => $this->generateTokenFirma(),
+                "token_pw" => $token ,
                 "fecha_caducidad" => date("Y-m-d H:i:s")
             ]);
+
 
             $responseMessage = 'Token generado';
 
             $this->customResponse->is200Response($response , $responseMessage);
     }
+
+    public function mailRecovery($mail , $token)
+    {
+        //// Para enviar un correo HTML, debe establecerse la cabecera Content-type
+        $cabeceras  = 'MIME-Version: 1.0' . "\r\n";
+        $cabeceras .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
+
+        // Cabeceras adicionales
+        $cabeceras .= 'From: HannilPro <sistemas@hannilsolutions.com>' . "\r\n";
+
+        // Enviarlo
+
+        $subject = 'Código de recuperación de contraseña';
+
+        $msm = 'Apreciado Cliente:<br>
+                Reciba una cordial saludo.<br>
+                este es su código de validacion: '.$token.' para recuperar su cuenta.';
+        $msm = wordwrap($msm , 70);
+
+        if(!mail($destination ,$subject , $msm , $cabeceras))
+        {
+            return false;
+        }
+
+        return true;
+
+    }
+
 
     public function generateTokenFirma()
     {
