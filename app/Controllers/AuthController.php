@@ -263,7 +263,7 @@ class AuthController
             ]);
 
 
-            $responseMessage = 'Token generado';
+            $responseMessage =  GenerateTokenController::generateToken(CustomRequestHandler::getParam($request , "email"));
 
             $this->customResponse->is200Response($response , $responseMessage);
     }
@@ -292,6 +292,105 @@ class AuthController
         }
 
         return true;
+
+    }
+
+    /**
+     * ENDPOINT POST VALIDATE TOKEN
+    */
+    public function tokenValidateRecovery(Request $request , Response $response)
+    {
+        $this->validator->validate($request , [
+            "token" => v::notEmpty(),
+            "email" => v::notEmpty()
+        ]);
+
+        if ($this->validator->failed()) {
+            
+            $responseMessage = $this->validator->errors;
+
+            return $this->customResponse->is400Response($response , $responseMessage);
+        }
+        $email = CustomRequestHandler::getParam($request , "email");
+
+        $token = CustomRequestHandler::getParam($request , "token");
+
+        #traemos info de cliente
+        $getUser = $this->user->selectRaw("token_pw , fecha_caducidad")->where("email" , "=" , $email)->get();
+
+        $user = array();
+
+        foreach($getUser as $item)
+        {
+            $user["token_pw"] = $item->token_pw;
+
+            $user["fecha"] = $item->fecha_caducidad;
+        }
+
+        #fecha de expiracion
+        $fecha_caducidad = date("Y-m-d H:i:s");
+
+        #reduccion de fechacliente con fecha caducidad
+        $residuoFechas = strtotime($fecha_caducidad) - strtotime($user["fecha"]);
+
+        #validamos el valor inferior a 120 segundo
+        if($residuoFechas > 360)
+        {
+            $responseMessage = "Token Expired";
+
+            return $this->customResponse->is400Response($response , $responseMessage);
+        }
+        #validamos si el token es igual al enviado
+        $token_pw = $token;
+
+        if($user["token_pw"] != $token_pw)
+        {
+            $responseMessage = "token errado";
+
+            return $this->customResponse->is400Response($response , $responseMessage);
+        }
+
+        $responseMessage = "validado";
+
+        $this->customResponse->is200Response($response  , $responseMessage);
+    }
+
+    /**
+     * ENDPOINT POST NUEVA PASSWORD
+     * */
+    public function newPassword(Request $request , Response $response)
+    {
+        $this->validator->validate($request , [
+            "password" => v::notEmpty(),
+            "email" => v::notEmpty()
+        ]);
+
+        if ($this->validator->failed()) {
+            
+            $responseMessage = $this->validator->errors;
+
+            return $this->customResponse->is400Response($response , $responseMessage);
+        }
+
+        $email = CustomRequestHandler::getParam($request , "email");
+        //buscar cliente
+        $user = $this->user->where("email" , "=" , $email)->get();
+
+        foreach($user as $item)
+        {
+            $id = $item->id;
+        }
+
+        $passwordHash = $this->hashPassword(CustomRequestHandler::getParam($request  , "password"));
+
+        $this->user->where("id" , "=" ,$id)->update([
+            "password" => $passwordHash
+        ]);
+
+        $responseMessage = "contraseña actualizada";
+
+        $this->customResponse->is200Response($response , $responseMessage );
+
 
     }
 

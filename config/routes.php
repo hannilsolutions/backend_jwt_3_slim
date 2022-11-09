@@ -27,6 +27,8 @@ $app->group("/auth",function() use ($app){
     $app->post("/register","AuthController:Register");
     $app->get("/validate/{jwt}" , "AuthController:Validate");
     $app->post("/recovery" , "AuthController:recovery");
+    $app->post("/recoveryT/tokevalidate" , "AuthController:tokenValidateRecovery");
+    $app->post("/recoveryP/newPassword" , "AuthController:newPassword");
 });
 
 $app->group("/clientes" , function() use($app){
