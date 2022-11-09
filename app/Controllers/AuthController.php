@@ -254,7 +254,7 @@ class AuthController
             
             $this->mailRecovery(CustomRequestHandler::getParam($request , "email") , $token);
 
-            
+
 
             //generar token
             $this->user->where("id" , "=" , $id)->update([
@@ -268,7 +268,7 @@ class AuthController
             $this->customResponse->is200Response($response , $responseMessage);
     }
 
-    public function mailRecovery($mail , $token)
+    public function mailRecovery($destination , $token)
     {
         //// Para enviar un correo HTML, debe establecerse la cabecera Content-type
         $cabeceras  = 'MIME-Version: 1.0' . "\r\n";
