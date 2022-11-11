@@ -101,4 +101,21 @@ class SGPermisosVehiculoController
 
 	}
 
+	/**
+	 * ENDPOINT GET findByIdEmpresa*/
+
+	public function findByPermiso(Request $request , Response $response , $id)
+	{
+		try{
+
+			$getinfo = $this->permisoVehiculo->join("han_sg_vehiculos" , "han_sg_vehiculos.vehiculo_id" , "=" ,"han_sg_permisos_vehiculos.vehiculo_id")->where(["permiso_id" => $id])->get();
+
+			$this->customResponse->is200Response($response , $getinfo);
+
+		}catch(Exception $e)
+		{
+			return $this->customResponse->is400Response($response , $e->getMessage());
+		}
+	}
+
 }

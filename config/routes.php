@@ -170,6 +170,7 @@ $app->group("/seguridad" , function() use ($app){
 
     #preoperacion vehiculos
     $app->post("/permisosVehiculos/save" , "SGPermisosVehiculoController:save");
+    $app->get("/permisosVehiculos/findByPermiso/{id}" , "SGPermisosVehiculoController:findByPermiso");
     
 
     #Documentos
