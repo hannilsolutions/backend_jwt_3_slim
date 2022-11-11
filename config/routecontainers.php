@@ -134,4 +134,8 @@ return function($container)
       return new \App\Controllers\SGDocumentoController;
     };
 
+    $container["SGPermisosVehiculoController"]= function() {
+      return new \App\Controllers\SGPermisosVehiculoController;
+    };
+
 };

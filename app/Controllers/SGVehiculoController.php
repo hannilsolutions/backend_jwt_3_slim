@@ -195,6 +195,37 @@ class SGVehiculoController
 		$this->customResponse->is200Response($response , $responseMessage);
 	}
 
+	/**
+	 * ENDPOINT POST FINDBYTIPOANDEMPRESAPLACA*/
+	public function findByTipoAndEmpresaAndPlaca(Request $request , Response $response)
+	{
+		$this->validator->validate($request , [
+			"id_empresa" => v::notEmpty(),
+			"tipo"	=> v::notEmpty(),
+			"placa" => v::notEmpty()
+		]);
+
+		if ($this->validator->failed()) {
+			
+			$responseMessage = $this->validator->errors;
+
+			return $this->customResponse->is400Response($response , $responseMessage);
+		}
+
+		try{
+
+			$getVehiculo = $this->vehiculo->where("vehiculo_placa" , "LIKE" , "%".CustomRequestHandler::getParam($request , "placa")."%")
+											->where("vehiculo_tipo" , "=" , CustomRequestHandler::getParam($request , "tipo"))
+											->where("id_empresa" , "=" , CustomRequestHandler::getParam($request, "id_empresa"))
+											->get();
+
+			$this->customResponse->is200Response($response  , $getVehiculo);
+		}catch(Exception $e)
+		{
+			return $this->customResponse->is400Response($response , $e->getMessage());
+		}
+	}
+
 }
 
 ?>

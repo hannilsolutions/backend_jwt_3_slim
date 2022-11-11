@@ -21,6 +21,8 @@ class AuthController
 
     protected  $validator;
 
+    protected   $rol;
+
     public function  __construct()
     {
         $this->customResponse = new CustomResponse();
