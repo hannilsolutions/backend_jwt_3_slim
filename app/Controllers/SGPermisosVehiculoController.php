@@ -61,14 +61,25 @@ class SGPermisosVehiculoController
 		//create
 		try{
 			
-			$insert = $this->permisoVehiculo->create([
+			
+		 
+		 $generalidades = $this->getGeneralidades(CustomRequestHandler::getParam($request, "tipo") , CustomRequestHandler::getParam($request , "id_empresa"));
+
+		 $count = count($generalidades);
+ 
+		 if ($count == 0) {
+		 	
+		 	$responseMessage = "Sin generalidades";
+
+		 	return $this->customResponse->is400Response($response , $responseMessage);
+		 }
+
+		 $insert = $this->permisoVehiculo->create([
 			"permiso_id" => CustomRequestHandler::getParam($request , "permiso_id"),
 			"vehiculo_id" => CustomRequestHandler::getParam($request , "vehiculo_id")
 		]);
 
 		$id = $insert->id;
-		 
-		 $generalidades = $this->getGeneralidades(CustomRequestHandler::getParam($request, "tipo") , CustomRequestHandler::getParam($request , "id_empresa"));
 
 		 foreach($generalidades as $item)
 		 {
