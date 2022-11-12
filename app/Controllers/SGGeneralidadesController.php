@@ -34,6 +34,7 @@ class SGGeneralidadesController
 
 			"nombre" => v::notEmpty(),
 			"tipo" => v::notEmpty(),
+			"item" => v::notEmpty(),
 			"id_empresa" => v::notEmpty(),
 		]);
 
@@ -47,7 +48,8 @@ class SGGeneralidadesController
 		$this->generalidades->create([
 			"nombre" => CustomRequestHandler::getParam($request , "nombre"),
 			"tipo" 	 => CustomRequestHandler::getParam($request , "tipo"),
-			"id_empresa" => CustomRequestHandler::getParam($request , "id_empresa")
+			"id_empresa" => CustomRequestHandler::getParam($request , "id_empresa"),
+			"item" => CustomRequestHandler::getParam($request , "item")
 		]);
 
 		$responseMessage = "creado";

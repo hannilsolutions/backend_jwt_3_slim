@@ -15,6 +15,7 @@ class SGGeneralidades extends Model
     "id_generalidades",
     "nombre",
     "tipo",
+    "item",
     "id_empresa" , 
     "created_at", 
     "updated_at"];
