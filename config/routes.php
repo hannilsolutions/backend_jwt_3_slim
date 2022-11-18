@@ -175,6 +175,9 @@ $app->group("/seguridad" , function() use ($app){
     #generalidesvehiculo
     $app->get("/vehiculoGeneralidades/disctItem/{id}" , "SGVehiculoGeneralidadesController:disctGeneralidades");
     $app->post("/vehiculoGeneralidades/findByNameGeneralidadesVehiculos" , "SGVehiculoGeneralidadesController:findByNameGeneralidadesVehiculos");
+    $app->patch("/vehiculoGeneralidades/editInspeccion/{id}" , "SGVehiculoGeneralidadesController:editInspeccion");
+
+
     #Documentos
     $app->post("/documento/save" , "SGDocumentoController:save");
     $app->post("/documento/findByTipo" , "SGDocumentoController:findByTipo");

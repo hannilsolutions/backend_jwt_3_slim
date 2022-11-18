@@ -84,6 +84,39 @@ where han_sg_generalidades.item = 'Otros'*/
 		}
 	}
 
+	/**
+	 * ENDPOINT PATCH EDIT INSPECCION*/
+	public function editInspeccion(Request $request , Response $response , $id)
+	{
+		$this->validator->validate($request , [ 
+    	"inspeccion" => v::notEmpty()
+		]);
+
+		if ($this->validator->failed()) {
+			
+			$responseMessage = $this->validator->errors;
+
+			return $this->customResponse->is400Response($response , $responseMessage);
+		}
+		 
+
+		try{
+
+			$this->vehiculoGeneralidades->where(["vehiculo_generalidades_id"=>$id])->update([
+				"inspeccion" => CustomRequestHandler::getParam($request , "inspeccion")
+			]);
+
+			$responseMessage = "actualizado";
+
+			$this->customResponse->is200Response($response , $responseMessage);
+
+
+		}catch(QueryException $e){
+
+			return $this->customResponse->is400Response($response , $e);
+		}
+	}
+
 }
 
 ?>
