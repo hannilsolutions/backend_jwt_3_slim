@@ -114,13 +114,24 @@ class SGPermisosVehiculoController
 	}
 
 	/**
-	 * ENDPOINT GET findByIdEmpresa*/
+	 * ENDPOINT GET findByPermiso
+
+	 SELECT han_sg_permisos_vehiculos.* , han_sg_vehiculos.*, users.user from han_sg_permisos_vehiculos
+	inner join han_sg_vehiculos on han_sg_vehiculos.vehiculo_id = han_sg_permisos_vehiculos.vehiculo_id
+	left join users on han_sg_permisos_vehiculos.conductor_id = users.id
+	where han_sg_permisos_vehiculos.permiso_id = 34 and han_sg_permisos_vehiculos.estado = 1
+	*/
 
 	public function findByPermiso(Request $request , Response $response , $id)
 	{
 		try{
 
-			$getinfo = $this->permisoVehiculo->join("han_sg_vehiculos" , "han_sg_vehiculos.vehiculo_id" , "=" ,"han_sg_permisos_vehiculos.vehiculo_id")->where(["permiso_id" => $id])->where("estado" , "=" , "1")->get();
+			$getinfo = $this->permisoVehiculo->selectRaw("han_sg_permisos_vehiculos.* , han_sg_vehiculos.*, users.user")
+			->join("han_sg_vehiculos" , "han_sg_vehiculos.vehiculo_id" , "=" ,"han_sg_permisos_vehiculos.vehiculo_id")
+			->leftjoin("users", "han_sg_permisos_vehiculos.conductor_id" ,"=", "users.id");
+			->where(["permiso_id" => $id])
+			->where("estado" , "=" , "1")
+			->get();
 
 			$this->customResponse->is200Response($response , $getinfo);
 
@@ -144,7 +155,29 @@ class SGPermisosVehiculoController
 			$responseMessage = "eliminado";
 
 			$this->customResponse->is200Response($response , $responseMessage);
-			
+
+		}catch(QueryException $e)
+		{
+			return $this->customResponse->is400Response($response , $e);
+		}
+	}
+
+	/**
+	 * ENDPOINT PATCH actualizando id_user, observaciones*/
+	public function updated(Request $request , Response $response , $id)
+
+	{
+ 
+
+		try{
+
+			$this->permisoVehiculo->where(["permiso_vehiculo_id" => $id])->update([
+				"observaciones" => CustomRequestHandler::getParam($request , "observaciones"),
+				"conductor_id" => CustomRequestHandler::getParam($request , "conductor_id"),
+			]);
+
+			$this->customResponse->is200Response($response , "actualizado");
+
 		}catch(QueryException $e)
 		{
 			return $this->customResponse->is400Response($response , $e);
