@@ -135,9 +135,9 @@ class SGPermisosVehiculoController
 
 			$this->customResponse->is200Response($response , $getinfo);
 
-		}catch(Exception $e)
+		}catch(QueryException $e)
 		{
-			return $this->customResponse->is400Response($response , $e->getMessage());
+			return $this->customResponse->is400Response($response , $e);
 		}
 	}
 
