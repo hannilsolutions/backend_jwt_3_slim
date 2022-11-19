@@ -76,7 +76,8 @@ class SGPermisosVehiculoController
 
 		 $insert = $this->permisoVehiculo->create([
 			"permiso_id" => CustomRequestHandler::getParam($request , "permiso_id"),
-			"vehiculo_id" => CustomRequestHandler::getParam($request , "vehiculo_id")
+			"vehiculo_id" => CustomRequestHandler::getParam($request , "vehiculo_id"),
+			"estado" => 1
 		]);
 
 		$id = $insert->id;
@@ -119,13 +120,34 @@ class SGPermisosVehiculoController
 	{
 		try{
 
-			$getinfo = $this->permisoVehiculo->join("han_sg_vehiculos" , "han_sg_vehiculos.vehiculo_id" , "=" ,"han_sg_permisos_vehiculos.vehiculo_id")->where(["permiso_id" => $id])->get();
+			$getinfo = $this->permisoVehiculo->join("han_sg_vehiculos" , "han_sg_vehiculos.vehiculo_id" , "=" ,"han_sg_permisos_vehiculos.vehiculo_id")->where(["permiso_id" => $id])->where("estado" , "=" , "1")->get();
 
 			$this->customResponse->is200Response($response , $getinfo);
 
 		}catch(Exception $e)
 		{
 			return $this->customResponse->is400Response($response , $e->getMessage());
+		}
+	}
+
+	/**
+	 * ENDPOINT DELETE eliminando permisos_vehiculo y vehiculo_generalides*/
+	public function delete(Request $request , Response $response ,  $id)
+	{
+		//id = 
+		//desactivar el permiso sin eliminarlo
+		try{
+
+			$this->permisoVehiculo->where(["permiso_vehiculo_id" => $id])->update([
+			"estado" => 0 ]);
+
+			$responseMessage = "eliminado";
+
+			$this->customResponse->is200Response($response , $responseMessage);
+			
+		}catch(QueryException $e)
+		{
+			return $this->customResponse->is400Response($response , $e);
 		}
 	}
 

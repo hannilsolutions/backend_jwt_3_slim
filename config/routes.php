@@ -171,6 +171,7 @@ $app->group("/seguridad" , function() use ($app){
     #preoperacion vehiculos
     $app->post("/permisosVehiculos/save" , "SGPermisosVehiculoController:save");
     $app->get("/permisosVehiculos/findByPermiso/{id}" , "SGPermisosVehiculoController:findByPermiso");
+    $app->delete("/permisosVehiculos/delete/{id}" , "SGPermisosVehiculoController:delete");
     
     #generalidesvehiculo
     $app->get("/vehiculoGeneralidades/disctItem/{id}" , "SGVehiculoGeneralidadesController:disctGeneralidades");
