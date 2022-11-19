@@ -128,7 +128,7 @@ class SGPermisosVehiculoController
 
 			$getinfo = $this->permisoVehiculo->selectRaw("han_sg_permisos_vehiculos.* , han_sg_vehiculos.*, users.user")
 			->join("han_sg_vehiculos" , "han_sg_vehiculos.vehiculo_id" , "=" ,"han_sg_permisos_vehiculos.vehiculo_id")
-			->leftjoin("users", "han_sg_permisos_vehiculos.conductor_id" ,"=", "users.id");
+			->leftjoin("users", "han_sg_permisos_vehiculos.conductor_id" ,"=", "users.id")
 			->where(["permiso_id" => $id])
 			->where("estado" , "=" , "1")
 			->get();
