@@ -142,4 +142,9 @@ return function($container)
       return new \App\Controllers\SGVehiculoGeneralidadesController;
     };
 
+    $container["InventarioArticuloController"]= function()
+    {
+      return new \App\Controllers\InventarioArticuloController;
+    };
+
 };

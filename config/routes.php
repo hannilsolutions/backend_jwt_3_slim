@@ -194,4 +194,12 @@ $app->group("/marcas" , function() use ($app) {
     $app->get("/list" , "MarcasController:list");
     $app->delete("/delete/{id}" , "MarcasController:delete");
 });
+
+
+//#inventario
+$app->group("/inventario" , function() use ($app){
+    #save
+    $app->post("/articulo/save" , "InventarioArticuloController:save");
+    $app->get("/articulo/list" , "InventarioArticuloController:list");
+});
  
