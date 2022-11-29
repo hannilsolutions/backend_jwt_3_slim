@@ -49,7 +49,7 @@ class InventarioArticuloController
         }
 
         $this->articulo->create([
-           "articulo_nombre "=>CustomRequestHandler::getParam($request,"nombre"),
+           "articulo_nombre"=>CustomRequestHandler::getParam($request,"nombre"),
             "articulo_codigo"=>CustomRequestHandler::getParam($request,"codigo"),
             "articulo_valor"=>CustomRequestHandler::getParam($request,"valor"),
             "articulo_unitario"=>CustomRequestHandler::getParam($request,"unitario"),
