@@ -19,7 +19,7 @@ class InventarioBodegaController
 
     protected  $bodega;
 
-    protected  $validator
+    protected  $validator;
 
      public function  __construct()
     {

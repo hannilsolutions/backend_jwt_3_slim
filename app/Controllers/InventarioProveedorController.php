@@ -19,7 +19,7 @@ class InventarioProveedorController
 
    	protected  $proveedor;
 
-    protected  $validator
+    protected  $validator;
 
      public function  __construct()
     {
