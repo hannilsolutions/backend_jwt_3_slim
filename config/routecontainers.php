@@ -165,5 +165,12 @@ return function($container)
     };
 
 
+     $container["InventarioIngresoDetalleController"]= function()
+    {
+      return new \App\Controllers\InventarioIngresoDetalleController;
+    };
+
+
+
 
 };

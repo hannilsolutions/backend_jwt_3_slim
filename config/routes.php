@@ -210,9 +210,15 @@ $app->group("/inventario" , function() use ($app){
     $app->post("/bodega/save" , "InventarioBodegaController:save");
     $app->get("/bodega/list" , "InventarioBodegaController:list");
 
+    #ingresos
     $app->post("/ingreso/save" , "InventarioIngresoController:save");
     $app->get("/ingreso/list" , "InventarioIngresoController:list");
     $app->get("/ingreso/findById/{id}" , "InventarioIngresoController:findById");
+
+    #detalleingreso
+    $app->post("/ingresoDetalle/save" , "InventarioIngresoDetalleController:save");
+    $app->get("/ingresoDetalle/findDetalleByIngresoId/{id}" , "InventarioIngresoDetalleController:findDetalleByIngresoId");
+    $app->get("/ingresoDetalle/sumByIngresoId/{id}" , "InventarioIngresoDetalleController:sumByIngresoId");
 
 });
  

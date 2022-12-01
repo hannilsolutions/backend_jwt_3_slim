@@ -65,6 +65,8 @@ class InventarioBodegaController
         $this->customResponse->is200Response($response,$list);
     }
 
+    
+
 }
 
 
