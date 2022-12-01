@@ -90,7 +90,7 @@ class InventarioIngresoController
      * ENDPOTIN GET FINBYID*/
     public function findById(Request $request , Response $response , $id)
     {
-      $findById = $this->ingreso->where(["ingreso_id" => $id]);
+      $findById = $this->ingreso->where(["ingreso_id" => $id])->get();
 
       $this->customResponse->is200Response($response  , $findById);
     }
