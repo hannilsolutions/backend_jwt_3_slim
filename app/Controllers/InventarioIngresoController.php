@@ -77,6 +77,24 @@ class InventarioIngresoController
 
     }
 
+    /**
+     * ENDPOINT GETLIST*/
+    public function list(Request $request , Response $response)
+    {
+      $list = $this->ingreso->get();
+
+      $this->customResponse->is200Response($response , $list);
+    }
+
+    /**
+     * ENDPOTIN GET FINBYID*/
+    public function findById(Request $request , Response $response , $id)
+    {
+      $findById = $this->ingreso->where(["ingreso_id" => $id]);
+
+      $this->customResponse->is200Response($response  , $findById);
+    }
+
 
 
 } 
