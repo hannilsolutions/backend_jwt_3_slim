@@ -147,4 +147,16 @@ return function($container)
       return new \App\Controllers\InventarioArticuloController;
     };
 
+    $container["InventarioProveedorController"]= function()
+    {
+      return new \App\Controllers\InventarioProveedorController;
+    };
+
+
+    $container["InventarioBodegaController"]= function()
+    {
+      return new \App\Controllers\InventarioBodegaController;
+    };
+
+
 };
