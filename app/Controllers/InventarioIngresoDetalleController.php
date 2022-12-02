@@ -100,7 +100,7 @@ class InventarioIngresoDetalleController
                                             ->join("han_inventario_articulos as art" , "art.articulo_id" , "=" , "han_inventario_ingresos_detalles.articulo_id")
                                             ->where(["han_inventario_ingresos_detalles.ingreso_id" => $id])                           
                                             ->groupBy("art.articulo_id")
-                                            ->orderBy("han_inventario_ingresos_detalles.ingreso_detalle_id ")->get();
+                                            ->orderBy("han_inventario_ingresos_detalles.ingreso_detalle_id")->get();
 
             $this->customResponse->is200Response($response , $get);
 
