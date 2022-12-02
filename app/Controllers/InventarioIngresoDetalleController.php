@@ -66,7 +66,13 @@ class InventarioIngresoDetalleController
             "ingreso_detalle_venta"=>CustomRequestHandler::getParam($request,"ingreso_detalle_venta")
         ]);
 
-        $this->updatedBodegaArticulo($request);
+        $udapted = $this->updatedBodegaArticulo($request);
+        
+        if(!$udapted)
+        {
+                return $this->customResponse->is400Response($response , $udapted);
+        }
+
 
 
 
@@ -159,11 +165,18 @@ class InventarioIngresoDetalleController
 
         }else{
             //creamos
-            $this->bodegaArt->create([ 
+            try
+            {
+                    $this->bodegaArt->create([ 
                 "articulo_id"=> CustomRequestHandler::getParam($request , "articulo_id"),
                 "bodega_id"=> CustomRequestHandler::getParam($request , "bodega_id"),
                 "cantidad"=> CustomRequestHandler::getParam($request , "cantidad"),
             ]);
+                }catch(QueryException $e)
+                {
+                    return $e;
+                }
+        
         }
     }
 
