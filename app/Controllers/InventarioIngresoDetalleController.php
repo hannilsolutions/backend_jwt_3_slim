@@ -98,7 +98,10 @@ class InventarioIngresoDetalleController
                                             sum(han_inventario_ingresos_detalles.ingreso_detalle_cantidad * han_inventario_ingresos_detalles.ingreso_detalle_compra ) as compra,
                                             sum(han_inventario_ingresos_detalles.ingreso_detalle_cantidad * han_inventario_ingresos_detalles.ingreso_detalle_venta) as venta ")
                                             ->join("han_inventario_articulos as art" , "art.articulo_id" , "=" , "han_inventario_ingresos_detalles.articulo_id")
-                                            ->where(["han_inventario_ingresos_detalles.ingreso_id" => $id])->get();
+                                            ->where(["han_inventario_ingresos_detalles.ingreso_id" => $id])
+                                            ->orderBy("han_inventario_ingresos_detalles.ingreso_detalle_id ")
+                                            ->groupBy("art.articulo_id")
+                                            get();
 
             $this->customResponse->is200Response($response , $get);
 
