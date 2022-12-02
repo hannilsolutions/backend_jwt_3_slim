@@ -172,5 +172,13 @@ return function($container)
 
 
 
+     $container["InventarioBodegaArticuloController"]= function()
+    {
+      return new \App\Controllers\InventarioBodegaArticuloController;
+    };
+
+
+
+
 
 };
