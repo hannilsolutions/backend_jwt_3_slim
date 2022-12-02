@@ -166,7 +166,7 @@ class InventarioIngresoDetalleController
                     $this->bodegaArt->create([ 
                 "articulo_id"=> CustomRequestHandler::getParam($request , "articulo_id"),
                 "bodega_id"=> CustomRequestHandler::getParam($request , "bodega_id"),
-                "cantidad"=> CustomRequestHandler::getParam($request , "cantidad"),
+                "cantidad"=> CustomRequestHandler::getParam($request , "ingreso_detalle_cantidad"),
             ]);
                 }catch(QueryException $e)
                 {
