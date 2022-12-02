@@ -13,8 +13,8 @@ use App\Validation\Validator;
 
 
 
-class InventarioIngresoDetalleController
-{
+class InventarioIngresoDetalleController extends InventarioBodegaArticuloController
+{ 
 	protected  $customResponse;
 
    	protected  $detalle;
@@ -31,7 +31,7 @@ class InventarioIngresoDetalleController
 
          $this->validator = new Validator();
 
-         $this->bodegas = new InventarioBodegaArticuloController();
+         //$this->bodegas = new InventarioBodegaArticuloController();
     }
 
 
@@ -66,7 +66,7 @@ class InventarioIngresoDetalleController
             "ingreso_detalle_venta"=>CustomRequestHandler::getParam($request,"ingreso_detalle_venta")
         ]);
 
-        $this->bodegas->updatedBodegaArticulo($request);
+        $this->updatedBodegaArticulo($request);
 
 
 
