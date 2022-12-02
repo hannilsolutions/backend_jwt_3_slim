@@ -33,7 +33,7 @@ class InventarioBodegaArticuloController
 
    //updated
 
-    public function updatedBodegaArticulo($request)
+    public static function updatedBodegaArticulo($request)
     {
 
     	//validamos si existe el bodega articulo,
