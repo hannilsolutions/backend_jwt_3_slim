@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\InventarioIngresoDetalle;
+use App\Controllers\InventarioBodegaArticuloController;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -30,7 +31,7 @@ class InventarioIngresoDetalleController
 
          $this->validator = new Validator();
 
-        // $this->bodegas = new InventarioBodegaArticuloController();
+         $this->bodegas = new InventarioBodegaArticuloController();
     }
 
 
@@ -65,7 +66,7 @@ class InventarioIngresoDetalleController
             "ingreso_detalle_venta"=>CustomRequestHandler::getParam($request,"ingreso_detalle_venta")
         ]);
 
-        $updateBodegaArticulo = InventarioBodegaArticuloController::updatedBodegaArticulo($request);
+        $this->bodegas->updatedBodegaArticulo($request);
 
 
 
