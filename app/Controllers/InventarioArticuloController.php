@@ -72,6 +72,32 @@ class InventarioArticuloController
         $this->customResponse->is200Response($response,$list);
     }
 
+    /***/
+    public function findByName(Request $request , Response $response)
+    {
+        $this->validator->validate($request , [
+
+            "articulo_nombre" => v::notEmpty()
+        ]);
+
+        if ($this->validator->failed()) {
+            // code...
+            $responseMessage = $this->validator->errors;
+
+            return $this->customResponse->is400Response($response , $responseMessage);
+        }
+
+        try{
+            
+            $getFindByName = $this->articulo->where("articulo_nombre" , "like" , "%".CustomRequestHandler::getParam($request , "articulo_nombre")."%")->get();
+
+
+        }catch(QueryException $e)
+        {
+            return $this->customResponse->is400Response($response , $e);
+        }
+    }
+
 /*
     public function getSingleGuest(Request $request,Response $response,$id)
     {

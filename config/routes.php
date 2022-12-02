@@ -201,6 +201,7 @@ $app->group("/inventario" , function() use ($app){
     #save
     $app->post("/articulo/save" , "InventarioArticuloController:save");
     $app->get("/articulo/list" , "InventarioArticuloController:list");
+    $app->post("/articulo/findByName" , "InventarioArticuloController:findByName");
 
     #proveedor
     $app->post("/proveedor/save" , "InventarioProveedorController:save");
