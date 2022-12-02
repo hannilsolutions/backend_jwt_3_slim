@@ -65,7 +65,7 @@ class InventarioIngresoDetalleController
             "ingreso_detalle_venta"=>CustomRequestHandler::getParam($request,"ingreso_detalle_venta")
         ]);
 
-        InventarioBodegaArticuloController::updatedBodegaArticulo($request);
+        $updateBodegaArticulo = InventarioBodegaArticuloController::updatedBodegaArticulo($request);
 
 
 

@@ -38,16 +38,16 @@ class InventarioBodegaArticuloController
 
     	//validamos si existe el bodega articulo,
     	$getcount = $this->bodegaArt
-    								->where("articulo_id" , "=" , CustomRequestHandler::getParam("articulo_id"))
-    								->where("bodega_id" , "=" , CustomRequestHandler::getParam("bodega_id"))
+    								->where("articulo_id" , "=" , CustomRequestHandler::getParam($request , "articulo_id"))
+    								->where("bodega_id" , "=" , CustomRequestHandler::getParam($request , "bodega_id"))
     								->count();
 
     	if($getcount > 0)
     	{
     		//actualizamos
     		$info = $this->bodegaArt
-    								->where("articulo_id" , "=" , CustomRequestHandler::getParam("articulo_id"))
-    								->where("bodega_id" , "=" , CustomRequestHandler::getParam("bodega_id"))
+    								->where("articulo_id" , "=" , CustomRequestHandler::getParam($request , "articulo_id"))
+    								->where("bodega_id" , "=" , CustomRequestHandler::getParam($request , "bodega_id"))
     								->get();
     		$cantidad = 0;
     		
