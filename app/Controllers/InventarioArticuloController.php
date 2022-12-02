@@ -88,10 +88,11 @@ class InventarioArticuloController
         }
 
         try{
-            
+
             $getFindByName = $this->articulo->where("articulo_nombre" , "like" , "%".CustomRequestHandler::getParam($request , "articulo_nombre")."%")->get();
 
-
+            $this->customResponse->is200Response($response , $getFindByName);
+            
         }catch(QueryException $e)
         {
             return $this->customResponse->is400Response($response , $e);
