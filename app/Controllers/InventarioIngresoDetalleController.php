@@ -67,12 +67,8 @@ class InventarioIngresoDetalleController
         ]);
 
         $udapted = $this->updatedBodegaArticulo($request);
-        
-        if(!$udapted)
-        {
-                return $this->customResponse->is400Response($response , $udapted);
-        }
 
+       
 
 
 
@@ -174,7 +170,7 @@ class InventarioIngresoDetalleController
             ]);
                 }catch(QueryException $e)
                 {
-                    return $e;
+                    echo $e;
                 }
         
         }
