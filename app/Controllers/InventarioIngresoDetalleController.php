@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\InventarioIngresoDetalle;
-use App\Controllers\InventarioBodegaArticuloController;
+use App\Models\InventarioBodegaArticulo;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -13,7 +13,7 @@ use App\Validation\Validator;
 
 
 
-class InventarioIngresoDetalleController extends InventarioBodegaArticuloController
+class InventarioIngresoDetalleController  
 { 
 	protected  $customResponse;
 
@@ -31,7 +31,7 @@ class InventarioIngresoDetalleController extends InventarioBodegaArticuloControl
 
          $this->validator = new Validator();
 
-         //$this->bodegas = new InventarioBodegaArticuloController();
+         $this->bodegaArt = new InventarioBodegaArticulo();
     }
 
 
@@ -121,6 +121,49 @@ class InventarioIngresoDetalleController extends InventarioBodegaArticuloControl
         }catch(QueryException $e)
         {
             $this->customResponse->is200Response($response , $e);
+        }
+    }
+
+    /**
+     * actualizar bodegaarticulo*/
+    public   function updatedBodegaArticulo($request)
+    {
+
+        //validamos si existe el bodega articulo,
+        $getcount = $this->bodegaArt
+                                    ->where("articulo_id" , "=" , CustomRequestHandler::getParam($request , "articulo_id"))
+                                    ->where("bodega_id" , "=" , CustomRequestHandler::getParam($request , "bodega_id"))
+                                    ->count();
+
+        if($getcount > 0)
+        {
+            //actualizamos
+            $info = $this->bodegaArt
+                                    ->where("articulo_id" , "=" , CustomRequestHandler::getParam($request , "articulo_id"))
+                                    ->where("bodega_id" , "=" , CustomRequestHandler::getParam($request , "bodega_id"))
+                                    ->get();
+            $cantidad = 0;
+            
+
+            foreach($info as $item)
+            {
+                $cantidad = $cantidad + $item->cantidad;
+                $id = $item->bodega_articulo_id;
+            }
+
+            //updated
+            $this->bodegaArt->where("bodega_articulo_id" , "=" , $id)->update([
+                "cantidad" => $cantidad
+            ]);
+
+
+        }else{
+            //creamos
+            $this->bodegaArt->create([ 
+                "articulo_id"=> CustomRequestHandler::getParam($request , "articulo_id"),
+                "bodega_id"=> CustomRequestHandler::getParam($request , "bodega_id"),
+                "cantidad"=> CustomRequestHandler::getParam($request , "cantidad"),
+            ]);
         }
     }
 
