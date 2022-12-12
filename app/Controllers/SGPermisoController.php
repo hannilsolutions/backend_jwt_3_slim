@@ -30,6 +30,8 @@ class SGPermisoController
         $this->validator = new Validator();
 
         $this->sgEmpresa = new SGEmpresa();
+
+        $this->empleadoPermiso = new SGPermisoEmpleado();
     }
     /*
     *ENDPOINT: POST
@@ -52,6 +54,14 @@ class SGPermisoController
             return $this->customResponse->is400Response($response , $responseMenssage);
         }
 
+        //validar si ya esta en un permiso relacionado, de lo contratio
+        if ($this->validarExistPermiso(CustomRequestHandler::getParam($request , "id_usuario"))) {
+            
+            $responseMessage = "ya registrado en un permiso";
+
+            return $this->customResponse->is400Response($response , $responseMessage);
+        }
+
         $indicativo = $this->findByIndicativo(CustomRequestHandler::getParam($request , "id_empresa"));
 
         $prefijo    = $this->findByPrefijoEmpresa(CustomRequestHandler::getParam($request , "id_empresa"));
@@ -71,6 +81,20 @@ class SGPermisoController
         $responseMenssage = "creado";
 
         $this->customResponse->is200Response($response , $responseMenssage) ;
+    }
+
+    //validacion de si esta en un pérmiso ya creado
+    public function validarExistPermiso($idusuario)
+    {
+        $count = $this->empleadoPermiso->join("han_sg_permiso_trabajo" , "han_sg_permiso_trabajo.id_permiso" , "=" , "han_sg_permisos_empleados.id_permiso_trabajo")
+        ->where("han_sg_permisos_empleados.id_user", "=" , $idusuario)
+        ->where("han_sg_permiso_trabajo.estado" , "=" , "1")->count();
+        if ($count == 0) {
+            
+            return false;
+        }
+        
+        return true;
     }
 
     //ENDPOINT:GET
