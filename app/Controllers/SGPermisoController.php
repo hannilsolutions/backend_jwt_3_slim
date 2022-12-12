@@ -22,6 +22,8 @@ class SGPermisoController
 
     protected $sgEmpresa;
 
+    protected $empleadoPermiso;
+
     public function __construct()
     {
         $this->customResponse = new CustomResponse();
