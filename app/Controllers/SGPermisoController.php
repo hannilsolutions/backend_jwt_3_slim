@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\SGPermiso;
 use App\Models\SGEmpresa;
+use App\Models\SGPermisoEmpleado;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -56,7 +57,7 @@ class SGPermisoController
 
         //validar si ya esta en un permiso relacionado, de lo contratio
         if ($this->validarExistPermiso(CustomRequestHandler::getParam($request , "id_usuario"))) {
-            
+
             $responseMessage = "ya registrado en un permiso";
 
             return $this->customResponse->is400Response($response , $responseMessage);
