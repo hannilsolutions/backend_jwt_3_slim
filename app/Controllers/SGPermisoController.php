@@ -138,4 +138,12 @@ class SGPermisoController
 
         return $prefijo;
     }
+    /**
+     * ENDPOINT GET findById*/
+    public function findById(Request $request , Response $response , $id)
+    {
+        $getId = $this->sgPermiso->where(["id_permiso" => $id])->get();
+
+        $this->customResponse->is200Response($response , $getId);
+    }
 }
