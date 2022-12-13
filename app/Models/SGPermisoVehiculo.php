@@ -16,6 +16,7 @@ class SGPermisoVehiculo extends  Model
     "permiso_vehiculo_id",
     "permiso_id",
     "vehiculo_id",
+    "conductor_id",
     "estado",
     "created_at",
     "updated_at"
