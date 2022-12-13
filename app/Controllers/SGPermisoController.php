@@ -65,6 +65,15 @@ class SGPermisoController
             return $this->customResponse->is400Response($response , $responseMessage);
         }
 
+        //validar si tiene un permiso creado por el user 
+        if($this->validarCreatePermiso(CustomRequestHandler::getParam($request , "id_usuario")))
+        {
+            $responseMenssage = "Ya tiene un permiso creado";
+
+            return $this->customResponse->is400Response($response , $responseMenssage);
+
+        }
+
         $indicativo = $this->findByIndicativo(CustomRequestHandler::getParam($request , "id_empresa"));
 
         $prefijo    = $this->findByPrefijoEmpresa(CustomRequestHandler::getParam($request , "id_empresa"));
@@ -84,6 +93,18 @@ class SGPermisoController
         $responseMenssage = "creado";
 
         $this->customResponse->is200Response($response , $responseMenssage) ;
+    }
+    //validar si ha creado un permiso
+    public function validarCreatePermiso($idusuario)
+    {
+        $count = $this->sgPermiso->where("han_sg_permiso_trabajo.id_usuario" , "=" , $idusuario)->count();
+
+        if($count == 0)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     //validacion de si esta en un pérmiso ya creado
