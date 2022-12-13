@@ -146,4 +146,41 @@ class SGPermisoController
 
         $this->customResponse->is200Response($response , $getId);
     }
+
+    /**
+     * ENDPOINT GET findbyidempresa all PARA ADMIN_ADMIN ADMIN_ST
+     SELECT han_sg_permiso_trabajo.* ,
+    tp.nombre as nombre_tipo,
+    users.user FROM han_sg_permiso_trabajo 
+    inner join han_sg_tipos_trabajo tp on tp.id_tipo =  han_sg_permiso_trabajo.id_permiso_trabajo
+    inner join users on users.id = han_sg_permiso_trabajo.id_usuario
+
+    WHERE han_sg_permiso_trabajo.id_empresa = 1
+    */
+    public function findByIdEmpresa(Request $request , Response $response , $id)
+    {
+        $getList = $this->sgPermiso->selectRaw("han_sg_permiso_trabajo.* ,
+            tp.nombre as nombre_tipo,
+            users.user")
+        ->join("han_sg_tipos_trabajo as tp" , "tp.id_tipo" , "=" , "han_sg_permiso_trabajo.id_permiso_trabajo")
+        ->join("users" , "users.id" , "=" , "han_sg_permiso_trabajo.id_usuario")
+        ->where(["han_sg_permiso_trabajo.id_empresa"=>$id])->get();
+
+        $this->customResponse->is200Response($response , $getList);
+    }
+
+    /**
+     * ENDPOINT GET findByActivoUsuario*/
+    public function findByIdUsuarioActive(Request $request , Response $response , $id)
+    {
+        $getList = $this->sgPermiso->selectRaw("han_sg_permiso_trabajo.* ,
+            tp.nombre as nombre_tipo,
+            users.user")
+        ->join("han_sg_tipos_trabajo as tp" , "tp.id_tipo" , "=" , "han_sg_permiso_trabajo.id_permiso_trabajo")
+        ->join("users" , "users.id" , "=" , "han_sg_permiso_trabajo.id_usuario")
+        ->where(["han_sg_permiso_trabajo.id_usuario"=>$id])
+        ->where("han_sg_permiso_trabajo.estado" ,"=" ,"1")->get();
+
+        $this->customResponse->is200Response($response , $getList);
+    }
 }

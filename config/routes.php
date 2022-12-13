@@ -131,6 +131,8 @@ $app->group("/seguridad" , function() use ($app){
     $app->post("/permiso/save" , "SGPermisoController:save");
     $app->get("/permiso/findByUsuarioOpen/{id}" , "SGPermisoController:findByUsuarioOpen");
     $app->get("/permiso/findById/{id}" , "SGPermisoController:findById");
+    $app->get("/permiso/findByIdEmpresa/{id}", "SGPermisoController:findByIdEmpresa");
+    $app->get("/permiso/findByIdUsuarioActive/{id}" , "SGPermisoController:findByIdUsuarioActive");
 
     #peligros_empleado
     $app->post("/permisosPeligros/save" , "SGPermisosPeligrosController:save");
