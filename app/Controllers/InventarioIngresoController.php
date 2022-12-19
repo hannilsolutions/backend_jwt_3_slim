@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\InventarioIngresos;
+use App\Models\InventarioProveedor;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -19,6 +20,8 @@ class InventarioIngresoController
 
     protected  $ingreso;
 
+    protected $proveedor;
+
     protected  $validator;
 
     public function  __construct()
@@ -26,6 +29,8 @@ class InventarioIngresoController
          $this->customResponse = new CustomResponse();
 
          $this->ingreso = new InventarioIngresos();
+
+         $this->proveedor = new InventarioProveedor();
 
          $this->validator = new Validator();
     }
@@ -93,6 +98,42 @@ class InventarioIngresoController
       $findById = $this->ingreso->where(["ingreso_id" => $id])->get();
 
       $this->customResponse->is200Response($response  , $findById);
+    }
+
+    /**
+     * ENDPOINT POST FINDBYBETWEEN*/
+    public function findByBetween(Request $request , Response $response){
+
+      $this->validator->validate($request , [
+        "valor1" => v::notEmpty(),
+        "valor2" => v::notEmpty()
+      ]);
+
+      if ($this->validator->failed()) {
+          
+          $responseMenssage = $this->validator->errors;
+
+          return $this->customResponse->is400Response($response , $responseMenssage);
+      }
+
+      try{
+
+        $getListBetween = $this->ingreso->
+                                join("han_inventario_proveedor" , "han_inventario_proveedor.proveedor_id" , "=" , "han_inventario_ingresos.proveedor_id")
+                                ->whereBetween('han_inventario_ingresos.ingreso_fecha', 
+        [
+          CustomRequestHandler::getParam($request , "valor1"), 
+          CustomRequestHandler::getParam($request , "valor2")
+        ])->get();
+
+      $this->customResponse->is200Response($response , $getListBetween);
+      }catch(Exception $e)
+      {
+        $this->customResponse->is400Response($response , $e->getMessage());
+      }
+
+
+
     }
 
 
