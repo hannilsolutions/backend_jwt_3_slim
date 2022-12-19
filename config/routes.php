@@ -224,6 +224,7 @@ $app->group("/inventario" , function() use ($app){
     $app->post("/ingresoDetalle/save" , "InventarioIngresoDetalleController:save");
     $app->get("/ingresoDetalle/findDetalleByIngresoId/{id}" , "InventarioIngresoDetalleController:findDetalleByIngresoId");
     $app->get("/ingresoDetalle/sumByIngresoId/{id}" , "InventarioIngresoDetalleController:sumByIngresoId");
+    $app->delete("/ingresoDetalle/deleteById/{id}" , "InventarioIngresoDetalleController:deleteById");
 
 });
  

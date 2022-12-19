@@ -59,7 +59,7 @@ class InventarioIngresoController
 
     	try{
 
-    		$this->ingreso->create([ 
+    		$insert = $this->ingreso->create([ 
     			"ingreso_fecha" => date("Y-m-d"),
 			    "ingreso_hora" => date("H:m:s"),
 			    "proveedor_id" => CustomRequestHandler::getParam($request , "proveedor_id"),
@@ -70,7 +70,7 @@ class InventarioIngresoController
 			    "ingreso_tipo" => CustomRequestHandler::getParam($request , "ingreso_tipo"), 
     		]);
 
-    		$responseMenssage = "creado";
+    		$responseMenssage = $insert->id;
 
     		$this->customResponse->is200Response($response , $responseMenssage);
 
