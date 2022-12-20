@@ -77,7 +77,7 @@ class InventarioIngresoController
 
     	}catch(QueryException $e){
 
-    		$this->customResponse->is400Response($response , $e);
+    		$this->customResponse->is400Response($response , $e->getMessage());
     	}
 
     }
