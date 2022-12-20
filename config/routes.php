@@ -226,5 +226,8 @@ $app->group("/inventario" , function() use ($app){
     $app->get("/ingresoDetalle/sumByIngresoId/{id}" , "InventarioIngresoDetalleController:sumByIngresoId");
     $app->delete("/ingresoDetalle/deleteById/{id}" , "InventarioIngresoDetalleController:deleteById");
 
+    ##inventarioxBodega
+    $app->get("/kardex/list/{id}" , "InventarioBodegaArticuloController:list");
+
 });
  
