@@ -37,7 +37,7 @@ class InventarioBodegaArticuloController
 
      try{
 
-        $this->bodegaArt->selectRaw("han_inventario_bodegas_articulos.bodega_articulo_id,
+        $getList= $this->bodegaArt->selectRaw("han_inventario_bodegas_articulos.bodega_articulo_id,
                                              han_inventario_bodegas_articulos.articulo_id,
                                              han_inventario_bodegas_articulos.cantidad,
                                              han_inventario_articulos.articulo_nombre,
