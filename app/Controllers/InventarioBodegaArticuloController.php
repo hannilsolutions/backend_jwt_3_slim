@@ -34,7 +34,9 @@ class InventarioBodegaArticuloController
     public function listKardex(Request $request , Response $response , $id)
     {
 
-      $getList = $this->bodegaArt->selectRaw("han_inventario_bodegas_articulos.bodega_articulo_id,
+     try{
+
+       $getList = $this->bodegaArt->selectRaw("han_inventario_bodegas_articulos.bodega_articulo_id,
                                              han_inventario_bodegas_articulos.articulo_id,
                                              han_inventario_bodegas_articulos.cantidad,
                                              han_inventario_articulos.articulo_nombre,
@@ -43,6 +45,10 @@ class InventarioBodegaArticuloController
                                           ->where(["han_inventario_bodegas_articulos.bodega_id" => $id])->get();
 
          $this->customResponse->is200Response($response , $getList);
+     }catch(QueryException $e)
+     {
+         $this->customResponse->is400Response($response , $e->getMessage());
+     }
 
     }
 
