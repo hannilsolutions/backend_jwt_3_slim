@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Controllers;
@@ -14,22 +13,24 @@ use App\Validation\Validator;
 
 
 class InventarioBodegaArticuloController
-{	
-	protected  $customResponse;
+{
 
-   protected  $bodegaArt;
+    protected  $customResponse;
 
-   protected  $validator;
+    protected  $guestEntry;
 
-   
-   public function  __construct()
-   {
+    protected  $validator;
+
+    public function  __construct()
+    {
          $this->customResponse = new CustomResponse();
 
          $this->bodegaArt = new InventarioBodegaArticulo();
 
          $this->validator = new Validator();
-   }
+    }
+
+     
 
     public function listKardex(Request $request , Response $response , $id)
     {
@@ -45,6 +46,7 @@ class InventarioBodegaArticuloController
                                           ->where(["han_inventario_bodegas_articulos.bodega_id" => $id])->get();*/
 
          $this->customResponse->is200Response($response , $getList);
+
      }catch(QueryException $e)
      {
          $this->customResponse->is400Response($response , $e->getMessage());
@@ -52,12 +54,7 @@ class InventarioBodegaArticuloController
 
     }
 
-
-   //updated
-
-    
-
-
+  
 }
-
+ 
 ?>
