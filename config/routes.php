@@ -227,7 +227,7 @@ $app->group("/inventario" , function() use ($app){
     $app->delete("/ingresoDetalle/deleteById/{id}" , "InventarioIngresoDetalleController:deleteById");
 
     ##inventarioxBodega
-    $app->get("/kardex/list/{id}" , "InventarioBodegaArticuloController:list");
+    $app->get("/kardex/list/{id}" , "InventarioBodegaArticuloController:listKardex");
 
 });
  

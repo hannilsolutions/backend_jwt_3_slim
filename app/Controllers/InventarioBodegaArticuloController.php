@@ -17,20 +17,21 @@ class InventarioBodegaArticuloController
 {	
 	protected  $customResponse;
 
-    protected  $bodegaArt;
+   protected  $bodegaArt;
 
-    protected  $validator;
+   protected  $validator;
 
-       public function  __construct()
-    {
+   
+   public function  __construct()
+   {
          $this->customResponse = new CustomResponse();
 
          $this->bodegaArt = new InventarioBodegaArticulo();
 
          $this->validator = new Validator();
-    }
+   }
 
-    public function list(Request $request , Response $response , $id)
+    public function listKardex(Request $request , Response $response , $id)
     {
 
       $getList = $this->bodegaArt->selectRaw("han_inventario_bodegas_articulos.bodega_articulo_id,
