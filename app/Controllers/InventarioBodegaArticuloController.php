@@ -36,13 +36,13 @@ class InventarioBodegaArticuloController
 
      try{
 
-       $getList = $this->bodegaArt->selectRaw("han_inventario_bodegas_articulos.bodega_articulo_id,
+       $getList = "get"; /*$this->bodegaArt->selectRaw("han_inventario_bodegas_articulos.bodega_articulo_id,
                                              han_inventario_bodegas_articulos.articulo_id,
                                              han_inventario_bodegas_articulos.cantidad,
                                              han_inventario_articulos.articulo_nombre,
                                              han_inventario_articulos.articulo_categoria")
                                           ->join("han_inventario_articulos" , "han_inventario_articulos.articulo_id", "=" ,"han_inventario_bodegas_articulos.articulo_id")
-                                          ->where(["han_inventario_bodegas_articulos.bodega_id" => $id])->get();
+                                          ->where(["han_inventario_bodegas_articulos.bodega_id" => $id])->get();*/
 
          $this->customResponse->is200Response($response , $getList);
      }catch(QueryException $e)
