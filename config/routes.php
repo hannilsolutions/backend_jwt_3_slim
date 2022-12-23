@@ -232,7 +232,7 @@ $app->group("/inventario" , function() use ($app){
     #transferencia entre bodegas
     $app->post("/transbodega/save" , "InventarioTransferenciaBodegasController:save");
     $app->post("/transbodega/between", "InventarioTransferenciaBodegasController:findByBetween");
-    $app->delete("transbodega/delete/{id}" , "InventarioTransferenciaBodegasController:delete");
+    $app->delete("/transbodega/delete/{id}" , "InventarioTransferenciaBodegasController:delete");
 
 });
  
