@@ -138,7 +138,9 @@ class InventarioTransferenciaBodegasController
 			return $this->customResponse->is400Response($response , $responseMessage);
 		}
 
-		$getList = $this->transfer->selectRaw("han_inventario_transferencia_bodegas.cantidad,
+		try{
+
+			$getList = $this->transfer->selectRaw("han_inventario_transferencia_bodegas.cantidad,
 												han_inventario_transferencia_bodegas.fecha,
 												origen.bodega_nombre as origen,
 												destino.bodega_nombre as destino,
@@ -149,6 +151,10 @@ class InventarioTransferenciaBodegasController
 			->whereBetween("han_inventario_transferencia_bodegas.fecha", [CustomRequestHandler::getParam($request , "valor1") , CustomRequestHandler::getParam($request , "valor2")])->get();
 
 		$this->customResponse->is200Response($response , $getList);
+		}catch(QueryException $e)
+		{
+			return $this->customResponse->is400Response($response , $e->getMessage());
+		}
 	}
 
 	/**
