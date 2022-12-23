@@ -229,5 +229,10 @@ $app->group("/inventario" , function() use ($app){
     ##inventarioxBodega
     $app->get("/kardex/list/{id}" , "InventarioBodegaArticuloController:listKardex");
 
+    #transferencia entre bodegas
+    $app->post("/transbodega/save" , "InventarioTransferenciaBodegasController:save");
+    $app->post("/transbodega/between", "InventarioTransferenciaBodegasController:findByBetween");
+    $app->delete("transbodega/delete/{id}" , "InventarioTransferenciaBodegasController:delete");
+
 });
  

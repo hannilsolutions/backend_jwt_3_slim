@@ -178,6 +178,10 @@ return function($container)
     };
 
 
+    $container["InventarioTransferenciaBodegasController"]= function()
+    {
+      return new \App\Controllers\InventarioTransferenciaBodegasController;
+    }
 
 
 
