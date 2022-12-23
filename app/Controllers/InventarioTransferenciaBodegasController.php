@@ -12,7 +12,6 @@ use Respect\Validation\Validator as v;
 use App\Validation\Validator;
 
 
-
 class InventarioTransferenciaBodegasController
 {
 
@@ -157,7 +156,7 @@ class InventarioTransferenciaBodegasController
 	public function delete(Request $request , Response $response , $id)
 	{
 		//eliminar devolver a  bodega
-		$getList = $this->transfer->where("transferencia_id" => $id)->get();
+		$getList = $this->transfer->where(["transferencia_id" => $id])->get();
 
 		$cantidad = 0;
 
