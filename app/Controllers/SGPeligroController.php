@@ -126,5 +126,6 @@ class SGPeligroController
         $this->customResponse->is200Response($request , $update);
 
     }
+}
 
 ?>
