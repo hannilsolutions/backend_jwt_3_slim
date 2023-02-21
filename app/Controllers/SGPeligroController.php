@@ -98,6 +98,33 @@ class SGPeligroController
 
         $this->customResponse->is200Response($response,$getList);
     }
-}
+    /**
+     * ENDPOIN DELETE inactivar enviar 0*/
+    public function inactive(Request $request , Response $response , $id)
+    {
+        $this->sgPeligro
+                ->where(["id_peligro" => $id])
+                ->update(
+                    ["estado" => 0]
+                );
+        $update = "Inactivado con éxito";
+
+        $this->customResponse->is200Response($request , $update);
+    }
+
+    /**
+     * ENDPOIN DELETE cerrar permiso*/
+    public function cerrado(Request $request , Response $response , $id)
+    {
+        $this->sgPeligro
+                ->where(["id_peligro"] => $id)
+                ->update([
+                    "estado" => 2
+                ]);
+        $updated = "Cerrado con éxito";
+
+        $this->customResponse->is200Response($request , $update);
+
+    }
 
 ?>
