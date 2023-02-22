@@ -154,9 +154,19 @@ WHERE han_relations.roles_role = 'ADMIN_ADMIN'
                         ->groupBy("group_id")
                         ->get(); */
 
-        $relationsRole = $this->relations->get();
+        $relationsRole = $this->relations
+                        ->selectRaw("han_relations.id as id_relations, han_relations.roles_role, han_relations.group_id, han_relations.vistas_id, han_relations.active,
+                                        han_gruop.id as id_gruop,
+                                        han_gruop.title,
+                                        han_gruop.icono")
+                        ->leftjoin("han_gruop" , "han_relations.group_id" , "=" , "han_gruop.id")
+                        ->leftjoin("users"      , "users.role" , "=" , "han_relations.roles_role")
+                        ->where(["users.email" => $email])
+                        ->where("han_relations.active" , "=" , "Y")
+                        ->groupBy("group_id")
+                        ->get();
                     
-        /* foreach($relationsRole as $group)
+        foreach($relationsRole as $group)
          {
             $temp = [
                 "title" => $group->title,
@@ -164,9 +174,9 @@ WHERE han_relations.roles_role = 'ADMIN_ADMIN'
                 "submenu" => $this->findVistaByGroup($group->group_id , $group->roles_role)
             ];
             array_push($responseMenssage , $temp);
-         }*/
+         }
 
-         return  $relationsRole;
+         return  $responseMenssage;
 
      }catch(Illuminate\Database\QueryException  $e )
      { 
