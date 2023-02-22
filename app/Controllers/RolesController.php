@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Roles;
-use App\Models\Han_Relations;
+use App\Models\han_relations;
 use App\Models\Han_Gruop;
 use App\Models\Han_Views;
 use App\Requests\CustomRequestHandler;
@@ -38,7 +38,7 @@ class RolesController
 
          $this->validator = new Validator();
 
-         $this->relations = new Han_Relations();
+         $this->relations = new han_relations();
 
          $this->group = new Han_Gruop();
 
@@ -134,37 +134,16 @@ WHERE han_relations.roles_role = 'ADMIN_ADMIN'
      {
           //NAME = role => ADMIN_ADMIN
 
-         $responseMenssage = array();
+       try{
+          $responseMenssage = array();
         /**
          * Consultamos las vistas de la tabla relations
          * select * from han_relations 
          *inner join han_gruop on han_gruop.id = han_relations.group_id where roles_role = 'ADMIN_ADMIN' AND active = 'Y' group by group_id
          */
         /*
-        select 
-        han_relations.id as id_relations, 
-        han_relations.roles_role, 
-        han_relations.group_id,
-        han_relations.vistas_id,
-        han_relations.active,
-        han_gruop.id as id_gruop,
-        han_gruop.title,
-        han_gruop.icono
-        from han_relations
-        inner join han_gruop on han_gruop.id = han_relations.group_id
-        inner join users on users.role = han_relations.roles_role
-        WHERE users.email = 'seguridadst@internetinalambrico.com.co' AND han_relations.active = 'Y'
-        group by han_relations.group_id
-        */
-        /*$relationsRole = $this->relations
-                    ->leftjoin("han_gruop" , "han_relations.group_id" , "=" , "han_gruop.id")
-                    ->where(["roles_role"=>$role])
-                    ->where("active" , "=" , "Y")
-                    ->groupBy("group_id")
-                    ->get(); */
-
         $relationsRole = $this->relations
-                        ->selectRaw(" han_relations.id as id_relations, han_relations.roles_role, han_relations.group_id, han_relations.vistas_id, han_relations.active,
+                        ->selectRaw("han_relations.id as id_relations, han_relations.roles_role, han_relations.group_id, han_relations.vistas_id, han_relations.active,
                                         han_gruop.id as id_gruop,
                                         han_gruop.title,
                                         han_gruop.icono")
@@ -173,9 +152,11 @@ WHERE han_relations.roles_role = 'ADMIN_ADMIN'
                         ->where(["users.email" => $email])
                         ->where("han_relations.active" , "=" , "Y")
                         ->groupBy("group_id")
-                        ->get();
+                        ->get(); */
+
+        $relationsRole = $this->relations->get();
                     
-         foreach($relationsRole as $group)
+        /* foreach($relationsRole as $group)
          {
             $temp = [
                 "title" => $group->title,
@@ -183,9 +164,14 @@ WHERE han_relations.roles_role = 'ADMIN_ADMIN'
                 "submenu" => $this->findVistaByGroup($group->group_id , $group->roles_role)
             ];
             array_push($responseMenssage , $temp);
-         }
+         }*/
 
-         return  $responseMenssage;
+         return  $relationsRole;
+
+     }catch(Illuminate\Database\QueryException  $e )
+     { 
+        return $e->getMessage();
+     }
 
      }
 

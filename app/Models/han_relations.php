@@ -6,7 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Han_Relations extends Model
+class han_relations extends Model
 {
 
     protected  $table = "han_relations";

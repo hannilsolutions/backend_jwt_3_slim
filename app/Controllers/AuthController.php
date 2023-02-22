@@ -12,7 +12,7 @@ use Psr\Http\Message\RequestInterface as Request;
 use Respect\Validation\Validator as v;
 use App\Validation\Validator;
 
-class AuthController
+class AuthController  
 {
 
     protected  $customResponse;
