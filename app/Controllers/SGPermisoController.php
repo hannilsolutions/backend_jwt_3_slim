@@ -209,8 +209,8 @@ class SGPermisoController
      * ENDPOIN DELETE inactivar enviar 0*/
     public function inactive(Request $request , Response $response , $id)
     {
-        $this->sgPeligro
-                ->where(["id_peligro" => $id])
+        $this->sgPermiso
+                ->where(["id_permiso" => $id])
                 ->update(
                     ["estado" => 0]
                 );
@@ -223,8 +223,8 @@ class SGPermisoController
      * ENDPOIN DELETE cerrar permiso*/
     public function cerrado(Request $request , Response $response , $id)
     {
-        $this->sgPeligro
-                ->where(["id_peligro" => $id])
+        $this->sgPermiso
+                ->where(["id_permiso" => $id])
                 ->update([
                     "estado" => 2
                 ]);
