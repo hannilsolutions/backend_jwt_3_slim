@@ -201,7 +201,7 @@ class SGPermisoController
         ->join("users" , "users.id" , "=" , "han_sg_permiso_trabajo.id_usuario")
         ->join("han_sg_permisos_empleados as empleado" , "empleado.id_permiso_trabajo" , "=" , "han_sg_permiso_trabajo.id_permiso_trabajo")
         ->where(["empleado.id_user"=>$id])
-        ->where("han_sg_permiso_trabajo.estado" ,">" ,"0")->get();
+        ->where("han_sg_permiso_trabajo.estado" ,"=" , "1")->get();
 
         $this->customResponse->is200Response($response , $getList);
     }
