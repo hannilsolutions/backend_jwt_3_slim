@@ -199,8 +199,9 @@ class SGPermisoController
             users.user")
         ->join("han_sg_tipos_trabajo as tp" , "tp.id_tipo" , "=" , "han_sg_permiso_trabajo.id_permiso_trabajo")
         ->join("users" , "users.id" , "=" , "han_sg_permiso_trabajo.id_usuario")
-        ->where(["han_sg_permiso_trabajo.id_usuario"=>$id])
-        ->where("han_sg_permiso_trabajo.estado" ,"=" ,"1")->get();
+        ->join("han_sg_permisos_empleados as empleado" , "empleado.id_permiso_trabajo" , "=" , "han_sg_permiso_trabajo.id_permiso_trabajo")
+        ->where(["empleado.id_user"=>$id])
+        ->where("han_sg_permiso_trabajo.estado" ,">" ,"0")->get();
 
         $this->customResponse->is200Response($response , $getList);
     }
