@@ -49,6 +49,7 @@ class PagoController
 
              $getFindByBetween =  $this->pago
                         ->whereBetween('fecha_recaudo', [CustomRequestHandler::getParam($request , "valor1"), CustomRequestHandler::getParam($request , "valor2")])
+                        ->where('reversado' , '!=' , 1)
                         ->get();
             $this->customResponse->is200Response($response , $getFindByBetween);
     }
