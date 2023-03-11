@@ -183,6 +183,10 @@ return function($container)
       return new \App\Controllers\InventarioTransferenciaBodegasController;
     };
 
+    $container["generarPdfController"] = function(){
+      return new \App\Controllers\generarPdfController;
+    };
+
 
 
 };

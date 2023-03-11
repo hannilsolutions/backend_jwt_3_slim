@@ -237,4 +237,9 @@ $app->group("/inventario" , function() use ($app){
     $app->delete("/transbodega/delete/{id}" , "InventarioTransferenciaBodegasController:delete");
 
 });
+
+/***generar pdf */
+$app->group("/pdf", function() use ($app){
+    $app->get("/permiso/{id}" , "generarPdfController:permisoAlturas");
+} );
  
