@@ -54,7 +54,7 @@ class DatosPersonalesController
 				"cargo" => CustomRequestHandler::getParam($request , "cargo")
 			]);
 
-			$responseMessage = "creado",
+			$responseMessage = "creado";
 
 			$this->customResponse->is200Response($response , $responseMessage);
 
