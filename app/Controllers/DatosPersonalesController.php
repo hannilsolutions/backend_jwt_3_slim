@@ -15,9 +15,9 @@ class DatosPersonalesController
 
 	private $customResponse;
 
-	private $datosPersonalesModel;
+	private $datosPersonales;
 
-	private $validatos;
+	private $validator;
 
 	public function __construct()
 	{
