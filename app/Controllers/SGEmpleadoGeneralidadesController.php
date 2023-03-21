@@ -145,4 +145,7 @@ class SGEmpleadoGeneralidadesController
 		return $getListGeneralidades;
 	}
 
+
+	//
+
 }

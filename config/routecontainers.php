@@ -187,6 +187,9 @@ return function($container)
       return new \App\Controllers\generarPdfController;
     };
 
-
+    $container["DatosPersonalesController"] = function(){
+      
+      return new \App\Controllers\DatosPersonalesController;
+    };
 
 };

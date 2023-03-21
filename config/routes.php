@@ -88,6 +88,9 @@ $app->group("/usuarios" , function() use($app){
     $app->get("/firmaElectronica/generate/{id}" , "UsuarioController:generateFirmaElectronica");
     $app->get("/findKeyById/{id}" , "UsuarioController:findKeyById");
     $app->patch("/updatedPassword/{id}" , "UsuarioController:updatedPassword");
+    $app->post("/datospersonales/save" , "DatosPersonalesController:save");
+    $app->get("/datospersonales/findbyid/{id}" , "DatosPersonalesController:findById");
+    $app->patch("/datospersonales/updated/{id}" , "DatosPersonalesController:updated");
 });
 
 //roles
