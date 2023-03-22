@@ -112,6 +112,7 @@ $app->group("/roles" , function() use ($app){
 
 //sistema de gestion sst
 $app->group("/seguridad" , function() use ($app){
+
     #clasificaciones
     $app->post("/clasificacion/save" , "SGClasificacionController:save");
     $app->get("/clasificacion/list" , "SGClasificacionController:list");
@@ -244,5 +245,6 @@ $app->group("/inventario" , function() use ($app){
 /***generar pdf */
 $app->group("/pdf", function() use ($app){
     $app->get("/permiso/{id}" , "generarPdfController:permisoAlturas");
+    $app->get("/permisosEmpleados/{id}" , "SGPermisosEmpleadosController:getListEmpleadosWithDatosPersonales");
 } );
  

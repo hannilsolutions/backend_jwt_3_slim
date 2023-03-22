@@ -238,5 +238,31 @@ class SGPermisosEmpleadosController
         }
     }
 
+    /**
+     * ENDPOINT
+     * BUSCAR EMPLEADOS CON NUMERO DE CEDULA Y DOCUMENTO
+     * GET FINDBYIDPERMISO*/
+    public function getListEmpleadosWithDatosPersonales(Request $request , Response $response , $id)
+    {
+        try{
+
+        $getlist = $this->sgPermisoEmpleado->selectRaw("users.user, datos_personales.documento, datos_personales.tipo_documento , datos_personales.cargo")
+        ->leftjoin("datos_personales","datos_personales.id_user", "=", "han_sg_permisos_empleados.id_user")
+        ->leftjoin("users" , "users.id" , "=" , "datos_personales.id_user")
+        ->where(["han_sg_permisos_empleados.id_permiso_trabajo" => $id])
+        ->get();
+
+        $count = $this->sgPermisoEmpleado->where(["han_sg_permisos_empleados.id_permiso_trabajo" => $id])->count();
+
+        $responseArray = array("empleados" => [$getList] , "cuenta" => $count);
+
+        $this->customResponse->is200Response($response , $responseArray);
+
+        }catch(Exception $e)
+        {
+            $this->customResponse->is400Response($response , $e->getMessage());
+        }
+    }
+
 
 }
