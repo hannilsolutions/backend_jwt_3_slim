@@ -254,7 +254,7 @@ class SGPermisosEmpleadosController
 
         $count = $this->sgPermisoEmpleado->where(["han_sg_permisos_empleados.id_permiso_trabajo" => $id])->count();
 
-        $responseArray = array("empleados" => [$getList] , "cuenta" => $count);
+        $responseArray = array("empleados" => $getlist , "cuenta" => $count);
 
         $this->customResponse->is200Response($response , $responseArray);
 
