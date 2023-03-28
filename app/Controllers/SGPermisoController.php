@@ -78,7 +78,7 @@ class SGPermisoController
 
         $prefijo    = $this->findByPrefijoEmpresa(CustomRequestHandler::getParam($request , "id_empresa"));
 
-        $this->sgPermiso->create([
+        $insert = $this->sgPermiso->create([
             "fecha_inicio" => CustomRequestHandler::getParam($request , "fecha_inicio"),
             "hora_inicio" => CustomRequestHandler::getParam($request , "hora_inicio"),
             "lugar_de_trabajo" => CustomRequestHandler::getParam($request , "lugar_de_trabajo"),
@@ -90,7 +90,7 @@ class SGPermisoController
             "id_permiso_trabajo" => CustomRequestHandler::getParam($request , "id_permiso_trabajo"),
         ]);
 
-        $responseMenssage = "creado";
+        $responseMenssage = $insert->id;
 
         $this->customResponse->is200Response($response , $responseMenssage) ;
     }
