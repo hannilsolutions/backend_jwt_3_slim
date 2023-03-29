@@ -107,6 +107,44 @@ class SGEmpleadoGeneralidadesController
 
 		$this->customResponse->is200Response($response , $getListGeneralidadesEmpleado);
 	}
+
+	/**
+	 * buscar por EPPC null, buscar por EPP null
+	 * POST*/
+	public function findByEmpleadoPermisoTrabajoIsNotNull(Request $request , Response $response)
+	{
+			$this->validator->validate($request , [
+			"empleado_id" => v::notEmpty(),
+			"permiso_id"	=> v::notEmpty(),
+			"tipo" => v::notEmpty(),
+		]);
+
+		if($this->validator->failed())
+		{
+			$responseMessage = $this->validator->failed();
+
+			return $this->customResponse->is400Response($response , $responseMessage);
+		}
+		try{
+			$getList = $this->sgEmpleadoGeneralidades->selectRaw("
+							han_sg_empleados_generalidades.empleado_generalidades_id ,
+							han_sg_empleados_generalidades.active, 
+							han_sg_empleados_generalidades.inspeccion,
+							han_sg_generalidades.nombre")->join("han_sg_generalidades" , "han_sg_generalidades.id_generalidades" , "=" , "han_sg_empleados_generalidades.generalidades_id")
+		->where(["han_sg_empleados_generalidades.empleado_id" => CustomRequestHandler::getParam($request , "empleado_id")])
+		->where(["han_sg_empleados_generalidades.permiso_id" => CustomRequestHandler::getParam($request , "permiso_id")])
+		->where(["han_sg_generalidades.tipo" => CustomRequestHandler::getParam($request , "tipo")])
+		->where("han_sg_generalidades.inspeccion" , "IS NOT" , "NULL")
+		->get();
+
+		$this->customResponse->is200Response($response , $getListGeneralidadesEmpleado);
+
+
+		}catch(Exception $e)
+		{
+			$this->customResponse->is400Response($response , $e->getMessage());
+		}
+	}
 	/*
 	*ENDPOINT PATCH 
 	**/

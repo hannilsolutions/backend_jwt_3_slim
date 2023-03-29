@@ -158,6 +158,7 @@ $app->group("/seguridad" , function() use ($app){
     #empleado_generalidades
     $app->post("/empleadoGeneralidades/create" , "SGEmpleadoGeneralidadesController:create");
     $app->post("/empleadoGeneralidades/findByEmpleadoAndPermisoAndTipo" , "SGEmpleadoGeneralidadesController:findByEmpleadoAndPermisoAndTipo");
+    $app->post("/empleadoGeneralidades/findByEmpleadoPermisoTrabajoIsNotNull" , "SGEmpleadoGeneralidadesController:findByEmpleadoPermisoTrabajoIsNotNull");
     $app->patch("/empleadoGeneralidades/editActive/{id}" , "SGEmpleadoGeneralidadesController:editActive");
 
     #empresa
