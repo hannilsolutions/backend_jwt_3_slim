@@ -134,7 +134,7 @@ class SGEmpleadoGeneralidadesController
 		->where(["han_sg_empleados_generalidades.empleado_id" => CustomRequestHandler::getParam($request , "empleado_id")])
 		->where(["han_sg_empleados_generalidades.permiso_id" => CustomRequestHandler::getParam($request , "permiso_id")])
 		->where(["han_sg_generalidades.tipo" => CustomRequestHandler::getParam($request , "tipo")])
-		->where("han_sg_generalidades.inspeccion" , "IS NOT" , "NULL")
+		->whereNotNull("han_sg_empleados_generalidades.inspeccion")
 		->get();
 
 		$this->customResponse->is200Response($response , $getListGeneralidadesEmpleado);
