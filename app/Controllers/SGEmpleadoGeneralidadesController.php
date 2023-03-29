@@ -137,7 +137,7 @@ class SGEmpleadoGeneralidadesController
 		->whereNotNull("han_sg_empleados_generalidades.inspeccion")
 		->get();
 
-		$this->customResponse->is200Response($response , $getListGeneralidadesEmpleado);
+		$this->customResponse->is200Response($response , $getList);
 
 
 		}catch(Exception $e)
