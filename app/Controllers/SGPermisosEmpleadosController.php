@@ -264,5 +264,35 @@ class SGPermisosEmpleadosController
         }
     }
 
+    /**
+     * POST
+     * BUSCAR PERMISO_EMPLEADO*/
+    public function firmaFindByIdPermisoAndIdUser(Request $request , Response $response)
+    {
+        $this->validator->validate($request , [
+            "id_permiso" => v::notEmpty(),
+            "id_user"   => v::notEmpty()
+        ]);
+
+        if($this->validator->failed())
+        {
+            $responseMessage = $this->validator->errors;
+
+            return $this->customResponse->is400Response($response , $responseMessage);
+        }
+
+        try{
+
+            $get = $this->sgPermisoEmpleado->where(["id_permiso_trabajo" => CustomRequestHandler::getParam($request , "id_permiso")])
+                                            ->where(["id_user" => CustomRequestHandler::getParam($request , "id_user")])
+                                            ->get();
+
+            $this->customResponse->is200Response($response , $get);
+        }catch(Exception $e)
+        {
+            $this->customResponse->is400Response($response , $e->getMessage());
+        }
+    }
+
 
 }
