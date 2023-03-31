@@ -55,7 +55,7 @@ class PagoController
     {
         try{
 
-            $this->pago->where(["id"] => $id)->update([
+            $this->pago->where(["id" => $id])->update([
                 "estado_descargue" => 1
             ]);
 
