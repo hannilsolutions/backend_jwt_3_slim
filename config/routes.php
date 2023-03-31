@@ -19,6 +19,11 @@ $app->group("/pagos", function() use ($app){
     $app->get("/{id}" , "PagoController:findOne");
     $app->get("/suma/mes" , "PagoController:sumaMes");
     $app->post("/findByBetween" , "PagoController:findByBetween");
+    #mirar pagos del dia sin descargar
+    $app->get("/findByDiaEstadoDescargue" , "PagoController:getDateHoyEstadoCero");
+    #updated estado_descargue
+    $app->patch("/updatedEstadoDescargue/{id}" , "PagoController:updatedDescargue");
+
 });
 
 $app->group("/auth",function() use ($app){

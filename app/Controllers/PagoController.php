@@ -30,6 +30,45 @@ class PagoController
          $this->validator = new Validator();
     }
 
+    /**
+     * buscar por dias date("Y-m-d")
+     * y descargue 0 
+     * estado_descargue = 1 ya bajado a controlmas ,*/
+    public function getDateHoyEstadoCero(Request $request , Response $response)
+    {
+        $hoy = date("Y-m-d");
+
+        try{
+            $get = $this->pago->where("fecha_recaudo" , "=" , $hoy)->where("estado_descargue" , "!=" , 1)->get();
+
+            $this->customResponse->is200Response($response , $get);
+
+        }catch(Exception $e)
+        {
+            $this->customResponse->is400Response($reponse , $e->getMessage());
+        }
+    }
+
+    /**
+     * UPDATED ESTADO_DESCARGUE PACHT*/
+    public function updatedDescargue(Request $request , Response $response , $id)
+    {
+        try{
+
+            $this->pago->where(["id"] => $id)->update([
+                "estado_descargue" => 1
+            ]);
+
+            $responseMessage = "actualizado";
+
+            $this->customResponse->is200Response($response , $responseMessage);
+
+        }catch(Exception $e)
+        {
+            $this->customResponse->is400Response($response , $e->getMessage());
+        }
+    }
+
     /*
     *POST findByBetwenn
     */
