@@ -45,7 +45,7 @@ class PagoController
 
         }catch(Exception $e)
         {
-            $this->customResponse->is400Response($reponse , $e->getMessage());
+            $this->customResponse->is400Response($response , $e->getMessage());
         }
     }
 
