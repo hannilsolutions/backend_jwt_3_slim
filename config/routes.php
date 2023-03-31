@@ -12,6 +12,18 @@ $app->delete("/delete-guest/{id}","GuestEntryController:deleteGuest");
 
 $app->get("/count-guests" ,"GuestEntryController:countGuests");*/
 
+
+
+$app->group("/auth",function() use ($app){
+
+    $app->post("/login","AuthController:Login");
+    $app->post("/register","AuthController:Register");
+    $app->get("/validate/{jwt}" , "AuthController:Validate");
+    $app->post("/recovery" , "AuthController:recovery");
+    $app->post("/recoveryT/tokevalidate" , "AuthController:tokenValidateRecovery");
+    $app->post("/recoveryP/newPassword" , "AuthController:newPassword");
+});
+
 $app->group("/pagos", function() use ($app){
     $app->post("/save" , "PagoController:save");
     $app->get("/all" , "PagoController:all");
@@ -22,16 +34,6 @@ $app->group("/pagos", function() use ($app){
     $app->get("/findByDiaEstadoDescargue" , "PagoController:getDateHoyEstadoCero");
     $app->patch("/updatedEstadoDescargue/{id}" , "PagoController:updatedDescargue");
 
-});
-
-$app->group("/auth",function() use ($app){
-
-    $app->post("/login","AuthController:Login");
-    $app->post("/register","AuthController:Register");
-    $app->get("/validate/{jwt}" , "AuthController:Validate");
-    $app->post("/recovery" , "AuthController:recovery");
-    $app->post("/recoveryT/tokevalidate" , "AuthController:tokenValidateRecovery");
-    $app->post("/recoveryP/newPassword" , "AuthController:newPassword");
 });
 
 $app->group("/clientes" , function() use($app){
