@@ -34,7 +34,7 @@ class PagoController
      * buscar por dias date("Y-m-d")
      * y descargue 0 
      * estado_descargue = 1 ya bajado a controlmas ,*/
-    public function infoHoyEstadoCero(Request $request , Response $response)
+    public function buscarEstadoCargue(Request $request , Response $response)
     {
         $hoy = date("Y-m-d");
 
