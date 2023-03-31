@@ -31,7 +31,7 @@ $app->group("/pagos", function() use ($app){
     $app->get("/{id}" , "PagoController:findOne");
     $app->get("/suma/mes" , "PagoController:sumaMes");
     $app->post("/findByBetween" , "PagoController:findByBetween");
-    $app->get("/estadocargue" , "PagoController:buscarEstadoCargue");
+    $app->get("/estado/cargue" , "PagoController:buscarEstadoCargue");
     $app->patch("/actualizarcargue/{id}" , "PagoController:updatedDescargue");
 
 });
