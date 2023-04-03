@@ -66,13 +66,13 @@ class SGPermisoController
         }
 
         //validar si tiene un permiso creado por el user 
-        if($this->validarCreatePermiso(CustomRequestHandler::getParam($request , "id_usuario")))
+       /* if($this->validarCreatePermiso(CustomRequestHandler::getParam($request , "id_usuario")))
         {
             $responseMenssage = "Ya tiene un permiso creado";
 
             return $this->customResponse->is400Response($response , $responseMenssage);
 
-        }
+        }*/
 
         $indicativo = $this->findByIndicativo(CustomRequestHandler::getParam($request , "id_empresa"));
 
