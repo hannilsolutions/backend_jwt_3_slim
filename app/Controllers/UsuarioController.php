@@ -55,6 +55,17 @@ class UsuarioController
                                 ->get(); 
         $this->customResponse->is200Response($response , $getFindByName);
     }
+
+    /**buscar usuario por nombre y empresa*/
+
+    public function findByNameAndEmpresa(Request $request , Response $response , $name, $empresa)
+    {
+        $getFindByNameEmpresa = $this->usuario->where("user" , "like" , "%".$name["name"]."%")
+                                ->where(["id_empresa" =>  $empresa])
+                                ->get();
+
+              $this->customResponse->is200Response($response , $getFindByNameEmpresa);                  
+    }
 /**
  * Eliminacion de usuario por id delete
  */
