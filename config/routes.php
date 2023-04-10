@@ -200,6 +200,11 @@ $app->group("/seguridad" , function() use ($app){
     $app->post("/documento/findByTipo" , "SGDocumentoController:findByTipo");
     $app->get("/documento/{id}" , "SGDocumentoController:getDocumentoUrl");
 
+    #firmas
+    $app->post("/firmas/save" , "SGFirmaController:save");
+    $app->get("/firmas/findByIdEmpresa/{id}" , "SGFirmaController:getFindByIdEmpresa");
+    $app->get("/firmas/all" , "SGFirmaController:findAll");
+
 });
 
 #marcas

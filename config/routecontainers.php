@@ -192,4 +192,9 @@ return function($container)
       return new \App\Controllers\DatosPersonalesController;
     };
 
+     $container["SGFirmaController"] = function(){
+      
+      return new \App\Controllers\SGFirmaController;
+    };
+
 };
