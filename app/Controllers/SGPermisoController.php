@@ -198,15 +198,19 @@ class SGPermisoController
     /***/
     private function countAvance($idpermiso)
     {
-        $count = $this->empleadoPermiso->where("id_permiso_trabajo" , "=" , $id_permiso)->where("firma" , "IS NOT" , "NULL")->count();
-
+        $count = $this->empleadoPermiso->where("id_permiso_trabajo" , "=" , $idpermiso)->where("firma" , "IS NOT" , "NULL")->count();
+        
+        
+        
         if($count == 0)
         {
             return 0;
-            
+
         }else{
 
-            return 100/$count;
+            $coutEmpleados = $this->empleadoPermiso->where("id_permiso_trabajo" , "=" , $idpermiso)->count();
+            
+            return ($count/$countEmpleados)*100;
         }
 
     }
