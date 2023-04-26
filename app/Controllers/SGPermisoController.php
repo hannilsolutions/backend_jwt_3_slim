@@ -207,7 +207,7 @@ class SGPermisoController
              
             $coutEmpleados = $this->empleadoPermiso->where("id_permiso_trabajo" , "=" , $idpermiso)->count();
 
-            $resultado =  ($count/$countEmpleados)*100;
+            $resultado =  ($count/$coutEmpleados)*100;
 
         }
 
