@@ -9,8 +9,11 @@ class CustomResponse
     {
         $responseMessage = json_encode(["success"=>true,"response"=>$responseMessage]);
         $response->getBody()->write($responseMessage);
-        return $response->withHeader("Content-Type","application/json")
-            ->withStatus(200);
+        return $response->withStatus(200)
+            ->withHeader("Content-Type","application/json")
+            ->withHeader('Access-Control-Allow-Origin', '*')
+            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+            ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     }
 
     public function is200ResponseLogin($response , $responseMessage , $usuario , $menu)
@@ -23,8 +26,13 @@ class CustomResponse
         ]
         );
         $response->getBody()->write($responseMessage);
-        return $response->withHeader("Content-Type" , "application/json")
-            ->withStatus(200); 
+        return $response->withStatus(200)
+                ->withHeader("Content-Type" , "application/json")
+                ->withHeader('Access-Control-Allow-Origin', '*')
+                ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+                ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        
+            
     }
 
 
@@ -32,15 +40,20 @@ class CustomResponse
     {
         $responseMessage = json_encode(["success"=>false,"response"=>$responseMessage]);
         $response->getBody()->write($responseMessage);
-        return $response->withHeader("Content-Type","application/json")
-            ->withStatus(400);
+        return $response->withStatus(400)
+            ->withHeader("Content-Type","application/json")
+            ->withHeader('Access-Control-Allow-Origin', '*')
+            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+            ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     }
 
     public function is422Response($response,$responseMessage)
     {
         $responseMessage = json_encode(["success"=>true,"response"=>$responseMessage]);
         $response->getBody()->write($responseMessage);
-        return $response->withHeader("Content-Type","application/json")
-            ->withStatus(422);
+        return $response->withStatus(422)
+            ->withHeader('Access-Control-Allow-Origin', '*')
+            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+            ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     }
 }
