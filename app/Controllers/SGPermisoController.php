@@ -187,7 +187,28 @@ class SGPermisoController
         ->join("users" , "users.id" , "=" , "han_sg_permiso_trabajo.id_usuario")
         ->where(["han_sg_permiso_trabajo.id_empresa"=>$id])->get();
 
+        foreach($getList as $item)
+        {
+            $item->avance = $this->countAvance($item->id_permiso);
+        }
+
         $this->customResponse->is200Response($response , $getList);
+    }
+
+    /***/
+    private function countAvance($idpermiso)
+    {
+        $count = $this->empleadoPermiso->where("id_permiso_trabajo" , "=" , $id_permiso)->where("firma" , "IS NOT" , "NULL")->count();
+
+        if($count == 0)
+        {
+            return 0;
+            
+        }else{
+
+            return 100/$count;
+        }
+
     }
 
     /**
