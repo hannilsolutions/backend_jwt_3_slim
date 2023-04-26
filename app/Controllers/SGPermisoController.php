@@ -200,18 +200,18 @@ class SGPermisoController
     {
         $count = $this->empleadoPermiso->where("id_permiso_trabajo" , "=" , $idpermiso)->whereNotNull("firma")->count();
         
+        $resultado = 0;
         
-        
-        if($count == 0)
+        if($count != 0)
         {
-            return 0;
-
-        }else{
-
+             
             $coutEmpleados = $this->empleadoPermiso->where("id_permiso_trabajo" , "=" , $idpermiso)->count();
 
-            return ($count/$countEmpleados)*100;
+            $resultado =  ($count/$countEmpleados)*100;
+
         }
+
+        return $resultado;
 
     }
 
