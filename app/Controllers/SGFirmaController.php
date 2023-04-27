@@ -53,7 +53,7 @@ class SGFirmaController
 
 			//save
 
-			$this->firma->save([ 
+			$this->firma->create([ 
 				"cargo" => CustomRequestHandler::getParam($request , "cargo"),
 				"id_user" => CustomRequestHandler::getParam($request , "id_user"),
 				"id_empresa" => CustomRequestHandler::getParam($request , "id_empresa"),
