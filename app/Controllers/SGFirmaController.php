@@ -74,7 +74,7 @@ class SGFirmaController
 	 * ENDPOINT GET*/
 	public function getFindByIdEmpresa(Request $request , Response  $response , $id)
 	{
-			$getList = $this->firma->join("users" , "users.id" , "=" , "han_sg_firmas.id_user")->join("han_sg_empresa" , "han_sg_empresa.id_empresa", "=" , "han_sg_firmas.id_empresa")->where(["id_empresa" => $id])->get();
+			$getList = $this->firma->join("users" , "users.id" , "=" , "han_sg_firmas.id_user")->join("han_sg_empresa" , "han_sg_empresa.id_empresa", "=" , "han_sg_firmas.id_empresa")->where(["han_sg_firmas.id_empresa" => $id])->get();
 
 			$this->customResponse->is200Response($response , $getList);
 	}
