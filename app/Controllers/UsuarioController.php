@@ -58,13 +58,27 @@ class UsuarioController
 
     /**buscar usuario por nombre y empresa*/
 
-    public function findByNameAndEmpresa(Request $request , Response $response , $name, $empresa)
+    public function findByNameAndEmpresa(Request $request , Response $response )
     {
-        $getFindByNameEmpresa = $this->usuario->where("user" , "like" , "%".$name["name"]."%")
-                                ->where(["id_empresa" =>  $empresa])
+        $this->validator->validate($request , [
+            "name" => v::notEmpty(),
+            "id_empresa" => v::notEmpty()
+        ]);
+
+        if($this->validator->failed())
+        {
+            $responseMessage = $this->validator->errors;
+
+            return  $this->customResponse->is400Response($response , $responseMessage);
+        }
+        $name = CustomRequestHandler::getParam($request , "name");
+        $id_empresa = CustomRequestHandler::getParam($request , "id_empresa");
+
+        $getFindByNameEmpresa = $this->usuario->where("user" , "like" , "%".$name."%")
+                                ->where("id_empresa", "=" , $id_empresa)
                                 ->get();
 
-              $this->customResponse->is200Response($response , $getFindByNameEmpresa);                  
+        $this->customResponse->is200Response($response , $getFindByNameEmpresa);                  
     }
 /**
  * Eliminacion de usuario por id delete
