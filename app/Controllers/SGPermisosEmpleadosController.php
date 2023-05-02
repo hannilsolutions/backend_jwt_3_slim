@@ -153,6 +153,24 @@ class SGPermisosEmpleadosController
         
         $this->customResponse->is200Response($response , $getFindByEmpleado);
     }
+    /**
+     * FIRMAR PERMISOS GENERAL SST SUPERVISOR*/
+    public function firmarJefe(Request $request , Response $response)
+    {
+        $this->validator->validate($request , [
+            "id_permiso" => v::notEmpty(),
+            "id_empleado" => v::notEmpty(),
+        ]);
+
+        if($this->validator->failed())
+        {
+            $responseMessage = $this->validator->errors;
+
+            return $this->customResponse->is400Response($response , $responseMessage);
+        }
+        //consultamos toda la información del permiso para firmar
+        
+    }
     /*
     *  ENDPOINT POST
     SELECT * from han_sg_empleados_generalidades WHERE han_sg_empleados_generalidades.permiso_id = 34 and han_sg_empleados_generalidades.empleado_id = 10 

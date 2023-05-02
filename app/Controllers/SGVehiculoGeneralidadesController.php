@@ -56,7 +56,8 @@ where han_sg_generalidades.item = 'Otros'*/
 	{
 		$this->validator->validate($request , [
 
-			"item" => v::notEmpty()
+			"item" => v::notEmpty(),
+			"id_vehiculo" => v::notEmpty()
 		]);
 
 		if ($this->validator->failed()) {
@@ -75,6 +76,7 @@ where han_sg_generalidades.item = 'Otros'*/
     												han_sg_generalidades.nombre")
 													->join("han_sg_generalidades" , "han_sg_generalidades.id_generalidades" ,"=" ,"han_sg_vehiculos_generalidades.generalidades_id")
 													->where(["han_sg_generalidades.item" => CustomRequestHandler::getParam($request , "item")])
+													->where(["han_sg_vehiculos_generalidades.permiso_vehiculo_id" => CustomRequestHandler::getParam($request , "id_vehiculo")])
 													->get();
 			$this->customResponse->is200Response($response , $responseMessage);
 
