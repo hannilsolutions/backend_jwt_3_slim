@@ -200,7 +200,7 @@ class SGPermisosEmpleadosController
             users.user,
             han_sg_empresa.razon_social,
             han_sg_tipos_trabajo.nombre as tipo_trabajo")
-             ->join("users" "users.id" , "=" , "han_sg_permiso_trabajo.id_usuario")
+             ->join("users" ,"users.id" , "=" , "han_sg_permiso_trabajo.id_usuario")
              ->join("han_sg_empresa",  "han_sg_empresa.id_empresa",  "=" ,  "han_sg_permiso_trabajo.id_empresa")
              ->join("han_sg_tipos_trabajo" , "han_sg_tipos_trabajo.id_tipo" , "="  , "han_sg_permiso_trabajo.id_permiso_trabajo")
              ->where(["han_sg_permiso_trabajo" => CustomRequestHandler::getParam($request , "id_permiso")])

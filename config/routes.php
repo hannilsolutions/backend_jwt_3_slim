@@ -160,7 +160,7 @@ $app->group("/seguridad" , function() use ($app){
     $app->delete("/permisosEmpleados/deleteById/{id}" , "SGPermisosEmpleadosController:deleteById");
     $app->get("/permisosEmpleados/findByEmpleado/{id}" , "SGPermisosEmpleadosController:findByEmpleado");
     $app->post("/permisosEmpleados/firmarEmpleado" , "SGPermisosEmpleadosController:firmarEmpleado");
-    #$app->post("/permisosJefes/firmarPermiso" , "SGPermisosEmpleadosController:firmarJefe");
+    $app->post("/permisosJefes/firmarPermiso" , "SGPermisosEmpleadosController:firmarJefe");
     $app->post("/permisosEmpleados/findByIdPermisoAndIdUser" , "SGPermisosEmpleadosController:firmaFindByIdPermisoAndIdUser");
     #empleado_generalidades
     $app->post("/empleadoGeneralidades/create" , "SGEmpleadoGeneralidadesController:create");
