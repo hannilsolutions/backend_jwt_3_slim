@@ -169,7 +169,28 @@ class SGPermisosEmpleadosController
             return $this->customResponse->is400Response($response , $responseMessage);
         }
         //consultamos toda la información del permiso para firmar
-        
+        /**SELECT 
+han_sg_permiso_trabajo.fecha_inicio,
+han_sg_permiso_trabajo.hora_inicio,
+han_sg_permiso_trabajo.lugar_de_trabajo,
+han_sg_permiso_trabajo.estado,
+han_sg_permiso_trabajo.prefijo,
+han_sg_permiso_trabajo.indicativo,
+han_sg_permisos_peligros.peligro_id,
+han_sg_empleados_generalidades.generalidades_id,
+han_sg_empleados_generalidades.active,
+han_sg_empleados_generalidades.inspeccion,
+han_sg_vehiculos_generalidades.permiso_vehiculo_id,
+han_sg_vehiculos_generalidades.generalidades_id,
+han_sg_vehiculos_generalidades.active,
+han_sg_vehiculos_generalidades.inspeccion
+FROM han_sg_permiso_trabajo 
+INNER JOIN han_sg_permisos_peligros on han_sg_permisos_peligros.permiso_id = han_sg_permiso_trabajo.id_permiso 
+INNER JOIN han_sg_empleados_generalidades on han_sg_empleados_generalidades.permiso_id = han_sg_permiso_trabajo.id_permiso 
+INNER JOIN han_sg_permisos_vehiculos on han_sg_permisos_vehiculos.permiso_id = han_sg_permiso_trabajo.id_permiso
+INNER JOIN han_sg_vehiculos_generalidades on han_sg_vehiculos_generalidades.permiso_vehiculo_id = han_sg_permisos_vehiculos.permiso_vehiculo_id
+WHERE han_sg_permiso_trabajo.id_permiso = 5 */
+
     }
     /*
     *  ENDPOINT POST

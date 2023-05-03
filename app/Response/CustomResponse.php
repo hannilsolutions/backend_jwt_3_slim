@@ -13,7 +13,7 @@ class CustomResponse
             ->withHeader("Content-Type","application/json")
             ->withHeader('Access-Control-Allow-Origin', '*')
             ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-            ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+            ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Accept,Origin,Authorization');
     }
 
     public function is200ResponseLogin($response , $responseMessage , $usuario , $menu)
@@ -30,7 +30,7 @@ class CustomResponse
                 ->withHeader("Content-Type" , "application/json")
                 ->withHeader('Access-Control-Allow-Origin', '*')
                 ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-                ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+                ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Accept,Origin,Authorization');
         
             
     }
@@ -44,7 +44,7 @@ class CustomResponse
             ->withHeader("Content-Type","application/json")
             ->withHeader('Access-Control-Allow-Origin', '*')
             ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-            ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+            ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Accept,Origin,Authorization');
     }
 
     public function is422Response($response,$responseMessage)
@@ -54,6 +54,6 @@ class CustomResponse
         return $response->withStatus(422)
             ->withHeader('Access-Control-Allow-Origin', '*')
             ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-            ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+            ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Accept,Origin,Authorization');
     }
 }
