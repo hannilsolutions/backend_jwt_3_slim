@@ -25,7 +25,7 @@ class SGPermisosEmpleadosController
 
     protected $sgEmpleadoGeneralidades;
 
-    protected $permiso;
+    protected $sgPermiso;
 
     public function __construct()
     {
@@ -37,7 +37,7 @@ class SGPermisosEmpleadosController
 
         $this->sgEmpleadoGeneralidades = new SGEmpleadoGeneralidades();
 
-        $this->permiso = new SGPermiso();
+        $this->sgPermiso = new SGPermiso();
 
     }
 
@@ -190,7 +190,7 @@ class SGPermisosEmpleadosController
              inner join users on users.id = han_sg_permiso_trabajo.id_usuario
              inner join han_sg_empresa on han_sg_empresa.id_empresa = han_sg_permiso_trabajo.id_empresa
              inner join han_sg_tipos_trabajo on han_sg_tipos_trabajo.id_tipo = han_sg_permiso_trabajo.id_permiso_trabajo*/
-             $permiso = $this->permiso->selectRaw("han_sg_permiso_trabajo.id_permiso,
+             $permiso = $this->sgPermiso->selectRaw("han_sg_permiso_trabajo.id_permiso,
             han_sg_permiso_trabajo.fecha_inicio,
             han_sg_permiso_trabajo.hora_inicio,
             han_sg_permiso_trabajo.lugar_de_trabajo,
@@ -203,9 +203,9 @@ class SGPermisosEmpleadosController
              ->join("users" "users.id" , "=" , "han_sg_permiso_trabajo.id_usuario")
              ->join("han_sg_empresa",  "han_sg_empresa.id_empresa",  "=" ,  "han_sg_permiso_trabajo.id_empresa")
              ->join("han_sg_tipos_trabajo" , "han_sg_tipos_trabajo.id_tipo" , "="  , "han_sg_permiso_trabajo.id_permiso_trabajo")
-             ->where("han_sg_permiso_trabajo" , "=" , CustomRequestHandler::getParam($request , "id_permiso"))
+             ->where(["han_sg_permiso_trabajo" => CustomRequestHandler::getParam($request , "id_permiso")])
              ->get();
-             
+
             $this->customResponse->is200Response($response , $permiso);
 
 
