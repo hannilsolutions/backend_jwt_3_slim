@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\SGPermisoEmpleado;
 use App\Models\SGEmpleadoGeneralidades;
+use App\Models\SGPermiso;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -24,6 +25,8 @@ class SGPermisosEmpleadosController
 
     protected $sgEmpleadoGeneralidades;
 
+    protected $permiso;
+
     public function __construct()
     {
         $this->customResponse = new CustomResponse();
@@ -33,6 +36,8 @@ class SGPermisosEmpleadosController
         $this->validator = new Validator();
 
         $this->sgEmpleadoGeneralidades = new SGEmpleadoGeneralidades();
+
+        $this->permiso = new SGPermiso();
 
     }
 
@@ -168,28 +173,41 @@ class SGPermisosEmpleadosController
 
             return $this->customResponse->is400Response($response , $responseMessage);
         }
-        //consultamos toda la información del permiso para firmar
-        /**SELECT 
-han_sg_permiso_trabajo.fecha_inicio,
-han_sg_permiso_trabajo.hora_inicio,
-han_sg_permiso_trabajo.lugar_de_trabajo,
-han_sg_permiso_trabajo.estado,
-han_sg_permiso_trabajo.prefijo,
-han_sg_permiso_trabajo.indicativo,
-han_sg_permisos_peligros.peligro_id,
-han_sg_empleados_generalidades.generalidades_id,
-han_sg_empleados_generalidades.active,
-han_sg_empleados_generalidades.inspeccion,
-han_sg_vehiculos_generalidades.permiso_vehiculo_id,
-han_sg_vehiculos_generalidades.generalidades_id,
-han_sg_vehiculos_generalidades.active,
-han_sg_vehiculos_generalidades.inspeccion
-FROM han_sg_permiso_trabajo 
-INNER JOIN han_sg_permisos_peligros on han_sg_permisos_peligros.permiso_id = han_sg_permiso_trabajo.id_permiso 
-INNER JOIN han_sg_empleados_generalidades on han_sg_empleados_generalidades.permiso_id = han_sg_permiso_trabajo.id_permiso 
-INNER JOIN han_sg_permisos_vehiculos on han_sg_permisos_vehiculos.permiso_id = han_sg_permiso_trabajo.id_permiso
-INNER JOIN han_sg_vehiculos_generalidades on han_sg_vehiculos_generalidades.permiso_vehiculo_id = han_sg_permisos_vehiculos.permiso_vehiculo_id
-WHERE han_sg_permiso_trabajo.id_permiso = 5 */
+                  //consultamos informacion del  permiso
+                    /**SELECT 
+            han_sg_permiso_trabajo.id_permiso,
+            han_sg_permiso_trabajo.fecha_inicio,
+            han_sg_permiso_trabajo.hora_inicio,
+            han_sg_permiso_trabajo.lugar_de_trabajo,
+            han_sg_permiso_trabajo.estado,
+            han_sg_permiso_trabajo.prefijo,
+            han_sg_permiso_trabajo.indicativo,
+            users.user,
+            han_sg_empresa.razon_social,
+            han_sg_tipos_trabajo.nombre as tipo_trabajo
+
+             FROM han_sg_permiso_trabajo
+             inner join users on users.id = han_sg_permiso_trabajo.id_usuario
+             inner join han_sg_empresa on han_sg_empresa.id_empresa = han_sg_permiso_trabajo.id_empresa
+             inner join han_sg_tipos_trabajo on han_sg_tipos_trabajo.id_tipo = han_sg_permiso_trabajo.id_permiso_trabajo*/
+             $permiso = $this->permiso->selectRaw("han_sg_permiso_trabajo.id_permiso,
+            han_sg_permiso_trabajo.fecha_inicio,
+            han_sg_permiso_trabajo.hora_inicio,
+            han_sg_permiso_trabajo.lugar_de_trabajo,
+            han_sg_permiso_trabajo.estado,
+            han_sg_permiso_trabajo.prefijo,
+            han_sg_permiso_trabajo.indicativo,
+            users.user,
+            han_sg_empresa.razon_social,
+            han_sg_tipos_trabajo.nombre as tipo_trabajo")
+             ->join("users" "users.id" , "=" , "han_sg_permiso_trabajo.id_usuario")
+             ->join("han_sg_empresa",  "han_sg_empresa.id_empresa",  "=" ,  "han_sg_permiso_trabajo.id_empresa")
+             ->join("han_sg_tipos_trabajo" , "han_sg_tipos_trabajo.id_tipo" , "="  , "han_sg_permiso_trabajo.id_permiso_trabajo")
+             ->where("han_sg_permiso_trabajo" , "=" , CustomRequestHandler::getParam($request , "id_permiso"))
+             ->get();
+             
+            $this->customResponse->is200Response($response , $permiso);
+
 
     }
     /*
