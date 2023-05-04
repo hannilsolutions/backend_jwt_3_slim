@@ -240,9 +240,9 @@ class SGPermisosEmpleadosController
                 $per->vehiculos = $this->getVehiculos($id_permiso);
              }
 
-            $this->customResponse->is200Response($response , $permiso);
+            //$this->customResponse->is200Response($response , $permiso);
 
-
+             return $permiso;
     }
 
     /**
