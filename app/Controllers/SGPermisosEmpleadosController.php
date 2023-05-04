@@ -190,6 +190,7 @@ class SGPermisosEmpleadosController
              inner join users on users.id = han_sg_permiso_trabajo.id_usuario
              inner join han_sg_empresa on han_sg_empresa.id_empresa = han_sg_permiso_trabajo.id_empresa
              inner join han_sg_tipos_trabajo on han_sg_tipos_trabajo.id_tipo = han_sg_permiso_trabajo.id_permiso_trabajo*/
+
              $permiso = $this->sgPermiso->selectRaw("han_sg_permiso_trabajo.id_permiso,
             han_sg_permiso_trabajo.fecha_inicio,
             han_sg_permiso_trabajo.hora_inicio,
@@ -205,10 +206,37 @@ class SGPermisosEmpleadosController
              ->join("han_sg_tipos_trabajo" , "han_sg_tipos_trabajo.id_tipo" , "="  , "han_sg_permiso_trabajo.id_permiso_trabajo")
              ->where(["han_sg_permiso_trabajo.id_permiso" => CustomRequestHandler::getParam($request , "id_permiso")])
              ->get();
+             foreach($permiso as $per)
+             {
+                $per->empleados = $this->infoEmpleados(CustomRequestHandler::getParam($request , "id_permiso"));
+             }
 
             $this->customResponse->is200Response($response , $permiso);
 
 
+    }
+
+    /**
+     * 
+     * */
+    public function infoEmpleados($idPermiso)
+    {
+        /**
+         * SELECT 
+         * han_sg_permisos_empleados.firma
+         * FROM han_sg_permisos_empleados
+         * INNER JOIN users */
+        $getInfoEmpleado = $this->sgPermisoEmpleado->selectRaw("han_sg_permisos_empleados.firma,
+                                    users.user , 
+                                    datos_personales.documento , 
+                                    datos_personales.cargo , 
+                                    han_sg_empresa.razon_social")
+                                ->join("users" , "users.id" , "=" , "han_sg_permisos_empleados.id_user")
+                                ->join("han_sg_empresa" , "han_sg_empresa.id_empresa" , "=" , "han_sg_permisos_empleados.id_empresa")
+                                ->join("datos_personales" , "datos_personales.id_user" , "=" , "han_sg_permisos_empleados.id_user")
+                                ->where("han_sg_permisos_empleados.id_permiso_trabajo" , "=" , $idPermiso)
+                                ->get();
+        return $getInfoEmpleado;
     }
     /*
     *  ENDPOINT POST
