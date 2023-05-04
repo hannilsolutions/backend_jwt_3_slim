@@ -257,6 +257,7 @@ class SGPermisosEmpleadosController
                         ->join("han_sg_generalidades" , "han_sg_generalidades.id_generalidades" , "=" , "han_sg_empleados_generalidades.generalidades_id")
                         ->where("han_sg_empleados_generalidades.empleado_id" , "=" , $idUser)
                         ->where("han_sg_empleados_generalidades.permiso_id" , "=" , $permiso)
+                        ->where("han_sg_empleados_generalidades.active" , "=" , "Y")
                         ->get();
 
         return $getGeneralidades;
