@@ -241,13 +241,13 @@ class SGPermisosEmpleadosController
                                 ->get();
                 foreach($getInfoEmpleado as $item)
                 {
-                    $item->preoperacional = $this->getGeneralidadesEmpleados($item->id_user);
+                    $item->preoperacional = $this->getGeneralidadesEmpleados($item->id_user , $idPermiso);
                 }
         return $getInfoEmpleado;
     }
     /**
      * buscar generalidades por empleados*/
-    public function getGeneralidadesEmpleados($idUser)
+    public function getGeneralidadesEmpleados($idUser , $permiso)
     {
         $getGeneralidades = $this->sgEmpleadoGeneralidades->selectRaw("
                             han_sg_generalidades.tipo,
@@ -256,6 +256,7 @@ class SGPermisosEmpleadosController
                             han_sg_empleados_generalidades.inspeccion")
                         ->join("han_sg_generalidades" , "han_sg_generalidades.id_generalidades" , "=" , "han_sg_empleados_generalidades.generalidades_id")
                         ->where("han_sg_empleados_generalidades.empleado_id" , "=" , $idUser)
+                        ->where("han_sg_empleados_generalidades.permiso_id" , "=" , $permiso)
                         ->get();
 
         return $getGeneralidades;
