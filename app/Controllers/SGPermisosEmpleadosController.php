@@ -5,6 +5,8 @@ namespace App\Controllers;
 use App\Models\SGPermisoEmpleado;
 use App\Models\SGEmpleadoGeneralidades;
 use App\Models\SGPermiso;
+use App\Models\SGPeligros;
+use App\Models\SGControles;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -27,6 +29,10 @@ class SGPermisosEmpleadosController
 
     protected $sgPermiso;
 
+    protected $peligros;
+
+    protected $controles;
+
     public function __construct()
     {
         $this->customResponse = new CustomResponse();
@@ -39,6 +45,9 @@ class SGPermisosEmpleadosController
 
         $this->sgPermiso = new SGPermiso();
 
+        $this->peligros = new SGPeligros();
+
+        $this->controles = new SGControles();
     }
 
     /**
@@ -190,6 +199,7 @@ class SGPermisosEmpleadosController
              inner join users on users.id = han_sg_permiso_trabajo.id_usuario
              inner join han_sg_empresa on han_sg_empresa.id_empresa = han_sg_permiso_trabajo.id_empresa
              inner join han_sg_tipos_trabajo on han_sg_tipos_trabajo.id_tipo = han_sg_permiso_trabajo.id_permiso_trabajo*/
+            $id_permiso = CustomRequestHandler::getParam($request , "id_permiso");
 
              $permiso = $this->sgPermiso->selectRaw("han_sg_permiso_trabajo.id_permiso,
             han_sg_permiso_trabajo.fecha_inicio,
@@ -208,7 +218,8 @@ class SGPermisosEmpleadosController
              ->get();
              foreach($permiso as $per)
              {
-                $per->empleados = $this->infoEmpleados(CustomRequestHandler::getParam($request , "id_permiso"));
+                $per->empleados = $this->infoEmpleados($id_permiso);
+                $per->peligros =  $this->getPeligros($id_permiso);
              }
 
             $this->customResponse->is200Response($response , $permiso);
@@ -217,9 +228,9 @@ class SGPermisosEmpleadosController
     }
 
     /**
-     * 
+     * INFORMACION DE EMPLEADOS
      * */
-    public function infoEmpleados($idPermiso)
+      function infoEmpleados($idPermiso)
     {
         /**
          * SELECT 
@@ -247,7 +258,7 @@ class SGPermisosEmpleadosController
     }
     /**
      * buscar generalidades por empleados*/
-    public function getGeneralidadesEmpleados($idUser , $permiso)
+      function getGeneralidadesEmpleados($idUser , $permiso)
     {
         $getGeneralidades = $this->sgEmpleadoGeneralidades->selectRaw("
                             han_sg_generalidades.tipo,
@@ -262,6 +273,39 @@ class SGPermisosEmpleadosController
 
         return $getGeneralidades;
     }
+
+    /**
+     * peligros del permiso*/
+    function getPeligros($idPermiso)
+    {
+            $getPeligro = $this->peligros->selectRaw("han_sg_permisos_peligros.permiso_peligro_id,
+                                                han_sg_permisos_peligros.peligro_id,
+                                                han_sg_peligros.nombre,
+                                                han_sg_peligros.consecuencias")
+                                            ->join("han_sg_peligros" , "han_sg_peligros.id_peligro" , "=" , "han_sg_permisos_peligros.peligro_id")
+                                            ->where("han_sg_permisos_peligros.permiso_id" , "=" , $idPermiso)
+                                            ->get();
+            foreach($getPeligro as $item)
+            {
+                $item->controles = $this->getControles($item->peligro_id);
+            }
+
+            return $getPeligro;
+    }
+
+    /**
+     * CONSULTAR LAS CONTROLES DEL PELIGRO*/
+    function getControles($idPeligro)
+    {
+        $getControl = $this->controles->selectRaw("han_sg_controles.id_control , han_sg_controles.nombre")
+                                ->where("han_sg_controles.id_peligro" , "=" , $idPeligro)
+                                ->get();
+
+        return $getControl;
+    }
+
+
+
     /*
     *  ENDPOINT POST
     SELECT * from han_sg_empleados_generalidades WHERE han_sg_empleados_generalidades.permiso_id = 34 and han_sg_empleados_generalidades.empleado_id = 10 
