@@ -7,6 +7,8 @@ use App\Models\SGEmpleadoGeneralidades;
 use App\Models\SGPermiso;
 use App\Models\SGPermisosPeligros;
 use App\Models\SGControles;
+use App\Models\SGPermisoVehiculo;
+use App\Models\SGVehiculosGeneralidades;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -33,6 +35,10 @@ class SGPermisosEmpleadosController
 
     protected $controles;
 
+    protected $permisoVehiculo;
+
+    protected $vehiculoGeneralidades;
+
     public function __construct()
     {
         $this->customResponse = new CustomResponse();
@@ -48,6 +54,10 @@ class SGPermisosEmpleadosController
         $this->peligros = new SGPermisosPeligros();
 
         $this->controles = new SGControles();
+
+        $this->permisoVehiculo = new SGPermisoVehiculo();
+
+        $this->vehiculoGeneralidades = new SGVehiculosGeneralidades();
     }
 
     /**
@@ -220,11 +230,59 @@ class SGPermisosEmpleadosController
              {
                 $per->empleados = $this->infoEmpleados($id_permiso);
                 $per->peligros =  $this->getPeligros($id_permiso);
+                $per->vehiculos = $this->getVehiculos($id_permiso);
              }
 
             $this->customResponse->is200Response($response , $permiso);
 
 
+    }
+
+    /**
+     * INFORMACION DE VEHICULOS*/
+    function getVehiculos($idPermiso)
+    {
+        $get = $this->permisoVehiculo->selectRaw("
+                    han_sg_permisos_vehiculos.permiso_vehiculo_id,
+                    han_sg_permisos_vehiculos.observaciones,
+                    han_sg_permisos_vehiculos.vehiculo_id,
+                    han_marca.marca_nombre,
+                    han_sg_vehiculos.vehiculo_nombre_tarjeta,
+                    han_sg_vehiculos.vehiculo_color,
+                    han_sg_vehiculos.vehiculo_placa,
+                    han_sg_vehiculos.vehiculo_cilindraje,
+                    han_sg_vehiculos.vehiculo_modelo
+
+            ")
+                    ->join("users" , "users.id" , "=" , "han_sg_permisos_vehiculos.conductor_id")
+                    ->join("han_sg_vehiculos" , "han_sg_vehiculos.vehiculo_id" , "=" , "han_sg_permisos_vehiculos.vehiculo_id")
+                    ->join("han_marca" , "han_marca.id_marca" , "=" ,  "han_sg_vehiculos.id_marca")
+                    ->where("han_sg_permisos_vehiculos.permiso_id" , "=" , $idPermiso)
+                    ->get();
+
+        foreach($get as $item)
+        {
+            $item->inspeccion = $this->getVehiculoInspeccion($item->permiso_vehiculo_id);
+        }
+
+        return $get;
+    }
+
+    /**
+     * INSPECCION DEL VEHICULO*/
+    function getVehiculoInspeccion($idPermisoVehiculo)
+    {
+        $inspeccion = $this->vehiculoGeneralidades->selectRaw("
+                                han_sg_vehiculos_generalidades.vehiculo_generalidades_id,
+                                han_sg_generalidades.nombre,
+                                han_sg_generalidades.tipo,
+                                han_sg_vehiculos_generalidades.inspeccion
+                            ")
+                            ->join("han_sg_generalidades" ,"han_sg_generalidades.id_generalidades" , "=" , "han_sg_vehiculos_generalidades.generalidades_id")
+                            ->where("han_sg_vehiculos_generalidades.permiso_vehiculo_id", "=" , $idPermisoVehiculo)
+                            ->whereNotNull("han_sg_vehiculos_generalidades.inspeccion")
+                            ->get();
+        return $inspeccion;
     }
 
     /**
