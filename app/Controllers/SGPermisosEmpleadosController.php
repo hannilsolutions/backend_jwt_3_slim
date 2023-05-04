@@ -177,21 +177,28 @@ class SGPermisosEmpleadosController
         
         $this->customResponse->is200Response($response , $getFindByEmpleado);
     }
+
     /**
-     * FIRMAR PERMISOS GENERAL SST SUPERVISOR*/
+     * FIRMAR PERMISO POR JEFES*/
     public function firmarJefe(Request $request , Response $response)
     {
-        $this->validator->validate($request , [
-            "id_permiso" => v::notEmpty(),
-            "id_empleado" => v::notEmpty(),
-        ]);
 
-        if($this->validator->failed())
-        {
-            $responseMessage = $this->validator->errors;
+    }
 
-            return $this->customResponse->is400Response($response , $responseMessage);
-        }
+    /**
+     * informacion del permiso completo*/
+    public function permisoFinal(Request $request , Response $response , $id)
+    {
+        $info = $this->datosPermisoParaFirma($id["id"]);
+
+        return $this->customResponse->is200Response($response , $info);
+    }
+
+    /**
+     * FIRMAR PERMISOS GENERAL SST SUPERVISOR*/
+     function datosPermisoParaFirma($id_permiso)
+    {
+         
                   //consultamos informacion del  permiso
                     /**SELECT 
             han_sg_permiso_trabajo.id_permiso,
@@ -209,7 +216,7 @@ class SGPermisosEmpleadosController
              inner join users on users.id = han_sg_permiso_trabajo.id_usuario
              inner join han_sg_empresa on han_sg_empresa.id_empresa = han_sg_permiso_trabajo.id_empresa
              inner join han_sg_tipos_trabajo on han_sg_tipos_trabajo.id_tipo = han_sg_permiso_trabajo.id_permiso_trabajo*/
-            $id_permiso = CustomRequestHandler::getParam($request , "id_permiso");
+          
 
              $permiso = $this->sgPermiso->selectRaw("han_sg_permiso_trabajo.id_permiso,
             han_sg_permiso_trabajo.fecha_inicio,
@@ -224,7 +231,7 @@ class SGPermisosEmpleadosController
              ->join("users" ,"users.id" , "=" , "han_sg_permiso_trabajo.id_usuario")
              ->join("han_sg_empresa",  "han_sg_empresa.id_empresa",  "=" ,  "han_sg_permiso_trabajo.id_empresa")
              ->join("han_sg_tipos_trabajo" , "han_sg_tipos_trabajo.id_tipo" , "="  , "han_sg_permiso_trabajo.id_permiso_trabajo")
-             ->where(["han_sg_permiso_trabajo.id_permiso" => CustomRequestHandler::getParam($request , "id_permiso")])
+             ->where("han_sg_permiso_trabajo.id_permiso", "=", $id_permiso)
              ->get();
              foreach($permiso as $per)
              {

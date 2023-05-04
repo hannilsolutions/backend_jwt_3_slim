@@ -145,6 +145,9 @@ $app->group("/seguridad" , function() use ($app){
     $app->get("/permiso/findByIdUsuarioActive/{id}" , "SGPermisoController:findByIdUsuarioActive");
     $app->delete("/permiso/inactive/{id}" , "SGPermisoController:inactive");
     $app->delete("/permiso/cerrado/{id}" , "SGPermisoController:cerrado");
+    #informacion de permiso completa para firmar
+    $app->get("/permiso/final/{id}" , "SGPermisosEmpleadosController:permisoFinal");
+
 
     #peligros_empleado
     $app->post("/permisosPeligros/save" , "SGPermisosPeligrosController:save");
@@ -161,6 +164,8 @@ $app->group("/seguridad" , function() use ($app){
     $app->get("/permisosEmpleados/findByEmpleado/{id}" , "SGPermisosEmpleadosController:findByEmpleado");
     $app->post("/permisosEmpleados/firmarEmpleado" , "SGPermisosEmpleadosController:firmarEmpleado");
     $app->post("/permisosJefes/firmarPermiso" , "SGPermisosEmpleadosController:firmarJefe");
+    
+
     $app->post("/permisosEmpleados/findByIdPermisoAndIdUser" , "SGPermisosEmpleadosController:firmaFindByIdPermisoAndIdUser");
     #empleado_generalidades
     $app->post("/empleadoGeneralidades/create" , "SGEmpleadoGeneralidadesController:create");
