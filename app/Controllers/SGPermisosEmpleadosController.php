@@ -276,6 +276,7 @@ class SGPermisosEmpleadosController
                                 han_sg_vehiculos_generalidades.vehiculo_generalidades_id,
                                 han_sg_generalidades.nombre,
                                 han_sg_generalidades.tipo,
+                                han_sg_generalidades.item,
                                 han_sg_vehiculos_generalidades.inspeccion
                             ")
                             ->join("han_sg_generalidades" ,"han_sg_generalidades.id_generalidades" , "=" , "han_sg_vehiculos_generalidades.generalidades_id")
