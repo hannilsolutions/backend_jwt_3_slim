@@ -226,7 +226,9 @@ class SGPermisosEmpleadosController
          * han_sg_permisos_empleados.firma
          * FROM han_sg_permisos_empleados
          * INNER JOIN users */
-        $getInfoEmpleado = $this->sgPermisoEmpleado->selectRaw("han_sg_permisos_empleados.firma,
+        $getInfoEmpleado = $this->sgPermisoEmpleado->selectRaw("
+                                    han_sg_permisos_empleados.id_permisos_empleado,
+                                    han_sg_permisos_empleados.firma,
                                     users.user , 
                                     datos_personales.documento , 
                                     datos_personales.cargo , 
@@ -236,7 +238,26 @@ class SGPermisosEmpleadosController
                                 ->join("datos_personales" , "datos_personales.id_user" , "=" , "han_sg_permisos_empleados.id_user")
                                 ->where("han_sg_permisos_empleados.id_permiso_trabajo" , "=" , $idPermiso)
                                 ->get();
+                foreach($getInfoEmpleado as $item)
+                {
+                    $item->preoperacional = $this->getGeneralidadesEmpleados($item->id_permisos_empleado);
+                }
         return $getInfoEmpleado;
+    }
+    /**
+     * buscar generalidades por empleados*/
+    public function getGeneralidadesEmpleados($idEmpleado)
+    {
+        $getGeneralidades = $this->sgEmpleadoGeneralidades->selectRaw("
+                            han_sg_generalidades.tipo,
+                            han_sg_generalidades.nombre,
+                            han_sg_empleados_generalidades.active,
+                            han_sg_empleados_generalidades.inspeccion")
+                        ->join("han_sg_generalidades" , "han_sg_generalidades.id_generalidades" , "=" , "han_sg_empleados_generalidades.generalidades_id")
+                        ->where("han_sg_empleados_generalidades.empleado_id" , "=" , $idEmpleado)
+                        ->get();
+
+        return $getGeneralidades;
     }
     /*
     *  ENDPOINT POST
