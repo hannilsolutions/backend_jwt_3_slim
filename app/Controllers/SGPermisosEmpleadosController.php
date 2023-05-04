@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Models\SGPermisoEmpleado;
 use App\Models\SGEmpleadoGeneralidades;
 use App\Models\SGPermiso;
-use App\Models\SGPeligros;
+use App\Models\SGPermisosPeligros;
 use App\Models\SGControles;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
@@ -45,7 +45,7 @@ class SGPermisosEmpleadosController
 
         $this->sgPermiso = new SGPermiso();
 
-        $this->peligros = new SGPeligros();
+        $this->peligros = new SGPermisosPeligros();
 
         $this->controles = new SGControles();
     }
