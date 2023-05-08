@@ -79,8 +79,8 @@ class TicketTicketController
         ticket_categoria.name,
         ticket_ticket.created_at,
         ticket_ticket.updated_at")
-       ->join("ticket_categoria" , "ticket_categoria.id" , "=" , "ticket_ticket.id")
-       ->join("user" , "user.id" , "=" , "ticket_ticket.id_user")
+       ->join("ticket_categoria" , "ticket_categoria.id" , "=" , "ticket_ticket.id_categoria")
+       ->join("users" , "users.id" , "=" , "ticket_ticket.id_user")
        ->where(["ticket_ticket.estado" => $id])->get();
 
         $this->customResponse->is200Response($response,  $ticketPendientes);
