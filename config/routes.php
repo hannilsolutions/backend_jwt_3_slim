@@ -275,7 +275,7 @@ $app->group("/pdf", function() use ($app){
 
 
     #tickets
-    $app->post("/ticket/save" , "TicketCategoriaController:save");
-    $app->get("/ticket/list/{id}" , "TicketCategoriaController:listEstado");
+    $app->post("/ticket/save" , "TicketTicketController:save");
+    $app->get("/ticket/list/{id}" , "TicketTicketController:listEstado");
  });
  

@@ -202,4 +202,10 @@ return function($container)
       return new \App\Controllers\TicketCategoriaController;
     };
 
+    $container["TicketTicketController"] = function(){
+      
+      return new \App\Controllers\TicketTicketController;
+    };
+
 };
+
