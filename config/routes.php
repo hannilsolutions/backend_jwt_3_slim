@@ -272,5 +272,10 @@ $app->group("/pdf", function() use ($app){
  $app->group("/tickets" , function() use ($app){
     $app->post("/save" , "TicketCategoriaController:create");
     $app->get("/list" , "TicketCategoriaController:list");
+
+
+    #tickets
+    $app->post("/ticket/save" , "TicketCategoriaController:save");
+    $app->get("/ticket/list/{id}" , "TicketCategoriaController:listEstado");
  });
  
