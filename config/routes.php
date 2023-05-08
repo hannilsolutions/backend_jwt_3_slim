@@ -265,4 +265,12 @@ $app->group("/pdf", function() use ($app){
     $app->get("/permiso/{id}" , "generarPdfController:permisoAlturas");
     $app->get("/permisosEmpleados/{id}" , "SGPermisosEmpleadosController:getListEmpleadosWithDatosPersonales");
 } );
+
+
+/**
+ * :::::::::::::::::::TICKETS*/
+ $app->group("/tickets" , function() use ($app){
+    $app->post("/save" , "TicketCategoriaController:create");
+    $app->get("/list" , "TicketCategoriaController:list");
+ });
  

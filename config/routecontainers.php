@@ -197,4 +197,9 @@ return function($container)
       return new \App\Controllers\SGFirmaController;
     };
 
+     $container["TicketCategoriaController"] = function(){
+      
+      return new \App\Controllers\TicketCategoriaController;
+    };
+
 };
