@@ -30,6 +30,29 @@ class TicketTicketController
          $this->validator = new Validator();
     }
 
+    /**PATCH UPDATED*/
+    public function updated(Request $request , Response $response , $id)
+    {
+        $this->validator->validate($request , [
+            "estado" => v::notEmpty()
+        ]);
+
+        if ($this->validator->failed()) {
+            
+            $responseMessage = $this->validator->errors;
+
+            return $this->customResponse->is400Response($response , $responseMessage);
+        }
+
+        $this->ticket->where(["id" => $id])->update([
+            "estado" => CustomRequestHandler::getParam($request , "estado")
+        ]);
+
+        $responseMessage = "actualizado";
+
+        $this->customResponse->is200Response($response , $responseMessage);
+    }
+
     /**
      * ENDPOITN POST*/
 

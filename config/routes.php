@@ -278,6 +278,7 @@ $app->group("/pdf", function() use ($app){
     $app->post("/ticket/save" , "TicketTicketController:save");
     $app->get("/ticket/list/{id}" , "TicketTicketController:listEstado");
     $app->get("/ticket/find/{id}" , "TicketTicketController:findbyid");
+    $app->patch("/ticket/updated/{id}" , "TicketTicketController:updated");
 
     #detalle
     $app->post("/detalle/save" , "TicketDetalleController:create");
