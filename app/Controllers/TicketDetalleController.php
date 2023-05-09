@@ -70,7 +70,7 @@ class TicketDetalleController
             ticket_detalle.id_user,
             ticket_detalle.comentario,
             ticket_detalle.fecha,
-            ticket_detalle.created_at
+            ticket_detalle.created_at,
             users.user
         ")
        ->join("users" , "users.id" , "=" , "ticket_detalle.id_user")
