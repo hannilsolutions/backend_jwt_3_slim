@@ -86,6 +86,28 @@ class TicketTicketController
         $this->customResponse->is200Response($response,  $ticketPendientes);
     } 
 
+    /**
+     * bsucar poir id ticket*/
+    public function findbyid(Request $request , Response $response , $id)
+    {
+        $find = $this->ticket->selectRaw("
+                    ticket_ticket.id,
+                    ticket_ticket.titulo,
+                    ticket_ticket.comentario,
+                    ticket_ticket.created_at,
+                    ticket_ticket.updated_at,
+                    ticket_ticket.estado,
+                    users.user,
+                    ticket_categoria.name
+            ")
+                ->join("users" , "users.id" , "=" , "ticket_ticket.id_user")
+                ->join("ticket_categoria" , "ticket_categoria.id" , "=" , "ticket_ticket.id_categoria")
+                ->where(["ticket_ticket.id" => $id])
+                ->get();
+
+        return $this->customResponse->is200Response($response , $find);
+    }
+
 }
 
 ?>

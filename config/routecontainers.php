@@ -207,5 +207,12 @@ return function($container)
       return new \App\Controllers\TicketTicketController;
     };
 
+    $container["TicketDetalleController"] = function(){
+      
+      return new \App\Controllers\TicketDetalleController;
+    };
+
 };
 
+
+ 
