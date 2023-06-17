@@ -97,6 +97,8 @@ $app->group("/usuarios" , function() use($app){
     $app->get("/datospersonales/findbyid/{id}" , "DatosPersonalesController:findById");
     $app->patch("/datospersonales/updated/{id}" , "DatosPersonalesController:updated");
     $app->post("/findnameempresa" , "UsuarioController:findByNameAndEmpresa");
+    #buscar usuarios por nombre y empresa
+    $app->post("/find/name/empresa" , "UsuarioController:findNameAndEmpresa");
 });
 
 //roles

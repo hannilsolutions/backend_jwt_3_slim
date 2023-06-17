@@ -212,6 +212,32 @@ class UsuarioController
     }
 
 
+    /**POST BUSCAR POR NOMBRE Y EMPRESA */
+    public function findNameAndEmpresa(Request $request , Response $response)
+    {
+        $this->validator->validate($request , [
+            "query" => v::notEmpty(),
+            "idEmpresa" => v::notEmpty()
+        ]);
+
+        if($this->validator->failed())
+        {
+            $responseMessage = $this->validator->errors;
+
+            return $this->customResponse->is400Response($response , $responseMessage);
+        }
+
+        $list = $this->usuario->selectRaw('id, user , email, id_empresa')->where(['user' => CustomRequestHandler::getParam($request , 'query')])
+                                ->where(['id_empresa' => CustomRequestHandler::getParam([$request , 'idEmpresa'])])
+                                ->where(['active' => 1])
+                                ->get();
+
+        $this->customResponse->is200Response($response , $list);
+
+
+    }
+
+
          
 
 }
