@@ -227,7 +227,8 @@ class UsuarioController
             return $this->customResponse->is400Response($response , $responseMessage);
         }
 
-        $list = $this->usuario->selectRaw('id, user , email, id_empresa')->where(['user' => CustomRequestHandler::getParam($request , 'query')])
+        $list = $this->usuario->selectRaw('id, user , email, id_empresa')
+                                ->where('user' , 'LIKE' ,  '%'.CustomRequestHandler::getParam($request , 'query').'%')
                                 ->where(['id_empresa' => CustomRequestHandler::getParam([$request , 'idEmpresa'])])
                                 ->where(['active' => 1])
                                 ->get();
