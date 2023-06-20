@@ -76,6 +76,7 @@ class AuthController
         $this->user->create([
            "user"=>CustomRequestHandler::getParam($request,"user"),
             "email"=>CustomRequestHandler::getParam($request,"email"),
+            "id_empresa"=>CustomRequestHandler::getParam($request , "id_empresa"),
             "password"=>$passwordHash
         ]);
 
