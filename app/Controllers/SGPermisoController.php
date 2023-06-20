@@ -240,7 +240,7 @@ class SGPermisoController
 
             $idEmpresa = $item->id_empresa;
         }
-        
+
          if($role == "TECNICO_ST")
         {
 
@@ -280,7 +280,6 @@ class SGPermisoController
                 users.user")
                     ->join("han_sg_tipos_trabajo as tp" , "tp.id_tipo" , "=" , "han_sg_permiso_trabajo.id_permiso_trabajo")
                     ->join("users" , "users.id" , "=" , "han_sg_permiso_trabajo.id_usuario")
-                    ->join("han_sg_permisos_empleados as empleado" , "empleado.id_permiso_trabajo" , "=" , "han_sg_permiso_trabajo.id_permiso")
                     ->where("han_sg_permiso_trabajo.id_empresa" , "=" , $idEmpresa)
                     ->where("han_sg_permiso_trabajo.estado" ,"=" , "1")->get();
 
@@ -292,7 +291,6 @@ class SGPermisoController
                 users.user")
                     ->join("han_sg_tipos_trabajo as tp" , "tp.id_tipo" , "=" , "han_sg_permiso_trabajo.id_permiso_trabajo")
                     ->join("users" , "users.id" , "=" , "han_sg_permiso_trabajo.id_usuario")
-                    ->join("han_sg_permisos_empleados as empleado" , "empleado.id_permiso_trabajo" , "=" , "han_sg_permiso_trabajo.id_permiso")
                     ->where("han_sg_permiso_trabajo.id_empresa" , "=" , $idEmpresa)
                     ->where("han_sg_permiso_trabajo.fecha_inicio" , "=" , $fecha)
                     ->where("han_sg_permiso_trabajo.estado" ,"=" , $estado)->get();
