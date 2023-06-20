@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\SGPermiso;
 use App\Models\SGEmpresa;
 use App\Models\SGPermisoEmpleado;
+use App\Models\Usuario;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -24,6 +25,8 @@ class SGPermisoController
 
     protected $empleadoPermiso;
 
+    protected $usuario;
+
     public function __construct()
     {
         $this->customResponse = new CustomResponse();
@@ -35,6 +38,10 @@ class SGPermisoController
         $this->sgEmpresa = new SGEmpresa();
 
         $this->empleadoPermiso = new SGPermisoEmpleado();
+
+        $this->usuario = new Usuario;
+
+
     }
     /*
     *ENDPOINT: POST
@@ -217,18 +224,87 @@ class SGPermisoController
 
     /**
      * ENDPOINT GET findByActivoUsuario*/
-    public function findByIdUsuarioActive(Request $request , Response $response , $id)
+    public function findByIdUsuarioActive(Request $request , Response $response )
     {
-        $getList = $this->sgPermiso->selectRaw("han_sg_permiso_trabajo.* ,
+        //cambiar a post
+
+        $idUsuario = CustomRequestHandler::getParam($request , "id_user");
+        $estado = CustomRequestHandler::getParam($request , "estado");
+        $fecha = CustomRequestHandler::getParam($request , "fecha");
+        
+        $datos_user = $this->usuario->where("id" , "=" , $idUsuario)->get();
+
+        foreach($datos_user as $item)
+        {
+            $role = $item->role;
+
+            $idEmpresa = $item->id_empresa;
+        }
+        
+         if($role == "TECNICO_ST")
+        {
+
+            if(empty($fecha))
+            {
+                $getList = $this->sgPermiso->selectRaw("han_sg_permiso_trabajo.* ,
             tp.nombre as nombre_tipo,
             users.user")
-        ->join("han_sg_tipos_trabajo as tp" , "tp.id_tipo" , "=" , "han_sg_permiso_trabajo.id_permiso_trabajo")
-        ->join("users" , "users.id" , "=" , "han_sg_permiso_trabajo.id_usuario")
-        ->join("han_sg_permisos_empleados as empleado" , "empleado.id_permiso_trabajo" , "=" , "han_sg_permiso_trabajo.id_permiso")
-        ->where(["empleado.id_user"=>$id])
-        ->where("han_sg_permiso_trabajo.estado" ,"=" , "1")->get();
+                    ->join("han_sg_tipos_trabajo as tp" , "tp.id_tipo" , "=" , "han_sg_permiso_trabajo.id_permiso_trabajo")
+                    ->join("users" , "users.id" , "=" , "han_sg_permiso_trabajo.id_usuario")
+                    ->join("han_sg_permisos_empleados as empleado" , "empleado.id_permiso_trabajo" , "=" , "han_sg_permiso_trabajo.id_permiso")
+                    ->where("empleado.id_user" , "=" , $idUsuario)
+                    ->where("han_sg_permiso_trabajo.estado" ,"=" , "1")->get();
 
-        $this->customResponse->is200Response($response , $getList);
+                    return $this->customResponse->is200Response($response , $getList);
+
+            }else{
+
+                $getList = $this->sgPermiso->selectRaw("han_sg_permiso_trabajo.* ,
+                tp.nombre as nombre_tipo,
+                users.user")
+                    ->join("han_sg_tipos_trabajo as tp" , "tp.id_tipo" , "=" , "han_sg_permiso_trabajo.id_permiso_trabajo")
+                    ->join("users" , "users.id" , "=" , "han_sg_permiso_trabajo.id_usuario")
+                    ->join("han_sg_permisos_empleados as empleado" , "empleado.id_permiso_trabajo" , "=" , "han_sg_permiso_trabajo.id_permiso")
+                    ->where("empleado.id_user" , "=" , $idUsuario)
+                    ->where("han_sg_permiso_trabajo.fecha_inicio" , "=" , $fecha)
+                    ->where("han_sg_permiso_trabajo.estado" ,"=" , $estado)->get();
+
+                    return $this->customResponse->is200Response($response , $getList);
+            }
+        }else{
+
+            if(empty($fecha))
+            {
+                $getList = $this->sgPermiso->selectRaw("han_sg_permiso_trabajo.* ,
+                tp.nombre as nombre_tipo,
+                users.user")
+                    ->join("han_sg_tipos_trabajo as tp" , "tp.id_tipo" , "=" , "han_sg_permiso_trabajo.id_permiso_trabajo")
+                    ->join("users" , "users.id" , "=" , "han_sg_permiso_trabajo.id_usuario")
+                    ->join("han_sg_permisos_empleados as empleado" , "empleado.id_permiso_trabajo" , "=" , "han_sg_permiso_trabajo.id_permiso")
+                    ->where("han_sg_permiso_trabajo.id_empresa" , "=" , $idEmpresa)
+                    ->where("han_sg_permiso_trabajo.estado" ,"=" , "1")->get();
+
+                    return $this->customResponse->is200Response($response , $getList);
+            }else{
+
+                $getList = $this->sgPermiso->selectRaw("han_sg_permiso_trabajo.* ,
+                tp.nombre as nombre_tipo,
+                users.user")
+                    ->join("han_sg_tipos_trabajo as tp" , "tp.id_tipo" , "=" , "han_sg_permiso_trabajo.id_permiso_trabajo")
+                    ->join("users" , "users.id" , "=" , "han_sg_permiso_trabajo.id_usuario")
+                    ->join("han_sg_permisos_empleados as empleado" , "empleado.id_permiso_trabajo" , "=" , "han_sg_permiso_trabajo.id_permiso")
+                    ->where("han_sg_permiso_trabajo.id_empresa" , "=" , $idEmpresa)
+                    ->where("han_sg_permiso_trabajo.fecha_inicio" , "=" , $fecha)
+                    ->where("han_sg_permiso_trabajo.estado" ,"=" , $estado)->get();
+
+                    return $this->customResponse->is200Response($response , $getList);
+            }
+
+        }
+
+        
+
+        
     }
 
     /**
