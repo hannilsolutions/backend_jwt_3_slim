@@ -144,7 +144,7 @@ $app->group("/seguridad" , function() use ($app){
     $app->get("/permiso/findByUsuarioOpen/{id}" , "SGPermisoController:findByUsuarioOpen");
     $app->get("/permiso/findById/{id}" , "SGPermisoController:findById");
     $app->get("/permiso/findByIdEmpresa/{id}", "SGPermisoController:findByIdEmpresa");
-    $app->get("/permiso/findByIdUsuarioActive/{id}" , "SGPermisoController:findByIdUsuarioActive");
+    $app->post("/permiso/findByIdUsuarioActive" , "SGPermisoController:findByIdUsuarioActive");
     $app->delete("/permiso/inactive/{id}" , "SGPermisoController:inactive");
     $app->delete("/permiso/cerrado/{id}" , "SGPermisoController:cerrado");
     #informacion de permiso completa para firmar
