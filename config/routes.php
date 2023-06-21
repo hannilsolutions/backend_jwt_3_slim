@@ -121,6 +121,13 @@ $app->group("/roles" , function() use ($app){
 //sistema de gestion sst
 $app->group("/seguridad" , function() use ($app){
 
+    #observaciones
+    $app->post("/observacion/save" , "SGObservacionController:save");
+    $app->get("/observacion/{id}" , "SGObservacionController:findByIdPermiso");
+    $app->delete("/observacion/{id}" , "SGObservacionController:delete");
+    $app->post("/observacion/img" , "SGObservacionController:imagen");
+
+
     #clasificaciones
     $app->post("/clasificacion/save" , "SGClasificacionController:save");
     $app->get("/clasificacion/list" , "SGClasificacionController:list");

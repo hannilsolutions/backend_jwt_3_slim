@@ -212,6 +212,14 @@ return function($container)
       return new \App\Controllers\TicketDetalleController;
     };
 
+    $container["SGObservacionController"] = function(){
+      
+      return new \App\Controllers\SGObservacionController;
+    };
+
+
+    
+
 };
 
 
