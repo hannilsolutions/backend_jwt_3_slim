@@ -66,7 +66,8 @@ class SGObservacionController
         han_sg_permisos_observaciones.created_at,
         han_sg_permisos_observaciones.url_img,
         han_sg_permisos_observaciones.id_permiso,
-        users.user')
+        users.user,
+        users.url_img as photo')
         ->join("users" , "users.id" , "=" , "han_sg_permisos_observaciones.id_usuario")
         ->where(["han_sg_permisos_observaciones.id_permiso" => $id])
         ->get();
