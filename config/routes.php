@@ -99,6 +99,7 @@ $app->group("/usuarios" , function() use($app){
     $app->post("/findnameempresa" , "UsuarioController:findByNameAndEmpresa");
     #buscar usuarios por nombre y empresa
     $app->post("/find/name/empresa" , "UsuarioController:findNameAndEmpresa");
+    $app->post("/imagen/update" , "UsuarioController:changeImagen");
 });
 
 //roles

@@ -239,6 +239,72 @@ class UsuarioController
     }
 
 
+    /**    updated imagen */
+    public function changeImagen(Request $request , Response $response)
+    {
+        $this->validator->validate($request , [
+
+            "id_usuario" => v::notEmpty()
+        ]);
+
+        if($this->validator->failed())
+        {
+            $responseMenssage = $this->validator->errors;
+
+            return $this->customResponse->is400Response($response , $responseMenssage);
+        }
+
+        try{
+
+            $uploadedFiles = $request->getUploadedFiles();
+
+            $file = $uploadedFiles['img'];
+
+            if($file->getError() === UPLOAD_ERR_OK)
+            {
+                $filename = $this->moveImagen($file);
+
+                $this->usuario->where("id" , "=" , CustomRequestHandler::getParam($request , "id_usuario"))->update([
+                    "url_img" => $filename
+                ]);
+
+                $responseMenssage = "Actualizado";
+
+                $this->customResponse->is200Response($response , $responseMenssage);
+            }else{
+
+                $this->customResponse->is400Response($response , "error cargue"); 
+            }
+
+            
+
+        }catch(Exception $e)
+        {
+            return $this->customResponse->is400Response($response , $e->getMessage());
+        }
+    }
+
+    private function moveImagen($file)
+    {
+        $extension = pathinfo($file->getClientFilename(), PATHINFO_EXTENSION);
+
+        $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
+
+        $filename = sprintf('%s.%0.8s', $basename, $extension);
+
+        $path      = "/home/internet/public_html/apps/Files/profile";
+
+        if (!is_dir($path)) {
+
+            mkdir($path, 0777, true);
+        }
+
+        $file->moveTo("/home/internet/public_html/apps/Files/profile/$filename");
+
+        return $filename;
+    }
+
+
          
 
 }
