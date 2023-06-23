@@ -255,6 +255,11 @@ class SGPermisoController
                     ->where("empleado.id_user" , "=" , $idUsuario)
                     ->where("han_sg_permiso_trabajo.estado" ,"=" , "1")->get();
 
+                    foreach($getList as $item)
+                    {
+                        $getList->empleados = $this->findIntegrantes($item->id_permiso);
+                    }
+
                     return $this->customResponse->is200Response($response , $getList);
 
             }else{
@@ -268,6 +273,11 @@ class SGPermisoController
                     ->where("empleado.id_user" , "=" , $idUsuario)
                     ->where("han_sg_permiso_trabajo.fecha_inicio" , "=" , $fecha)
                     ->where("han_sg_permiso_trabajo.estado" ,"=" , $estado)->get();
+
+                    foreach($getList as $item)
+                    {
+                        $getList->empleados = $this->findIntegrantes($item->id_permiso);
+                    }
 
                     return $this->customResponse->is200Response($response , $getList);
             }
@@ -283,6 +293,11 @@ class SGPermisoController
                     ->where("han_sg_permiso_trabajo.id_empresa" , "=" , $idEmpresa)
                     ->where("han_sg_permiso_trabajo.estado" ,"=" , "1")->get();
 
+                    foreach($getList as $item)
+                    {
+                        $getList->empleados = $this->findIntegrantes($item->id_permiso);
+                    }
+
                     return $this->customResponse->is200Response($response , $getList);
             }else{
 
@@ -294,6 +309,11 @@ class SGPermisoController
                     ->where("han_sg_permiso_trabajo.id_empresa" , "=" , $idEmpresa)
                     ->where("han_sg_permiso_trabajo.fecha_inicio" , "=" , $fecha)
                     ->where("han_sg_permiso_trabajo.estado" ,"=" , $estado)->get();
+                    
+                    foreach($getList as $item)
+                    {
+                        $getList->empleados = $this->findIntegrantes($item->id_permiso);
+                    }
 
                     return $this->customResponse->is200Response($response , $getList);
             }
@@ -303,6 +323,13 @@ class SGPermisoController
         
 
         
+    }
+
+    private function findIntegrantes($permiso)
+    {
+        $empleado = $this->empleadoPermiso->selectRaw('id_user')->where("id_permiso_trabajo" , "=" , $permiso)->get();
+
+        return $empleado;
     }
 
     /**
