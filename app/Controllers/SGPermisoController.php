@@ -257,7 +257,7 @@ class SGPermisoController
 
                     foreach($getList as $item)
                     {
-                        $getList->empleados = $this->findIntegrantes($item->id_permiso);
+                        $item->empleados = $this->findIntegrantes($item->id_permiso);
                     }
 
                     return $this->customResponse->is200Response($response , $getList);
@@ -276,7 +276,7 @@ class SGPermisoController
 
                     foreach($getList as $item)
                     {
-                        $getList->empleados = $this->findIntegrantes($item->id_permiso);
+                        $item->empleados = $this->findIntegrantes($item->id_permiso);
                     }
 
                     return $this->customResponse->is200Response($response , $getList);
@@ -295,7 +295,7 @@ class SGPermisoController
 
                     foreach($getList as $item)
                     {
-                        $getList->empleados = $this->findIntegrantes($item->id_permiso);
+                        $item->empleados = $this->findIntegrantes($item->id_permiso);
                     }
 
                     return $this->customResponse->is200Response($response , $getList);
@@ -309,10 +309,10 @@ class SGPermisoController
                     ->where("han_sg_permiso_trabajo.id_empresa" , "=" , $idEmpresa)
                     ->where("han_sg_permiso_trabajo.fecha_inicio" , "=" , $fecha)
                     ->where("han_sg_permiso_trabajo.estado" ,"=" , $estado)->get();
-                    
+
                     foreach($getList as $item)
                     {
-                        $getList->empleados = $this->findIntegrantes($item->id_permiso);
+                        $item->empleados = $this->findIntegrantes($item->id_permiso);
                     }
 
                     return $this->customResponse->is200Response($response , $getList);
