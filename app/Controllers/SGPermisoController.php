@@ -373,18 +373,18 @@ class SGPermisoController
             {
                 $coeficiente = $generalidades / $cantidadEmpleados;
 
-                 $sumaGeneralidades += $coeficiente;
+                 $sumaGeneralidades = $sumaGeneralidades + $coeficiente;
             }
         }
         //firmas
         $firmasEmpleado = $this->firmasEmpleado($idPermiso);
 
-        $sumaGeneralidades += ($firmasEmpleado/ $cantidadEmpleados);
+        $sumaGeneralidades  = $sumaGeneralidades + ($firmasEmpleado/ $cantidadEmpleados);
 
         //firmas Jefes
         $firmasJefes = $this->getFirmasJefes($idPermiso , $idEmpresa);
 
-        $sumaGeneralidades  += $firmaJefes;
+        $sumaGeneralidades  = $sumaGeneralidades + $firmaJefes;
 
 
         $reultado = $sumaGeneralidades / 5;
@@ -423,7 +423,7 @@ class SGPermisoController
         {
             if($item->firma != null)
             {
-                $count += 1;
+                $count++;
             }   
         }
 
@@ -447,7 +447,7 @@ class SGPermisoController
         {
                if($item->activo > 0)
                {
-                    $gen += 1;
+                    $gen++;
                 }
         }
         
