@@ -5,7 +5,10 @@ namespace App\Controllers;
 use App\Models\SGPermiso;
 use App\Models\SGEmpresa;
 use App\Models\SGPermisoEmpleado;
+use App\Models\SGEmpleadoGeneralidades;
 use App\Models\Usuario;
+use App\Models\SGFirma;
+use App\Models\SGDetalleFirmas;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -25,7 +28,13 @@ class SGPermisoController
 
     protected $empleadoPermiso;
 
+    protected $empleadoGeneralidades;
+
     protected $usuario;
+
+    protected $firmaEmpresa;
+
+    protected $firmaJefes;
 
     public function __construct()
     {
@@ -40,6 +49,12 @@ class SGPermisoController
         $this->empleadoPermiso = new SGPermisoEmpleado();
 
         $this->usuario = new Usuario;
+
+        $this->empleadoGeneralidades = new SGEmpleadoGeneralidades();
+
+        $this->firmaEmpresa = new SGFirma();
+
+        $this->firmasJefes = new SGDetalleFirmas();
 
 
     }
@@ -258,6 +273,8 @@ class SGPermisoController
                     foreach($getList as $item)
                     {
                         $item->empleados = $this->findIntegrantes($item->id_permiso);
+                        $cantidad = count($item->empleados);
+                        $item->avance = $this->findEstadoFirmas($item->id_permiso , $cantidad);
                     }
 
                     return $this->customResponse->is200Response($response , $getList);
@@ -277,6 +294,8 @@ class SGPermisoController
                     foreach($getList as $item)
                     {
                         $item->empleados = $this->findIntegrantes($item->id_permiso);
+                        $cantidad = count($item->empleados);
+                        $item->avance = $this->findEstadoFirmas($item->id_permiso , $cantidad);
                     }
 
                     return $this->customResponse->is200Response($response , $getList);
@@ -296,6 +315,8 @@ class SGPermisoController
                     foreach($getList as $item)
                     {
                         $item->empleados = $this->findIntegrantes($item->id_permiso);
+                        $cantidad = count($item->empleados);
+                        $item->avance = $this->findEstadoFirmas($item->id_permiso , $cantidad);
                     }
 
                     return $this->customResponse->is200Response($response , $getList);
@@ -313,6 +334,8 @@ class SGPermisoController
                     foreach($getList as $item)
                     {
                         $item->empleados = $this->findIntegrantes($item->id_permiso);
+                        $cantidad = count($item->empleados);
+                        $item->avance = $this->findEstadoFirmas($item->id_permiso , $cantidad);
                     }
 
                     return $this->customResponse->is200Response($response , $getList);
@@ -330,6 +353,105 @@ class SGPermisoController
         $empleado = $this->empleadoPermiso->selectRaw('id_user')->where("id_permiso_trabajo" , "=" , $permiso)->get();
 
         return $empleado;
+    }
+
+    /**
+     * buscar firmas de empleado y firmasdetalle de jefes
+     */
+    private function findEstadoFirmas($idPermiso , $cantidadEmpleados , $idEmpresa)
+    {
+       
+        $itemMedir = array("EPP" , "EPCC" , "Herramientas");
+        
+        $sumaGeneralidades = 0;
+        
+        foreach($itemMedir as $item)
+        {   
+            $generalidades = $this->getGeneralidadesCount( $item , $idPermiso);
+            
+            if($generalidades > 0)
+            {
+                $coeficiente = $generalidades / $cantidadEmpleados;
+
+                 $sumaGeneralidades += $coeficiente;
+            }
+        }
+        //firmas
+        $firmasEmpleado = $this->firmasEmpleado($idPermiso);
+
+        $sumaGeneralidades += ($firmasEmpleado/ $cantidadEmpleados);
+
+        //firmas Jefes
+        $firmasJefes = $this->getFirmasJefes($idPermiso , $idEmpresa);
+
+        $sumaGeneralidades  += $firmaJefes;
+
+
+        $reultado = $sumaGeneralidades / 5;
+        
+        
+        return $resultado;
+
+        
+    }
+
+    private function getFirmasJefes($idPermiso , $idEmpresa)
+    {
+        $validacion = 0;
+
+            $count = $this->firmaEmpresa->where("id_empresa" , "=" , $idEmpresa)->count();
+
+            if($count > 0)
+            {
+                    $jefes = $this->firmasJefes->where("id_permiso" , "=" , $idPermiso)->count();
+
+                    if($jefes > 0)
+                    {
+                         $validacion = $jefes / $count;
+                    }
+            }
+
+        return $validacion;
+    }
+
+    private function firmasEmpleado($idPermiso)
+    {
+        $count  = 0 ; 
+        $firmas = $this->empleadoPermiso->where("id_permiso_trabajo" , "=" , $idPermiso)->get();
+
+        foreach($firmas as $item)
+        {
+            if($item->firma != null)
+            {
+                $count += 1;
+            }   
+        }
+
+        return $count;
+    }
+ 
+
+    private function getGeneralidadesCount($tipo , $idPermiso)
+    {
+        $gen  = 0; 
+
+        $generalidades = $this->empleadoGeneralidades->selectRaw("count(han_sg_empleados_generalidades.active) as activo")
+                ->join("han_sg_generalidades" , "han_sg_generalidades.id_generalidades" , "=" , "han_sg_empleados_generalidades.generalidades_id")
+                ->where("han_sg_generalidades.tipo" , "=" , $tipo)
+                ->where("han_sg_empleados_generalidades.permiso_id" , "=" , $idPermiso)
+                ->where("han_sg_empleados_generalidades.active" , "=" , "Y")
+                ->groupBy('han_sg_empleados_generalidades.empleado_id')
+                ->get();
+
+        foreach($generalidades as $item)
+        {
+               if($item->activo > 0)
+               {
+                    $gen += 1;
+                }
+        }
+        
+        return $gen;
     }
 
     /**
