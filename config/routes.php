@@ -174,7 +174,7 @@ $app->group("/seguridad" , function() use ($app){
     $app->get("/permisosEmpleados/findByEmpleado/{id}" , "SGPermisosEmpleadosController:findByEmpleado");
     $app->post("/permisosEmpleados/firmarEmpleado" , "SGPermisosEmpleadosController:firmarEmpleado");
     $app->post("/permisosJefes/firmarPermiso" , "SGPermisosEmpleadosController:firmarJefe");
-    $app->get("/permisosEmpleados/listActive/{id}" , "SGPermisosEmpleadosController:getListEmpleadoActivePermiso");
+    $app->get("/permisosEmpleados/active/{id}" , "SGPermisosEmpleadosController:listEmpleado");
     
 
     $app->post("/permisosEmpleados/findByIdPermisoAndIdUser" , "SGPermisosEmpleadosController:firmaFindByIdPermisoAndIdUser");
