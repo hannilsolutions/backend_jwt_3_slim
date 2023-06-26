@@ -161,9 +161,9 @@ WHERE han_relations.roles_role = 'ADMIN_ADMIN'
                                         han_gruop.icono")
                         ->leftjoin("han_gruop" , "han_relations.group_id" , "=" , "han_gruop.id")
                         ->leftjoin("users"      , "users.role" , "=" , "han_relations.roles_role")
-                        ->where(["users.email" => $email])
+                        ->where("users.email" , "=", $email)
                         ->where("han_relations.active" , "=" , "Y")
-                        ->groupBy("group_id")
+                        ->groupBy("han_relations.group_id")
                         ->get();
                     
         foreach($relationsRole as $group)

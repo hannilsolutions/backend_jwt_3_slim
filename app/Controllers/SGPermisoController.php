@@ -384,13 +384,13 @@ class SGPermisoController
         //firmas Jefes
         $firmasJefes = $this->getFirmasJefes($idPermiso , $idEmpresa);
 
-        $sumaGeneralidades  = $sumaGeneralidades + $firmaJefes;
+        $sumaGeneralidades  = $sumaGeneralidades + $firmasJefes;
 
 
-        $reultado = $sumaGeneralidades / 5;
+        $resultado = $sumaGeneralidades / 5;
         
         
-        return $resultado;
+        return $resultado * 100;
 
         
     }
@@ -417,6 +417,7 @@ class SGPermisoController
     private function firmasEmpleado($idPermiso)
     {
         $count  = 0 ; 
+
         $firmas = $this->empleadoPermiso->where("id_permiso_trabajo" , "=" , $idPermiso)->get();
 
         foreach($firmas as $item)

@@ -3,18 +3,31 @@ $container["errorHandler"] = function ($container)
 {
     return function ($request,$response,$exception) use ($container)
     {
-        return $response->withStatus(500)
-            ->withHeader('Content-Type','application/json')
-            ->write(json_encode(
-                array(
-                    "success"=>false,
-                    "error"=>"INTERNAL_ERROR",
-                    "message"=>"algo ha ocurrido internamente",
-                    "status_code"=>"500",
-                    'trace'=>$exception->getTraceAsString()
-                ),
-                JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
-            ));
+        $statusCode = 500;
+        $errorMessage = "INTERNAL_ERROR";
+        $message = "Algo ha ocurrido internamente";
+
+        
+        if ($exception instanceof \PDOException) {
+            $statusCode = 500;
+            $errorMessage = "DATABASE_ERROR " . $exception->getMessage();
+            $message = "Error en la base de datos";
+        } elseif ($exception instanceof \InvalidArgumentException) {
+            $statusCode = 400;
+            $errorMessage = "INVALID_ARGUMENT";
+            $message = "Argumento inválido";
+        }
+
+        return $response->withStatus($statusCode)
+        ->withHeader('Content-Type', 'application/json')
+        ->write(json_encode([
+            "success" => false,
+            "error" => $errorMessage,
+            "message" => $message,
+            "status_code" => $statusCode,
+            'trace' => $exception->getTraceAsString()
+        ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+
     };
 };
 
