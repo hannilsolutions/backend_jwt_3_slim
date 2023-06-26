@@ -274,7 +274,7 @@ class SGPermisoController
                     {
                         $item->empleados = $this->findIntegrantes($item->id_permiso);
                         $cantidad = count($item->empleados);
-                        $item->avance = $this->findEstadoFirmas($item->id_permiso , $cantidad);
+                        $item->avance = $this->findEstadoFirmas($item->id_permiso , $cantidad , $idEmpresa);
                     }
 
                     return $this->customResponse->is200Response($response , $getList);
@@ -295,7 +295,7 @@ class SGPermisoController
                     {
                         $item->empleados = $this->findIntegrantes($item->id_permiso);
                         $cantidad = count($item->empleados);
-                        $item->avance = $this->findEstadoFirmas($item->id_permiso , $cantidad);
+                        $item->avance = $this->findEstadoFirmas($item->id_permiso , $cantidad , $idEmpresa);
                     }
 
                     return $this->customResponse->is200Response($response , $getList);
@@ -316,7 +316,7 @@ class SGPermisoController
                     {
                         $item->empleados = $this->findIntegrantes($item->id_permiso);
                         $cantidad = count($item->empleados);
-                        $item->avance = $this->findEstadoFirmas($item->id_permiso , $cantidad);
+                        $item->avance = $this->findEstadoFirmas($item->id_permiso , $cantidad , $idEmpresa);
                     }
 
                     return $this->customResponse->is200Response($response , $getList);
