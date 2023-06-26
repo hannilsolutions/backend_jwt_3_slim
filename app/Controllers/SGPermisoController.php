@@ -334,7 +334,7 @@ class SGPermisoController
                     foreach($getList as $item)
                     {
                         $item->empleados = $this->findIntegrantes($item->id_permiso);
-                        $cantidad = count($item->empleados);
+                        $cantidad = $item->empleados->count();
                         $item->avance = $this->findEstadoFirmas($item->id_permiso , $cantidad , $idEmpresa);
                     }
 
@@ -452,6 +452,8 @@ class SGPermisoController
                     $gen++;
                 }
         }
+
+
         
         return $gen;
 
