@@ -335,7 +335,7 @@ class SGPermisoController
                     {
                         $item->empleados = $this->findIntegrantes($item->id_permiso);
                         $cantidad = count($item->empleados);
-                        $item->avance = $this->findEstadoFirmas($item->id_permiso , $cantidad);
+                        $item->avance = $this->findEstadoFirmas($item->id_permiso , $cantidad , $idEmpresa);
                     }
 
                     return $this->customResponse->is200Response($response , $getList);
@@ -433,8 +433,8 @@ class SGPermisoController
 
     private function getGeneralidadesCount($tipo , $idPermiso)
     {
-        try{
-            
+        
+
             $gen  = 0; 
 
         $generalidades = $this->empleadoGeneralidades->selectRaw("count(han_sg_empleados_generalidades.active) as activo")
@@ -455,10 +455,7 @@ class SGPermisoController
         
         return $gen;
 
-        }catch(Exception $e)
-        {
-            throw new Exception($e->getMessage() , '400');
-        }
+         
     }
 
     /**
