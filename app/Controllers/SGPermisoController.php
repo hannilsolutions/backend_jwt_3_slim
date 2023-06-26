@@ -8,6 +8,7 @@ use App\Models\SGPermisoEmpleado;
 use App\Models\SGEmpleadoGeneralidades;
 use App\Models\Usuario;
 use App\Models\SGFirma;
+use App\Models\SGPermisosPeligros;
 use App\Models\SGDetalleFirmas;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
@@ -36,6 +37,8 @@ class SGPermisoController
 
     protected $firmaJefes;
 
+    protected $peligros;
+
     public function __construct()
     {
         $this->customResponse = new CustomResponse();
@@ -55,6 +58,8 @@ class SGPermisoController
         $this->firmaEmpresa = new SGFirma();
 
         $this->firmasJefes = new SGDetalleFirmas();
+
+        $this->peligros = new SGPermisosPeligros();
 
 
     }
@@ -386,12 +391,31 @@ class SGPermisoController
 
         $sumaGeneralidades  = $sumaGeneralidades + $firmasJefes;
 
+        //peligros
+        $peligros = $this->getPeligrosCount($idPermiso);
 
-        $resultado = $sumaGeneralidades / 5;
+        $sumaGeneralidades = $sumaGeneralidades + $peligros;
+
+        $resultado = $sumaGeneralidades / 6;
         
         
         return $resultado * 100;
 
+        
+    }
+
+    private function getPeligrosCount($idPermiso)
+    {
+    $count = 0;
+
+    $peligros = $this->peligros->where("permiso_id" , "=" , $idPermiso)->count();
+
+    if($peligros > 0 )
+    {
+        $count++;
+    }
+
+    return $count;
         
     }
 
