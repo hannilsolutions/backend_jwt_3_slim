@@ -433,7 +433,9 @@ class SGPermisoController
 
     private function getGeneralidadesCount($tipo , $idPermiso)
     {
-        $gen  = 0; 
+        try{
+            
+            $gen  = 0; 
 
         $generalidades = $this->empleadoGeneralidades->selectRaw("count(han_sg_empleados_generalidades.active) as activo")
                 ->join("han_sg_generalidades" , "han_sg_generalidades.id_generalidades" , "=" , "han_sg_empleados_generalidades.generalidades_id")
@@ -452,6 +454,11 @@ class SGPermisoController
         }
         
         return $gen;
+
+        }catch(Exception $e)
+        {
+            throw new Exception($e->getMessage() , '400');
+        }
     }
 
     /**
