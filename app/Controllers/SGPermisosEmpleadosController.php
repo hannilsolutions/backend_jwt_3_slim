@@ -513,5 +513,21 @@ class SGPermisosEmpleadosController
         }
     }
 
+    /**
+     * get empleados list */
+
+     public function getListEmpleadoActivePermiso(Request $request , Response $response , $id)
+     {
+        $getList = $this->sgPermisoEmpleado
+            ->selectRaw('users.id , users.user, users.url_img')
+            ->join('users' , 'users.id' , '=' , 'han_sg_permisos_empleados.id_user')
+            ->where(['han_sg_permisos_empleados.id_permiso_trabajo'=>$id])
+            ->get();
+
+        $this->customResponse->is200Response($response , $getList);
+    
+    
+    }
+
 
 }
