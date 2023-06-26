@@ -399,7 +399,7 @@ class SGPermisoController
         $resultado = $sumaGeneralidades / 6;
         
         
-        return $resultado * 100;
+        return round($resultado * 100 , 1);
 
         
     }
