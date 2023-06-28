@@ -217,6 +217,12 @@ return function($container)
       return new \App\Controllers\SGObservacionController;
     };
 
+    $container["SGDetalleFirmasController"] = function(){
+      
+      return new \App\Controllers\SGDetalleFirmasController;
+    };
+
+
 
     
 

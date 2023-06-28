@@ -223,6 +223,10 @@ $app->group("/seguridad" , function() use ($app){
     $app->get("/firmas/findByIdEmpresa/{id}" , "SGFirmaController:getFindByIdEmpresa");
     $app->get("/firmas/all" , "SGFirmaController:findAll");
 
+    #detalleFirmas
+    $app->post("/detalle/firmas" , "SGDetalleFirmasController:create");
+    $app->get("/detalle/firmas/{id}" , "SGDetalleFirmasController:listByIdPermiso");
+
 });
 
 #marcas
