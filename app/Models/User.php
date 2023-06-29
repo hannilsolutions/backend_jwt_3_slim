@@ -27,7 +27,8 @@ class User extends Model
     "private_key",
     "public_key",
     "created_at",
-    "updated_at"
+    "updated_at",
+    "last_login"
 ];
 }
 

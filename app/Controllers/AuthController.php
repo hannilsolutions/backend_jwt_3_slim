@@ -136,8 +136,16 @@ class AuthController
            return $this->customResponse->is400Response($response , $responseMessage);
        }
 
+
+
        #enviar información usuario
        $getUsuario = $this->getUsuario($email);
+       foreach($getUsuario as $item)
+       {
+            $this->user->where("id" , "=" , $item->id)->update([
+                "last_login"  => date("Y-m-d Hh:mm:ss")
+            ]);
+       }
        #recuperar menu del logueado
        $getMenu = $this->getMenu($email);
        #generación de token
