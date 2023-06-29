@@ -143,7 +143,7 @@ class AuthController
        foreach($getUsuario as $item)
        {
             $this->user->where("id" , "=" , $item->id)->update([
-                "last_login"  => date("Y-m-d Hh:mm:ss")
+                "last_login"  => date("Y-m-d H:i:s")
             ]);
        }
        #recuperar menu del logueado
