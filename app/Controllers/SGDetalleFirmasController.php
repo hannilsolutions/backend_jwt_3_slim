@@ -211,20 +211,20 @@ class SGDetalleFirmasController
             openssl_sign($encrypted , $firma , $cert , OPENSSL_ALGO_SHA256);
 
             //CREANDO RUTA DE FIRMA
-            //$pathFirma = "/home/internet/public_html/apps/Files/usuarios/firmaPermisos/".$id_user;
-            $pathFirma = "/home/programador/Documentos/10";
+            $pathFirma = "/home/internet/public_html/apps/Files/usuarios/firmaPermisos/".$id_user;
+            //$pathFirma = "/home/programador/Documentos/10";
             if (!is_dir($pathFirma)) 
             {
                 mkdir($pathFirma, 0777, true);
             }
             //ruta para nombre de firma
-            //$pathFirmaData = "/home/internet/public_html/apps/Files/usuarios/firmaPermisos/".$id_user."/".date('Y-m-d H:s:i')."_".$id_permiso."_firma.dat";
-            $pathFirmaData = "/home/programador/Documentos/10/".date('Y-m-d H:s:i')."_firma.dat";
+            $pathFirmaData = "/home/internet/public_html/apps/Files/usuarios/firmaPermisos/".$id_user."/".date('Y-m-d H:s:i')."_".$id_permiso."_firma.dat";
+            //$pathFirmaData = "/home/programador/Documentos/10/".date('Y-m-d H:s:i')."_firma.dat";
             //almacenando en ruta
             file_put_contents($pathFirmaData , $firma);
             $unid = uniqid();
-            //$contenidoUrl = "/home/internet/public_html/apps/Files/usuarios/firmaPermisos/".$id_user."/".$unid."_".$id_permiso.".txt";
-            $contenidoUrl = "/home/programador/Documentos/10/".$unid."contenido_.txt";
+            $contenidoUrl = "/home/internet/public_html/apps/Files/usuarios/firmaPermisos/".$id_user."/".$unid."_".$id_permiso.".txt";
+            //$contenidoUrl = "/home/programador/Documentos/10/".$unid."contenido_.txt";
 
             file_put_contents($contenidoUrl , $encrypted);
 
@@ -258,9 +258,9 @@ class SGDetalleFirmasController
 
     private function key_file_exist($id_user)
     {
-            //$file_key = '/home/internet/public_html/apps/Files/usuarios/frmEOL/'.$id_user.'/private_key1.pem';
+            $file_key = '/home/internet/public_html/apps/Files/usuarios/frmEOL/'.$id_user.'/private_key1.pem';
 
-            $file_key = '/home/programador/Documentos/10/private_key1.pem';
+            //$file_key = '/home/programador/Documentos/10/private_key1.pem';
 
             if(!file_exists($file_key))
             {
