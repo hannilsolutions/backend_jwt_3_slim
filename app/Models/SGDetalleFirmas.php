@@ -17,7 +17,8 @@ class SGDetalleFirmas extends  Model
 	"created_at",
 	"updated_at",
     "fecha_firma",
-    "id_permiso"];
+    "id_permiso", 
+    "contenido"];
     
 }
 

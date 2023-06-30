@@ -226,6 +226,7 @@ $app->group("/seguridad" , function() use ($app){
     #detalleFirmas
     $app->post("/detalle/firmas" , "SGDetalleFirmasController:create");
     $app->get("/detalle/firmas/{id}" , "SGDetalleFirmasController:listByIdPermiso");
+    $app->post("/detalle/firmar" , "SGDetalleFirmasController:firmarPermisoJefes");
 
 });
 

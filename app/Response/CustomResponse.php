@@ -47,6 +47,17 @@ class CustomResponse
             ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Accept,Origin,Authorization');
     }
 
+    public function is404Response($response,$responseMessage)
+    {
+        $responseMessage = json_encode(["success"=>false,"response"=>$responseMessage]);
+        $response->getBody()->write($responseMessage);
+        return $response->withStatus(404)
+            ->withHeader("Content-Type","application/json")
+            ->withHeader('Access-Control-Allow-Origin', '*')
+            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+            ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Accept,Origin,Authorization');
+    }
+
     public function is422Response($response,$responseMessage)
     {
         $responseMessage = json_encode(["success"=>true,"response"=>$responseMessage]);
