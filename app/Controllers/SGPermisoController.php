@@ -446,7 +446,7 @@ class SGPermisoController
 
         foreach($firmas as $item)
         {
-            if($item->firma != null)
+            if(!empty($item->firma))
             {
                 $count++;
             }   
