@@ -427,7 +427,7 @@ class SGPermisoController
 
             if($count > 0)
             {
-                    $jefes = $this->firmasJefes->where("id_permiso" , "=" , $idPermiso)->count();
+                    $jefes = $this->firmasJefes->where("id_permiso" , "=" , $idPermiso)->whereNotNull("url_firma")->count();
 
                     if($jefes > 0)
                     {
