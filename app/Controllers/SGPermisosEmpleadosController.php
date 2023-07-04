@@ -546,7 +546,7 @@ class SGPermisosEmpleadosController
 
         $empleado = $this->sgPermisoEmpleado->selectRaw('users.id , users.user,han_sg_permisos_empleados.firma')
                         ->join('users' , 'users.id', '=' ,'han_sg_permisos_empleados.id_user')
-                        ->where('han_sg_permisos_empleados.id_user' , '=' , )
+                        ->where('han_sg_permisos_empleados.id_user' , '=' , $id_user)
                         ->get();
 
         if($empleado->count() > 0)
@@ -582,7 +582,7 @@ class SGPermisosEmpleadosController
 
         $empleado = $this->sgPermisoEmpleado->selectRaw('users.id , users.user,han_sg_permisos_empleados.firma')
                         ->join('users' , 'users.id', '=' ,'han_sg_permisos_empleados.id_user')
-                        ->where('han_sg_permisos_empleados.id_user' , '=' , )
+                        ->where('han_sg_permisos_empleados.id_user' , '=' , $id_user)
                         ->get();
 
         if($empleado->count() > 0)
