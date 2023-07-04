@@ -178,12 +178,7 @@ class SGPermisosEmpleadosController
         $this->customResponse->is200Response($response , $getFindByEmpleado);
     }
 
-    /**
-     * FIRMAR PERMISO POR JEFES*/
-    public function firmarJefe(Request $request , Response $response)
-    {
-
-    }
+     
 
     /**
      * informacion del permiso completo*/
@@ -528,6 +523,82 @@ class SGPermisosEmpleadosController
     
     
     }
+
+    /**información para firmar x empleado
+     * en caso que sea el que creo el permiso, debe agregar los vehiculos
+    */
+    public function inforParaFirmaEmpleado(Request $request , Response $response)
+    {
+        $this->validator->validate($request , [
+            "id_user" => v::notEmpty(),
+            "id_permiso" => v::notEmpty()
+        ]);
+
+        if($this->validator->failed())
+        {
+            $responseMessage = $this->validator->errors;
+
+            return $this->customResponse->is400Response($response , $responseMessage);
+        }
+
+        $id_user = CustomRequestHandler::getParam($request , "id_user");
+        $id_permiso = CustomRequestHandler::getParam($request , "id_permiso");
+
+        $empleado = $this->sgPermisoEmpleado->selectRaw('users.id , users.user,han_sg_permisos_empleados.firma')
+                        ->join('users' , 'users.id', '=' ,'han_sg_permisos_empleados.id_user')
+                        ->where('han_sg_permisos_empleados.id_user' , '=' , )
+                        ->get();
+
+        if($empleado->count() > 0)
+        {
+            foreach($empleado as $item)
+            {
+                $item->generalidades = $this->getGeneralidadesEmpleados($id_user , $id_permiso); 
+
+            }
+        }
+
+        $this->customResponse->is200Response($response , $empleado);
+
+    }
+
+    /**generlaidades con inspeccion de vehiculos y peligros */
+    public function infoParaFirmarCreadorEmpleado(Request $request , Response $response)
+    {
+        $this->validador->validate($request , [
+            "id_user" => v::notEmpty(),
+            "id_permiso" => v::notEmpty()
+        ]);
+
+        if($this->validator->failed())
+        {
+            $responseMessage = $this->validator->errors;
+
+            return $this->customResponse->is400Response($response , $responseMessage);
+        }
+
+        $id_user = CustomRequestHandler::getParam($request , "id_user");
+        $id_permiso = CustomRequestHandler::getParam($request , "id_permiso");
+
+        $empleado = $this->sgPermisoEmpleado->selectRaw('users.id , users.user,han_sg_permisos_empleados.firma')
+                        ->join('users' , 'users.id', '=' ,'han_sg_permisos_empleados.id_user')
+                        ->where('han_sg_permisos_empleados.id_user' , '=' , )
+                        ->get();
+
+        if($empleado->count() > 0)
+        {
+            foreach($empleado as $item)
+            {
+                $item->generalidades = $this->getGeneralidadesEmpleados($id_user , $id_permiso);
+                $item->peligros  = $this->getPeligros($id_permiso);
+                $item->vehiculos = $this->getVehiculoInspeccion($id_permiso);
+            }
+        }
+
+        $this->customResponse->is200Response($response , $empleado);
+    }
+
+     
 
 
 }
