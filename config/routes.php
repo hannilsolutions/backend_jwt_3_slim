@@ -175,7 +175,9 @@ $app->group("/seguridad" , function() use ($app){
     $app->post("/permisosEmpleados/firmarEmpleado" , "SGPermisosEmpleadosController:firmarEmpleado");
     $app->post("/permisosJefes/firmarPermiso" , "SGPermisosEmpleadosController:firmarJefe");
     $app->get("/permisosEmpleados/active/{id}" , "SGPermisosEmpleadosController:listEmpleado");
-    
+    $app->post("/permisosEmpleados/info" , "SGPermisosEmpleadosController:inforParaFirmaEmpleado");
+    $app->post("/permisosEmpleados/infoAdd" , "SGPermisosEmpleadosController:infoParaFirmarCreadorEmpleado");
+  
 
     $app->post("/permisosEmpleados/findByIdPermisoAndIdUser" , "SGPermisosEmpleadosController:firmaFindByIdPermisoAndIdUser");
     #empleado_generalidades
