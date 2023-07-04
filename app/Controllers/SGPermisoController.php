@@ -396,7 +396,7 @@ class SGPermisoController
 
         $sumaGeneralidades = $sumaGeneralidades + $peligros;
 
-        $resultado = $sumaGeneralidades / 7;
+        $resultado = $sumaGeneralidades / 6;
         
         
         return round($resultado * 100 , 2);
