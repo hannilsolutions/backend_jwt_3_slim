@@ -544,10 +544,11 @@ class SGPermisosEmpleadosController
         $id_user = CustomRequestHandler::getParam($request , "id_user");
         $id_permiso = CustomRequestHandler::getParam($request , "id_permiso");
 
-        $empleado = $this->sgPermisoEmpleado->selectRaw('users.id , users.user,han_sg_permisos_empleados.firma')
-                        ->join('users' , 'users.id', '=' ,'han_sg_permisos_empleados.id_user')
-                        ->where('han_sg_permisos_empleados.id_user' , '=' , $id_user)
-                        ->get();
+        $empleado = $this->sgPermisoEmpleado->selectRaw('users.id , users.user,han_sg_permisos_empleados.firma , han_sg_permisos_empleados.id_permiso_trabajo')
+        ->join('users' , 'users.id', '=' ,'han_sg_permisos_empleados.id_user')
+        ->where('han_sg_permisos_empleados.id_user' , '=' , $id_user)
+        ->where('han_sg_permisos_empleados.id_permiso_trabajo' , "=" , $id_permiso )
+        ->get();
 
         if($empleado->count() > 0)
         {
@@ -580,9 +581,10 @@ class SGPermisosEmpleadosController
         $id_user = CustomRequestHandler::getParam($request , "id_user");
         $id_permiso = CustomRequestHandler::getParam($request , "id_permiso");
 
-        $empleado = $this->sgPermisoEmpleado->selectRaw('users.id , users.user,han_sg_permisos_empleados.firma')
+        $empleado = $this->sgPermisoEmpleado->selectRaw('users.id , users.user,han_sg_permisos_empleados.firma , han_sg_permisos_empleados.id_permiso_trabajo')
                         ->join('users' , 'users.id', '=' ,'han_sg_permisos_empleados.id_user')
                         ->where('han_sg_permisos_empleados.id_user' , '=' , $id_user)
+                        ->where('han_sg_permisos_empleados.id_permiso_trabajo' , "=" , $id_permiso )
                         ->get();
 
         if($empleado->count() > 0)
