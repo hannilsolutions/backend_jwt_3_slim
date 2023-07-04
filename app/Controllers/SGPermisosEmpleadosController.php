@@ -566,7 +566,7 @@ class SGPermisosEmpleadosController
     /**generlaidades con inspeccion de vehiculos y peligros */
     public function infoParaFirmarCreadorEmpleado(Request $request , Response $response)
     {
-        $this->validador->validate($request , [
+        $this->validator->validate($request , [
             "id_user" => v::notEmpty(),
             "id_permiso" => v::notEmpty()
         ]);
