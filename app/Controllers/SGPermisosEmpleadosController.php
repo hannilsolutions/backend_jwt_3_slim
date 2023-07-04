@@ -593,7 +593,7 @@ class SGPermisosEmpleadosController
             {
                 $item->generalidades = $this->getGeneralidadesEmpleados($id_user , $id_permiso);
                 $item->peligros  = $this->getPeligros($id_permiso);
-                $item->vehiculos = $this->getVehiculoInspeccion($id_permiso);
+                $item->vehiculos = $this->getVehiculos($id_permiso);
             }
         }
 
