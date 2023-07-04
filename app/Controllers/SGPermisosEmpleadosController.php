@@ -104,7 +104,7 @@ class SGPermisosEmpleadosController
 
     public function findByIdpermiso(Request $request , Response $response , $id)
     {
-        $getFindByIdpermiso = $this->sgPermisoEmpleado->selectRaw("han_sg_permisos_empleados.id_permisos_empleado, users.user , users.email, han_sg_permisos_empleados.firma")
+        $getFindByIdpermiso = $this->sgPermisoEmpleado->selectRaw("han_sg_permisos_empleados.id_user ,han_sg_permisos_empleados.id_permisos_empleado, users.user , users.email, han_sg_permisos_empleados.firma")
                                                         ->join("users" , "users.id" , "=" , "han_sg_permisos_empleados.id_user")
                                                         ->where(["id_permiso_trabajo" => $id])
                                                         ->get();
