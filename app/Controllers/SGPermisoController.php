@@ -246,7 +246,7 @@ class SGPermisoController
      * ENDPOINT GET findByActivoUsuario*/
     public function findByIdUsuarioActive(Request $request , Response $response )
     {
-        //cambiar a post
+        //cambiar a post 
 
         $idUsuario = CustomRequestHandler::getParam($request , "id_user");
         $estado = CustomRequestHandler::getParam($request , "estado");
@@ -368,34 +368,39 @@ class SGPermisoController
        
         $itemMedir = array("EPP" , "EPCC" , "Herramientas");
         
-        $sumaGeneralidades = 0;
+       (double) $sumaGeneralidades = 0;
         
         foreach($itemMedir as $item)
-        {   
+        {    
             $generalidades = $this->getGeneralidadesCount( $item , $idPermiso);
             
             if($generalidades > 0)
             {
-                $coeficiente = $generalidades / $cantidadEmpleados;
-
-                 $sumaGeneralidades = $sumaGeneralidades + $coeficiente;
+               (double) $coeficiente = $generalidades / $cantidadEmpleados;
+                
+                 $sumaGeneralidades = $sumaGeneralidades + $coeficiente;    
             }
         }
+       // echo $sumaGeneralidades;
+        
         //firmas
         $firmasEmpleado = $this->firmasEmpleado($idPermiso);
 
+         
+
         $sumaGeneralidades  = $sumaGeneralidades + ($firmasEmpleado/ $cantidadEmpleados);
+        //echo $sumaGeneralidades;
 
         //firmas Jefes
         $firmasJefes = $this->getFirmasJefes($idPermiso , $idEmpresa);
-
+         
         $sumaGeneralidades  = $sumaGeneralidades + $firmasJefes;
 
         //peligros
         $peligros = $this->getPeligrosCount($idPermiso);
-
+        
         $sumaGeneralidades = $sumaGeneralidades + $peligros;
-
+         
         $resultado = $sumaGeneralidades / 6;
         
         
@@ -424,17 +429,23 @@ class SGPermisoController
         $validacion = 0;
 
             $count = $this->firmaEmpresa->where("id_empresa" , "=" , $idEmpresa)->count();
-
+             
             if($count > 0)
             {
-                    $jefes = $this->firmasJefes->where("id_permiso" , "=" , $idPermiso)->whereNotNull("url_firma")->count();
-
-                    if($jefes > 0)
+                    $jefes = $this->firmasJefes->where("id_permiso" , "=" , $idPermiso)->get();
+                     
+                    if($jefes->count() > 0)
                     {
-                         $validacion = $jefes / $count;
+                          foreach($jefes as $item)
+                          {
+                            if(!empty($item->url_firma))
+                            {
+                                $validacion = $validacion + (1 / $count);
+                            }
+                          }
                     }
             }
-
+         
         return $validacion;
     }
 
@@ -459,29 +470,28 @@ class SGPermisoController
     private function getGeneralidadesCount($tipo , $idPermiso)
     {
         
-
-            $gen  = 0; 
-
-        $generalidades = $this->empleadoGeneralidades->selectRaw("count(han_sg_empleados_generalidades.active) as activo")
+        $gen = 0;
+            //echo $tipo." hola ".$idPermiso;
+        $generalidades = $this->empleadoGeneralidades->selectRaw("count(han_sg_empleados_generalidades.active)as activo") 
                 ->join("han_sg_generalidades" , "han_sg_generalidades.id_generalidades" , "=" , "han_sg_empleados_generalidades.generalidades_id")
+                ->where("han_sg_empleados_generalidades.active" , "=" , "Y")
                 ->where("han_sg_generalidades.tipo" , "=" , $tipo)
                 ->where("han_sg_empleados_generalidades.permiso_id" , "=" , $idPermiso)
-                ->where("han_sg_empleados_generalidades.active" , "=" , "Y")
-                ->groupBy('han_sg_empleados_generalidades.empleado_id')
+                ->groupBy("han_sg_empleados_generalidades.empleado_id")
                 ->get();
 
-        foreach($generalidades as $item)
-        {
-               if($item->activo > 0)
-               {
-                    $gen++;
-                }
-        }
-
-
-        
-        return $gen;
-
+       /*if($generalidades->count() > 0)
+       {
+            $gen = 1;
+       }*/
+       foreach($generalidades as $item)
+       {
+           if($item->activo > 0)
+           {
+            $gen = $gen + 1;
+           }
+       }
+       return $gen;
          
     }
 
