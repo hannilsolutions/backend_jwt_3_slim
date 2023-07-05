@@ -6,10 +6,12 @@ use App\Models\SGPermiso;
 use App\Models\SGEmpresa;
 use App\Models\SGPermisoEmpleado;
 use App\Models\SGEmpleadoGeneralidades;
+use App\Models\SGVehiculosGeneralidades;
 use App\Models\Usuario;
 use App\Models\SGFirma;
 use App\Models\SGPermisosPeligros;
 use App\Models\SGDetalleFirmas;
+use App\Models\SGPermisoVehiculo;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -39,6 +41,10 @@ class SGPermisoController
 
     protected $peligros;
 
+    protected $vehiculos;
+
+    protected $vehiculo_generalidades;
+
     public function __construct()
     {
         $this->customResponse = new CustomResponse();
@@ -61,7 +67,9 @@ class SGPermisoController
 
         $this->peligros = new SGPermisosPeligros();
 
+        $this->vehiculos = new SGPermisoVehiculo();
 
+        $this->vehiculo_generalidades = new SGVehiculosGeneralidades();
     }
     /*
     *ENDPOINT: POST
@@ -352,6 +360,45 @@ class SGPermisoController
 
         
     }
+    /**Validar la inspección de los vehiculos */
+    private function valid_exist_vehiculos($permiso)
+    {
+        //buscar si existe un vehiculo
+        $list = $this->vehiculos->where("permiso_id" , "=" , $permiso)->get();
+
+        if($list->count() == 0)
+        {
+            return 0;
+        }
+        $vehiculos = $list->count();
+
+        $conteo = 0;
+
+        $resultado = 0;
+
+        $inspeccion = 0;
+
+        foreach($list as $item)
+        {
+            $generalidades = $this->vehiculo_generalidades->where("permiso_vehiculo_id" , "=" , $item->permiso_vehiculo_id)->get();
+
+            foreach($generalidades as $estado)
+            {
+                if(!empty($estado->inspeccion))
+                {
+                    $conteo++;
+                }
+    
+            }
+             $inspeccion = $inspeccion + $generalidades->count();
+        }
+
+        $resultado = $conteo / $inspeccion;
+
+        return $resultado;
+
+    }
+    /**Busca la cantidad de integrantes del permiso de trabajo */
 
     private function findIntegrantes($permiso)
     {
@@ -359,6 +406,7 @@ class SGPermisoController
 
         return $empleado;
     }
+
 
     /**
      * buscar firmas de empleado y firmasdetalle de jefes
@@ -400,8 +448,22 @@ class SGPermisoController
         $peligros = $this->getPeligrosCount($idPermiso);
         
         $sumaGeneralidades = $sumaGeneralidades + $peligros;
+
+        $vehiculos = $this->valid_exist_vehiculos($idPermiso);
+
+        if($vehiculos == 0)
+        {
+            $resultado = $sumaGeneralidades / 6;
+
+        }else{
+
+            $sumaGeneralidades = $sumaGeneralidades + $vehiculos;
+
+            $resultado = $sumaGeneralidades / 7;
+
+        }
          
-        $resultado = $sumaGeneralidades / 6;
+        
         
         
         return round($resultado * 100 , 2);
@@ -409,6 +471,10 @@ class SGPermisoController
         
     }
 
+    /**contar la cantidad de peligros si existe uno retorna 1
+     * 
+     * 
+     */
     private function getPeligrosCount($idPermiso)
     {
     $count = 0;
@@ -423,6 +489,9 @@ class SGPermisoController
     return $count;
         
     }
+    /**Cuenta la cantidad de jefes para firmar, es dividdo por la cantidad de firmas existentes en detalle
+     * 
+     */
 
     private function getFirmasJefes($idPermiso , $idEmpresa)
     {
@@ -448,7 +517,9 @@ class SGPermisoController
          
         return $validacion;
     }
-
+/**
+ * la cantidad de firmas de los empleados (empty) validar si esta vacio, retorna 1
+ */
     private function firmasEmpleado($idPermiso)
     {
         $count  = 0 ; 
@@ -466,6 +537,12 @@ class SGPermisoController
         return $count;
     }
  
+    /**blucle
+     * recorre los tipos de generalidades Epp, epcc, herramientas,
+     * agrupa por empleados
+     * cuenta por active = Y
+     * @Param $gen retorna 1
+     */
 
     private function getGeneralidadesCount($tipo , $idPermiso)
     {
@@ -480,10 +557,7 @@ class SGPermisoController
                 ->groupBy("han_sg_empleados_generalidades.empleado_id")
                 ->get();
 
-       /*if($generalidades->count() > 0)
-       {
-            $gen = 1;
-       }*/
+        
        foreach($generalidades as $item)
        {
            if($item->activo > 0)
