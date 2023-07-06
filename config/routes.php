@@ -122,6 +122,9 @@ $app->group("/roles" , function() use ($app){
 //sistema de gestion sst
 $app->group("/seguridad" , function() use ($app){
 
+    #Reportes
+    $app->post("/reportes/treeNode" , "SGReportesController:treeNode");
+
     #observaciones
     $app->post("/observacion/save" , "SGObservacionController:save");
     $app->get("/observacion/{id}" , "SGObservacionController:findByIdPermiso");

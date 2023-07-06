@@ -222,6 +222,12 @@ return function($container)
       return new \App\Controllers\SGDetalleFirmasController;
     };
 
+    $container["SGReportesController"] = function(){
+      
+      return new \App\Controllers\SGReportesController;
+    };
+
+
 
 
     
