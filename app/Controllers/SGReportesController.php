@@ -86,7 +86,7 @@ where han_sg_permiso_trabajo.fecha_inicio = "2023-06-24" */
             $object->type = 'person';
             $object->styleClass = 'p-person';
             $object->expanded =  true;
-            $temp = array('name' => $item->name , 'avatar' => 'https://apps.internetinalambrico.com.co/Files/profile/'.$item->avatar);
+            $temp = array('name' => substr($item->name , 0 ,10) , 'avatar' => 'https://apps.internetinalambrico.com.co/Files/profile/'.$item->avatar);
             $object->data = $temp;
             $object->children =  $this->getList($item->id_permiso , $item->id_usuario);
             
@@ -117,7 +117,7 @@ where han_sg_permiso_trabajo.fecha_inicio = "2023-06-24" */
             foreach($user as $item)
                 {
                     $child = new \stdClass();
-                    $child->label = $item->user;
+                    $child->label = substr($item->user , 0 , 10);
                     $child->styleClass = 'department-cfo';
 
                     array_push($children , $child);
