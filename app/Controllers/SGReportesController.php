@@ -74,7 +74,7 @@ where han_sg_permiso_trabajo.fecha_inicio = "2023-06-24" */
         $treeNode->type = 'person';
         $treeNode->styleClass = 'p-person';
         $treeNode->expanded = true;
-        $treeNode->data = array('name' => $fecha , 'avatar' => '');
+        $treeNode->data = array('name' => $fecha , 'avatar' => 'https://apps.internetinalambrico.com.co/Files/profile/default.jpg');
 
         $creadores =  array();
 
