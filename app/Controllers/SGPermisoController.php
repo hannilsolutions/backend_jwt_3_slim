@@ -590,7 +590,9 @@ class SGPermisoController
         $this->sgPermiso
                 ->where(["id_permiso" => $id])
                 ->update([
-                    "estado" => 2
+                    "estado" => 2,
+                    "fecha_cierre" => date("Y-m-d"),
+                    "hora_cierre" => date("H:i:s")
                 ]);
         $updated = "Cerrado con éxito";
 
