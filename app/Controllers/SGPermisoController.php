@@ -596,7 +596,7 @@ class SGPermisoController
                 ]);
         $updated = "Cerrado con éxito";
 
-        $this->customResponse->is200Response($request , $update);
+        $this->customResponse->is200Response($response , $update);
 
     }
 }
