@@ -5,7 +5,7 @@
 return function ($app)
 {
     $app->add(new Tuupola\Middleware\JwtAuthentication([
-        "ignore"=>["/auth/login", "/contratos/findByCus","/contratos/gps/save" , "/auth/recovery" , "/pdf/permiso"],
+        "ignore"=>["/auth/login", "/contratos/findByCus","/contratos/gps/save" , "/auth/recoveryT" , "/pdf/permiso"],
         "secret"=>SECRET_PASSWORD,
         "error"=>function ($response,$arguments)
         {
