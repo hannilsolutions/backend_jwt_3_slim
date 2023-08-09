@@ -9,6 +9,7 @@ use App\Models\SGPermisosPeligros;
 use App\Models\SGControles;
 use App\Models\SGPermisoVehiculo;
 use App\Models\SGVehiculosGeneralidades;
+use App\Models\SGObservaciones;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -20,6 +21,7 @@ use App\Validation\Validator;
 
 class SGPermisosEmpleadosController
 {
+    protected $sgObservaciones;
 
     protected $customResponse;
 
@@ -58,6 +60,8 @@ class SGPermisosEmpleadosController
         $this->permisoVehiculo = new SGPermisoVehiculo();
 
         $this->vehiculoGeneralidades = new SGVehiculosGeneralidades();
+
+        $this->sgObservaciones = new SGObservaciones();
     }
 
     /**
@@ -114,11 +118,59 @@ class SGPermisosEmpleadosController
 
     public function deleteById(Request $request , Response $response , $id)
     {
+        //consultar informacion del permiso
+        $permisoEmpleado = $this->sgPermisoEmpleado->where(["id_permisos_empleado" => $id])->get();
+
+        if($permisoEmpleado->count() > 0)
+        {
+        $id_usuario = $permisoEmpleado[0]->id_user;
+        $id_permiso = $permisoEmpleado[0]->id_permiso_trabajo;
+        //echo $id_permiso." ".$id_usuario;
+        //buscar si esta como conductor
+        $conductor = $this->permisoVehiculo->where("permiso_id" , "=" , $id_permiso)->where("conductor_id" , "=" , $id_usuario)->count();
+
+        if($conductor > 0)
+        {
+            $responseMessage = "Empleado se encuentra como conductor";
+
+            return $this->customResponse->is400Response($response , $responseMessage);
+        }
+        //eliminamos el usuario 
+        
+        //han_sg_empleados_generalidades consultamos 
+        $findGeneralidads = $this->sgEmpleadoGeneralidades->where("empleado_id", "=", $id_usuario)->where("permiso_id" , "=" , $id_permiso)->get();
+        if($findGeneralidads->count() > 0)
+        {
+            //proceder a eliminar registros
+            //echo $findGeneralidads;
+            //$this->sgEmpleadoGeneralidades->whereIn("empleado_generalidades_id" , [$findGeneralidads])->delete();
+            foreach ($findGeneralidads as $key)
+            {
+                $this->sgEmpleadoGeneralidades->where("empleado_generalidades_id" , "=" , $key->empleado_generalidades_id)->delete();
+            }
+        }
+
+        //han_sg_permisos_observaciones 
+        $findObservaciones = $this->sgObservaciones->where("id_usuario" , "=" , $id_usuario)->where("id_permiso" , "=" , $id_permiso)->get();
+
+        if($findObservaciones->count() > 0 )
+        { 
+            //$this->sgObservaciones->whereIn("id_observacion" , [$findObservaciones])->delete();
+            foreach($findObservaciones as $item)
+            {
+                $this->sgObservaciones->where("id_observacion" , "=" , $item->id_observacion)->delete();
+            }
+        }
+
         $this->sgPermisoEmpleado->where(["id_permisos_empleado" => $id])->delete();
 
         $responseMessage = "Eliminado";
 
-        $this->customResponse->is200Response($response  , $responseMessage);
+        $this->customResponse->is200Response($response  , $responseMessage); 
+        }else{
+
+            $this->customResponse->is400Response($response  , "no existe el id"); 
+        }
     }
 
     /*
