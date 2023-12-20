@@ -30,6 +30,34 @@ class UsuarioController
          $this->validator = new Validator();
     }
 
+    //**/EDIT USUARIO */
+    public function updatedUserMailAndPass(Request $request , Response $response , $id)
+    {
+        $this->validator->validate($request , [
+            "password" => v::notEmpty(),
+            "email" => v::notEmpty()
+        ]);
+
+        if($this->validator->failed())
+        {
+            $responseMessage = $this->validator->errors;
+
+            return $this->customResponse->is400Response($response , $responseMessage);
+        }
+
+        $passwordHash = $this->hashPassword(CustomRequestHandler::getParam($request,"password"));
+
+        $this->usuario->where(["id" => $id])->update(
+            [
+                "password" => $passwordHash,
+                "email" => CustomRequestHandler::getParam($request , "email"),
+            ] );
+
+        $responseMessage = "usuario actualizado";
+
+        $this->customResponse->is200Response($response , $responseMessage);
+    }
+
 /**
  * Lista de usuarios Get
  */
@@ -180,6 +208,7 @@ class UsuarioController
     /*
     *ENDPOINT PATCH UPDATED PASSWORD
     */
+
 
     public function updatedPassword(Request $request , Response $response , $id)
     {
