@@ -73,6 +73,8 @@ class SGDetalleFirmasController
             $this->customResponse->is200Response($response , $get);
     }
 
+    /**Create */
+
     public function create(Request $request , Response $response)
     {
         $this->validator->validate($request , [
@@ -87,8 +89,30 @@ class SGDetalleFirmasController
             return $this->customResponse->is400Response($response , $responseMessage);
         }
 
+        //buscar si el permiso tiene preoperacional de alturas
+        /**SELECT count(han_sg_empleados_generalidades.empleado_generalidades_id) FROM han_sg_empleados_generalidades 
+inner join han_sg_generalidades on han_sg_generalidades.id_generalidades = han_sg_empleados_generalidades.generalidades_id
+WHERE han_sg_empleados_generalidades.permiso_id = 4 and han_sg_generalidades.tipo= "EPCC" and han_sg_generalidades.nombre != "No aplica"
+AND han_sg_empleados_generalidades.active = "Y";  */
+        $id_permiso = CustomRequestHandler::getParam($request , "id_permiso");
+        $id_empresa = CustomRequestHandler::getParam($request , "id_empresa");
+        $validar_epcc = $this->generalidadesEmpleado->selectRaw('han_sg_empleados_generalidades.empleado_generalidades_id')
+                                                    ->join('han_sg_generalidades' , 'han_sg_generalidades.id_generalidades', '=', 'han_sg_empleados_generalidades.generalidades_id')
+                                                    ->where('han_sg_empleados_generalidades.permiso_id' , '=' , $id_permiso)
+                                                    ->where('han_sg_generalidades.tipo' , '=','EPCC')
+                                                    ->where('han_sg_generalidades.nombre', '!=' ,'No aplica')
+                                                    ->count();
+        if($validar_epcc > 0)
+        {
         //buscar si tiene firmas
-        $getFirmas = $this->firma->where("id_empresa" , "=" , CustomRequestHandler::getParam($request , "id_empresa"))->get();
+        $getFirmas = $this->firma->where("id_empresa" , "=" , $id_empresa)
+                                ->where("estado" , "=" , "ACTIVO")->get(); 
+        }else{
+        $getFirmas = $this->firma->where("id_empresa" , "=" , $id_empresa)
+                                    ->where("cargo" , "!=" , "coordaltura")
+                                    ->where("estado" , "=" , "ACTIVO")->get();
+        }
+
         if($getFirmas->count() == 0)
         {
             $responseMessage = "No tiene personal habilitado para firmar";
@@ -96,14 +120,21 @@ class SGDetalleFirmasController
             return $this->customResponse->is400Response($response , $responseMessage);
         }
 
+        
+
         try{
 
             foreach($getFirmas as $item)
             {
-                $this->detalle->create([
-                    "id_firma" => $item->id,
-                    "id_permiso" => CustomRequestHandler::getParam($request , "id_permiso")
-                ]);
+                if(!$this->validar_existe($item->id , $id_permiso))
+                {
+                    $this->detalle->create([
+                        "id_firma" => $item->id,
+                        "id_permiso" => $id_permiso
+                    ]);
+                }
+                
+
             }
         $responseMessage = "creado";
 
@@ -115,6 +146,20 @@ class SGDetalleFirmasController
 
                 $this->customResponse->is400Response($response , $responseMessage);
         }
+
+    }
+    /**validar si ya firma ya existe */
+    public function validar_existe($id_firma , $id_permiso){
+        $existe = false;
+
+        $detalle_firma = $this->detalle->where("id_firma" , "=" , $id_firma)->where("id_permiso" , "=" , $id_permiso)->count();
+       
+        if($detalle_firma > 0)
+        {
+            $existe = true;
+        }
+
+        return $existe;
 
     }
 
