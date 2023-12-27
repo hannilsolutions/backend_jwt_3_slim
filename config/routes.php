@@ -307,4 +307,9 @@ $app->group("/pdf", function() use ($app){
     $app->get("/detalle/find/{id}" , "TicketDetalleController:findByIdTicket");
 
  });
+
+ /**notifications */
+ $app->group("/notifications" , function() use($app){
+    $app->get("/all","SGNotificationsController:list_by_five");
+ });
  

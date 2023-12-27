@@ -228,6 +228,11 @@ return function($container)
     };
 
 
+  $container["SGNotificationsController"] = function(){
+      
+      return new \App\Controllers\SGNotificationsController;
+    };
+
 
 
     
