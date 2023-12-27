@@ -40,7 +40,7 @@ class SGNotificationsController {
     }
 
     /**LIST BY ID_USER -> ULTIMOS 5 */
-    public function list_by_five(Request $request , Response $response , $id)
+    public function list_by_five(Request $request , Response $response)
     {
             $this->validator->validate($request, [
                 "id_user" => v::notEmpty(),
@@ -55,6 +55,8 @@ class SGNotificationsController {
             }
 
             $count = CustomRequestHandler::getParam($request , "count");
+            $id = CustomRequestHandler::getParam($request , "id_user");
+             
 
            $list = $this->notifications->where(["id_user" => $id])
                                         ->orderBy("created_at" , "desc")
