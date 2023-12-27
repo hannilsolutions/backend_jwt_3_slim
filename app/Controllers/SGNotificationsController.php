@@ -35,6 +35,7 @@ class SGNotificationsController {
             "id_referencia" => $array->id_referencia,
             "estado" => 1,
             "comentario" => $array->comentario,
+            "icon" => $array->icon,
             "url" => $array->url,
         ]);
     }

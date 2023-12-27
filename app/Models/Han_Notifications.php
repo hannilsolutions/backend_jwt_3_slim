@@ -25,6 +25,7 @@ class Han_Notifications extends Model
     "id_referencia",
     "comentario",
     "url",
+    "icon",
     "created_at",
     "updated_at"
 ];
