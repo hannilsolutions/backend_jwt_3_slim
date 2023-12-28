@@ -311,5 +311,6 @@ $app->group("/pdf", function() use ($app){
  /**notifications */
  $app->group("/notifications" , function() use($app){
     $app->get("/all","SGNotificationsController:list_by_five");
+    $app->put("/changeEstado/{id}","SGNotificationsController:updated");
  });
  

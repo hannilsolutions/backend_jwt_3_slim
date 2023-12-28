@@ -66,6 +66,17 @@ class SGNotificationsController {
             $this->customResponse->is200Response($response , $list);
     }
 
+    /** */
+    public function updated( Request $request , Response $response , $id)
+    {
+        $this->notifications->where(["id" => $id])->updated([
+            "estado" => 2
+        ]);
+
+
+        $this->is200Response($response , "actualizado");
+    }
+
 }
 
 ?>
