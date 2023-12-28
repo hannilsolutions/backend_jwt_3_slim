@@ -55,6 +55,7 @@ class SGDetalleFirmasController
         $this->vehiculos = new SGPermisoVehiculo();
 
         $this->vehiculosInspeccion = new SGVehiculosGeneralidades();
+
     }
 
     public function listByIdPermiso(Request $request , Response $response , $id)
