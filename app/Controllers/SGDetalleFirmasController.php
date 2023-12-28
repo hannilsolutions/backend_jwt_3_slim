@@ -134,7 +134,7 @@ AND han_sg_empleados_generalidades.active = "Y";  */
                         "id_permiso" => $id_permiso
                     ]);
                     $notification = new \stdClass();
-                    $notification->id_user = $item = $id_user;
+                    $notification->id_user = $item->id_user;
                     $notification->id_referencia = $id_permiso;
                     $notification->comentario = "Firma agregada para firmar";
                     $notification->icon = "ti-settings";
