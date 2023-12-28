@@ -37,6 +37,7 @@ class SGNotificationsController {
             "comentario" => $array->comentario,
             "icon" => $array->icon,
             "url" => $array->url,
+            "title" => $array->title
         ]);
     }
 
