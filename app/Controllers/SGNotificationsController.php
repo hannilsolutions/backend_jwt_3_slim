@@ -28,7 +28,7 @@ class SGNotificationsController {
         $this->notifications = new Han_Notifications();
     }
 
-    public function create($array)
+    public static function create($array)
     {
         $this->notifications->create([
             "id_user" => $array->id_user,

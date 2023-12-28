@@ -132,6 +132,14 @@ AND han_sg_empleados_generalidades.active = "Y";  */
                         "id_firma" => $item->id,
                         "id_permiso" => $id_permiso
                     ]);
+                    $notification = new \stdClass();
+                    $notification->id_user = $item = $id_user;
+                    $notification->id_referencia = $id_permiso;
+                    $notification->comentario = "Firma agregada para firmar";
+                    $notification->icon = "ti-settings";
+                    $notification->title = "Firma permiso : ".$id_permiso;
+                    $notification->url = "/dashboard/firmas/".$id_permiso."/supervisor";
+                    SGNotificationsController::create($notification);
                 }
                 
 
