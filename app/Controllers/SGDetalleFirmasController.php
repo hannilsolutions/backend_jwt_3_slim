@@ -102,6 +102,7 @@ AND han_sg_empleados_generalidades.active = "Y";  */
                                                     ->where('han_sg_empleados_generalidades.permiso_id' , '=' , $id_permiso)
                                                     ->where('han_sg_generalidades.tipo' , '=','EPCC')
                                                     ->where('han_sg_generalidades.nombre', '!=' ,'No aplica')
+                                                    ->where('han_sg_empleados_generalidades.active' , '=' , 'Y')
                                                     ->count();
         if($validar_epcc > 0)
         {
