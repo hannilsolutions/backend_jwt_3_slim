@@ -74,7 +74,7 @@ class SGNotificationsController {
         ]);
 
 
-        $this->is200Response($response , "actualizado");
+        $this->customResponse->is200Response($response , "actualizado");
     }
 
 }
