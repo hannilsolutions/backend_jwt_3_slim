@@ -69,7 +69,7 @@ class SGNotificationsController {
     /** */
     public function updated( Request $request , Response $response , $id)
     {
-        $this->notifications->where(["id" => $id])->updated([
+        $this->notifications->where(["id" => $id])->update([
             "estado" => 2
         ]);
 
