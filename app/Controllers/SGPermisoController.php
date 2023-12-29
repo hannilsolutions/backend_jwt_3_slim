@@ -497,10 +497,8 @@ class SGPermisoController
     {
         $validacion = 0;
 
-            $count = $this->firmaEmpresa->where("id_empresa" , "=" , $idEmpresa)->count();
-             
-            if($count > 0)
-            {
+            //$count = $this->firmaEmpresa->where("id_empresa" , "=" , $idEmpresa)->count();
+            
                     $jefes = $this->firmasJefes->where("id_permiso" , "=" , $idPermiso)->get();
                      
                     if($jefes->count() > 0)
@@ -509,11 +507,11 @@ class SGPermisoController
                           {
                             if(!empty($item->url_firma))
                             {
-                                $validacion = $validacion + (1 / $count);
+                                $validacion = $validacion + (1 / $jefes->count());
                             }
                           }
                     }
-            }
+            
          
         return $validacion;
     }
