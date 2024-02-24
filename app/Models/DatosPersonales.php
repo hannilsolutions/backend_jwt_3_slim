@@ -19,6 +19,7 @@ class DatosPersonales extends  Model
     "tipo_documento",
     "documento",
     "cargo",
+    "celular"
 	];
     
 }

@@ -51,7 +51,9 @@ class DatosPersonalesController
 				"id_user" => CustomRequestHandler::getParam($request , "id_user"),
 				"tipo_documento" => CustomRequestHandler::getParam($request , "tipo_documento"),
 				"documento" => CustomRequestHandler::getParam($request , "documento"),
-				"cargo" => CustomRequestHandler::getParam($request , "cargo")
+				"cargo" => CustomRequestHandler::getParam($request , "cargo"),
+				"celular" => CustomRequestHandler::getParam($request , "celular")
+
 			]);
 
 			$responseMessage = "creado";
@@ -96,7 +98,8 @@ class DatosPersonalesController
 		"id_user" => CustomRequestHandler::getParam($request , "id_user"),
 		"tipo_documento" => CustomRequestHandler::getParam($request , "tipo_documento"),
 		"documento" => CustomRequestHandler::getParam($request , "documento"),
-		"cargo" => CustomRequestHandler::getParam($request , "cargo")
+		"cargo" => CustomRequestHandler::getParam($request , "cargo"),
+		"celular" => CustomRequestHandler::getParam($request , "celular")
 		]);
 		}catch(Exception $e)
 		{
