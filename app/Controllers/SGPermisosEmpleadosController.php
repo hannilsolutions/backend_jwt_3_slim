@@ -105,7 +105,7 @@ class SGPermisosEmpleadosController
         ]);
         $id = CustomRequestHandler::getParam($request , "id_user");
 
-        $datos_personales =  $this->datosPersonales->where(["id_user"=>$id])->get();
+        $datos_personales =  $this->datosPersonales->where("id_user" , "=" , $id)->get();
         $whatsapp = "";
         foreach($datos_personales as $item)
         {
