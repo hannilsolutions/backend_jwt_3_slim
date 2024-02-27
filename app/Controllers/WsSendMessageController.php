@@ -33,7 +33,7 @@ class WsSendMessageController {
         ));
 
         $response = curl_exec($ch);
-        if ($response === false) {
+        /*if ($response === false) {
             // Manejar el error si curl_exec falla
             echo 'Error de cURL: ' . curl_error($ch);
         } else {
@@ -41,7 +41,7 @@ class WsSendMessageController {
             $decoded_response = json_decode($response);
             // Hacer algo con $decoded_response si es necesario
             echo 'Respuesta exitosa: ' . $response;
-        }
+        }*/
 
         curl_close($ch);
     }
