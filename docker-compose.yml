@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  php-fpm:
+    build: ./docker/php7
+    container_name: jwt-backend_intinalambrico
+    volumes:
+     - ./:/var/www/html
+volumes:
+  my-data:
