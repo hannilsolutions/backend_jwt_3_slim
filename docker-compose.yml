@@ -4,6 +4,8 @@ services:
   php-fpm:
     build: ./docker/php7
     container_name: jwt-backend_intinalambrico
+    ports:
+     - "8081:80"
     volumes:
      - ./:/var/www/html
 volumes:
