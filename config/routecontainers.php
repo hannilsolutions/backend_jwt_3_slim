@@ -233,6 +233,11 @@ return function($container)
       return new \App\Controllers\SGNotificationsController;
     };
 
+    $container["PdfPreoperacionalController"] = function(){
+      
+      return new \App\Controllers\PdfPreoperacionalController;
+    };
+
 
 
     

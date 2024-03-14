@@ -5,6 +5,7 @@ services:
     build: ./docker/php7
     container_name: jwt-backend_intinalambrico
     ports:
+     - "9003:9003"
      - "8081:80"
     volumes:
      - ./:/var/www/html
