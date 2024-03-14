@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Controllers\WsSendMessageController;
 use App\Models\SGPermisoEmpleado;
 use App\Models\SGEmpleadoGeneralidades;
 use App\Models\SGPermiso;
@@ -10,6 +11,7 @@ use App\Models\SGControles;
 use App\Models\SGPermisoVehiculo;
 use App\Models\SGVehiculosGeneralidades;
 use App\Models\SGObservaciones;
+use App\Models\DatosPersonales;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -41,6 +43,10 @@ class SGPermisosEmpleadosController
 
     protected $vehiculoGeneralidades;
 
+    protected $wsSendMessage;
+
+    protected $datosPersonales;
+
     public function __construct()
     {
         $this->customResponse = new CustomResponse();
@@ -62,6 +68,10 @@ class SGPermisosEmpleadosController
         $this->vehiculoGeneralidades = new SGVehiculosGeneralidades();
 
         $this->sgObservaciones = new SGObservaciones();
+
+        $this->wsSendMessage = new WsSendMessageController();
+
+        $this->datosPersonales = new DatosPersonales();
     }
 
     /**
@@ -93,6 +103,19 @@ class SGPermisosEmpleadosController
             "id_user"   => CustomRequestHandler::getParam($request , "id_user"),
             "id_empresa" => CustomRequestHandler::getParam($request , "id_empresa")
         ]);
+        $id = CustomRequestHandler::getParam($request , "id_user");
+
+        $datos_personales =  $this->datosPersonales->where("id_user" , "=" , $id)->get();
+        $whatsapp = "";
+        foreach($datos_personales as $item)
+        {
+            $whatsapp = $item->celular;
+        }
+        if(!empty($whatsapp))
+        {
+            $msm = "Ha sigo agregado a un permiso de trabajo ingrese al portal web y diligencielo https://apps.internetinalambrico.com.co/int";
+            $this->wsSendMessage->send_text($whatsapp , $msm);
+        }
 
         $responseMessage  = "creado";
 

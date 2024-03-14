@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Controllers\WsSendMessageController;
+use App\Models\DatosPersonales;
 use App\Models\SGEmpleadoGeneralidades;
 use App\Models\SGGeneralidades;
 use App\Models\SGEmpresa;
@@ -29,6 +31,10 @@ class SGEmailController
 
 	protected $usuario;
 
+	protected $wsSendMessage;
+
+    protected $datosPersonales;
+
 
 	public function __construct()
 	{
@@ -41,6 +47,10 @@ class SGEmailController
 		$this->empresa 	= new SGEmpresa();
 
 		$this->usuario = new Usuario();
+
+		$this->wsSendMessage = new WsSendMessageController();
+
+        $this->datosPersonales = new DatosPersonales();
 	}
 
 	public function sendMailFirma(Request $request , Response $response)
@@ -77,7 +87,20 @@ class SGEmailController
 		}
 		#actualizar token en user agrega tiempo de expirar
 		$setTokenUser = $this->updatedTokenUsuario(CustomRequestHandler::getParam($request , "id_user") , $getToken);
-		
+		//enviar por whatsapp
+		$id = CustomRequestHandler::getParam($request , "id_user");
+		$datos_personales =  $this->datosPersonales->where("id_user" , "=" , $id)->get();
+        $whatsapp = "";
+        foreach($datos_personales as $item)
+        {
+            $whatsapp = $item->celular;
+        }
+        if(!empty($whatsapp))
+        {
+            $msm = "Su código para firmar es ".$getToken;
+            $this->wsSendMessage->send_text($whatsapp , $msm);
+        }
+
 		$responseMessage = "enviado";
 
 		$this->customResponse->is200Response($response , $responseMessage);

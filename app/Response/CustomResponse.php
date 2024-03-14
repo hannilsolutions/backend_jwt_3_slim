@@ -16,6 +16,16 @@ class CustomResponse
             ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Accept,Origin,Authorization');
     }
 
+    public function is200Pdf($response , $pdf)
+    {
+        $response->getBody()->write($pdf);
+        return $response->withStatus(200)
+                ->withHeader("Content-Type" , "application/pdf")
+                ->withHeader('Access-Control-Allow-Origin', '*')
+                ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+                ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Accept,Origin,Authorization');
+    }
+
     public function is200ResponseLogin($response , $responseMessage , $usuario , $menu)
     {
         $responseMessage = json_encode(
