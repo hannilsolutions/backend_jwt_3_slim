@@ -24,56 +24,10 @@ $app->group("/auth",function() use ($app){
     $app->post("/recoveryP/newPassword" , "AuthController:newPassword");
 });
 
-$app->group("/pagos", function() use ($app){
-    $app->post("/save" , "PagoController:save");
-    $app->get("/all" , "PagoController:all");
-    $app->patch("/reversado/{id}" , "PagoController:reversarPago");
-    $app->get("/{id}" , "PagoController:findOne");
-    $app->get("/suma/mes" , "PagoController:sumaMes");
-    $app->post("/findByBetween" , "PagoController:findByBetween");
-    $app->get("/estado/cargue" , "PagoController:buscarEstadoCargue");
-    $app->get("/actualizarcargue/{id}" , "PagoController:updatedDescargue");
 
-});
 
-$app->group("/clientes" , function() use($app){
-    $app->post("/deuda" , "ClienteController:deudas");
-});
 
-$app->group("/merkas" , function() use($app){
-    $app->post("/save" , "PagoMerkasController:save");
-    $app->post("/count" , "PagoMerkasController:countPagos");
-    $app->post("/all" , "PagoMerkasController:all");
-    $app->get("/count/estado" , "PagoMerkasController:countEstado");
-    $app->patch("/edit/{id}" , "PagoMerkasController:updateReciboCaja");
-    $app->post("/pagoscontrol" , "PagoMerkasController:findByBetween");
-});
 
-$app->group("/sorteo" , function() use ($app){
-    $app->get("/ramdon/{id}" , "SorteoController:findByMunicipio"); 
-    $app->patch("/edit/{id}" , "SorteoController:updateById");
-    $app->get("/ganadores/all" , "SorteoController:getGanadores");
-});
-
-//buscar por contratos
-
-$app->group("/contratos" , function() use ($app){
-    $app->get("/findByCus/{id}" , "ContratoController:findByCus");
-    $app->post("/saveEncuesta" , "ContratoController:preferenciaFactura");
-    $app->post("/gps/save" , "ContratoGPSController:save");
-    $app->post("/gps/list" , "ContratoGPSController:getContratoGps");
-    $app->get("/municipios/{id}" , "ContratoGPSController:findMunicipios");
-    $app->get("/barrios/{id}" , "ContratoGPSController:findBarrios");
-    #gps betwenn
-    $app->post("/gps/findByBetween" , "ContratoGPSController:findByBetween");
-    $app->get("/gps/findById/{id}" , "ContratoGPSController:gpsFindById");
-    $app->patch("/gps/updatedContratoGps/{id}" , "ContratoGPSController:updatedContratoGps");
-});
-
-//facturas
-$app->group("/facturas" , function() use ($app){
-    $app->post("/findByOne" , "FacturaController:findByOne");
-});
 
 //uploads
 $app->group("/uploads" , function() use($app){
@@ -245,42 +199,6 @@ $app->group("/marcas" , function() use ($app) {
 });
 
 
-//#inventario
-$app->group("/inventario" , function() use ($app){
-    #save
-    $app->post("/articulo/save" , "InventarioArticuloController:save");
-    $app->get("/articulo/list" , "InventarioArticuloController:list");
-    $app->post("/articulo/findByName" , "InventarioArticuloController:findByName");
-
-    #proveedor
-    $app->post("/proveedor/save" , "InventarioProveedorController:save");
-    $app->get("/proveedor/list" , "InventarioProveedorController:list");
-
-    #bodegas
-    $app->post("/bodega/save" , "InventarioBodegaController:save");
-    $app->get("/bodega/list" , "InventarioBodegaController:list");
-
-    #ingresos
-    $app->post("/ingreso/save" , "InventarioIngresoController:save");
-    $app->get("/ingreso/list" , "InventarioIngresoController:list");
-    $app->get("/ingreso/findById/{id}" , "InventarioIngresoController:findById");
-    $app->post("/ingreso/findByBetween" , "InventarioIngresoController:findByBetween");
-
-    #detalleingreso
-    $app->post("/ingresoDetalle/save" , "InventarioIngresoDetalleController:save");
-    $app->get("/ingresoDetalle/findDetalleByIngresoId/{id}" , "InventarioIngresoDetalleController:findDetalleByIngresoId");
-    $app->get("/ingresoDetalle/sumByIngresoId/{id}" , "InventarioIngresoDetalleController:sumByIngresoId");
-    $app->delete("/ingresoDetalle/deleteById/{id}" , "InventarioIngresoDetalleController:deleteById");
-
-    ##inventarioxBodega
-    $app->get("/kardex/list/{id}" , "InventarioBodegaArticuloController:listKardex");
-
-    #transferencia entre bodegas
-    $app->post("/transbodega/save" , "InventarioTransferenciaBodegasController:save");
-    $app->post("/transbodega/between", "InventarioTransferenciaBodegasController:findByBetween");
-    $app->delete("/transbodega/delete/{id}" , "InventarioTransferenciaBodegasController:delete");
-
-});
 
 /***generar pdf */
 $app->group("/pdf", function() use ($app){
@@ -290,24 +208,6 @@ $app->group("/pdf", function() use ($app){
 } );
 
 
-/**
- * :::::::::::::::::::TICKETS*/
- $app->group("/tickets" , function() use ($app){
-    $app->post("/save" , "TicketCategoriaController:create");
-    $app->get("/list" , "TicketCategoriaController:list");
-
-
-    #tickets
-    $app->post("/ticket/save" , "TicketTicketController:save");
-    $app->get("/ticket/list/{id}" , "TicketTicketController:listEstado");
-    $app->get("/ticket/find/{id}" , "TicketTicketController:findbyid");
-    $app->patch("/ticket/updated/{id}" , "TicketTicketController:updated");
-
-    #detalle
-    $app->post("/detalle/save" , "TicketDetalleController:create");
-    $app->get("/detalle/find/{id}" , "TicketDetalleController:findByIdTicket");
-
- });
 
  /**notifications */
  $app->group("/notifications" , function() use($app){

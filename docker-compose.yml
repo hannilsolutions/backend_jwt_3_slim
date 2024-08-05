@@ -1,13 +1,43 @@
-version: '3'
+version: '3.1'
 
 services:
-  php-fpm:
-    build: ./docker/php7
-    container_name: jwt-backend_intinalambrico
-    ports:
-     - "9003:9003"
-     - "8081:80"
-    volumes:
-     - ./:/var/www/html
+  db-server:
+          image: mysql:5.7
+          container_name: app-db-permisos
+          restart: unless-stopped
+          environment:
+             MYSQL_DATABASE: $DATA_BASE
+             MYSQL_ROOT_PASSWORD: mysql1234
+             MYSQL_PASSWORD : $PASSWORD
+             MYSQL_USER: $USERNAME
+             SERVICE_TAGS : dev
+             SERVICE_NAME: mysql
+          ports:
+            - "${PORT}:3306"
+          networks:
+            - app-netpermisos
+  app:
+          build:
+            context: ./
+            dockerfile: ./docker/php7/Dockerfile
+          image: app-permisos-74
+          restart: unless-stopped
+          container_name: container_permisos
+          networks:
+            - app-netpermisos
+          ports:
+            - "8080:80"
+            - "8081:8081"
+            - "9003:9003"
+          environment:
+            XDEBUG_MODE: debug
+            XDEBUG_CONFIG: client_host=host.docker.internal client_port=9003
+          volumes:
+            - ./:/var/www/html
+          depends_on:
+            - db-server
+networks:
+   app-netpermisos:
+     driver: bridge
 volumes:
-  my-data:
+   dbdata:
