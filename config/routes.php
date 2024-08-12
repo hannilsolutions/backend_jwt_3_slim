@@ -217,7 +217,7 @@ $app->group("/seguridad" , function() use ($app){
     $app->get("/vehiculoGeneralidades/disctItem/{id}" , "SGVehiculoGeneralidadesController:disctGeneralidades");
     $app->post("/vehiculoGeneralidades/findByNameGeneralidadesVehiculos" , "SGVehiculoGeneralidadesController:findByNameGeneralidadesVehiculos");
     $app->patch("/vehiculoGeneralidades/editInspeccion/{id}" , "SGVehiculoGeneralidadesController:editInspeccion");
-
+    $app->patch("/vehiculoGeneralidades/editDisctTrailer/{id}" , "SGVehiculoGeneralidadesController:editDisctTrailer");
 
     #Documentos
     $app->post("/documento/save" , "SGDocumentoController:save");

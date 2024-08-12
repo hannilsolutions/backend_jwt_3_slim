@@ -41,6 +41,25 @@ class SGVehiculoGeneralidadesController
 		$this->customResponse->is200Response($response , $getDisctItem);
 	}
 
+	public function editDisctTrailer(Request $request , Response $response , $id){
+		/**
+		 * select hsvg.vehiculo_generalidades_id  FROM han_sg_vehiculos_generalidades hsvg inner join han_sg_generalidades hsg on hsg.id_generalidades = hsvg.generalidades_id 
+         * WHERE hsg.item = "Inspección de trailer" and hsvg.permiso_vehiculo_id = 690
+		 */
+		$getDisct = $this->vehiculoGeneralidades->selectRaw("han_sg_vehiculos_generalidades.vehiculo_generalidades_id")
+							->join("han_sg_generalidades" , "han_sg_generalidades.id_generalidades", "=", "han_sg_vehiculos_generalidades.generalidades_id")
+							->where(["han_sg_vehiculos_generalidades.permiso_vehiculo_id" => $id])
+							->where(["han_sg_generalidades.item"=>CustomRequestHandler::getParam($request , "item")])->get();
+		foreach($getDisct as $item)
+		{
+			$this->vehiculoGeneralidades->where(["vehiculo_generalidades_id"=>$item->vehiculo_generalidades_id])->update([
+				"inspeccion" => "Na"
+			]);
+		}
+
+		$this->customResponse->is200Response($response , "Actualizado");
+	}
+
 	/**
 	 * ENDPOINT POST findByNameGeneralidades de los vehiculos
 	 * 

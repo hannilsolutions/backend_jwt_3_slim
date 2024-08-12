@@ -20,7 +20,8 @@ class SGPermisoVehiculo extends  Model
     "conductor_id",
     "estado",
     "created_at",
-    "updated_at"
+    "updated_at",
+    "kilometro"
     ];
     
 }
