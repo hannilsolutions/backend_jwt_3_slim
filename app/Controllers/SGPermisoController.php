@@ -45,6 +45,8 @@ class SGPermisoController
 
     protected $vehiculo_generalidades;
 
+    protected $permisosEmpleadoController;
+
     public function __construct()
     {
         $this->customResponse = new CustomResponse();
@@ -70,6 +72,8 @@ class SGPermisoController
         $this->vehiculos = new SGPermisoVehiculo();
 
         $this->vehiculo_generalidades = new SGVehiculosGeneralidades();
+
+        $this->permisosEmpleadoController = new SGPermisosEmpleadosController();
     }
     /*
     *ENDPOINT: POST
@@ -125,9 +129,19 @@ class SGPermisoController
             "id_permiso_trabajo" => CustomRequestHandler::getParam($request , "id_permiso_trabajo"),
         ]);
 
-        $responseMenssage = $insert->id;
+        //add id_user como empleado del permiso
+        
+        $create_empleado_permiso = [
+            "id_permiso_trabajo" => $insert->id,
+            "id_user" => CustomRequestHandler::getParam($request , "id_usuario"),
+            "id_empresa" => CustomRequestHandler::getParam($request , "id_empresa")
+        ];
 
-        $this->customResponse->is200Response($response , $responseMenssage) ;
+        $request_create_empleado_permiso = $request->withParsedBody($create_empleado_permiso);
+        
+        $this->permisosEmpleadoController->save($request_create_empleado_permiso , $response);
+
+        //$this->customResponse->is200Response($response , $responseMenssage) ;
     }
     //validar si ha creado un permiso
     public function validarCreatePermiso($idusuario)
