@@ -11,7 +11,7 @@ use Psr\Http\Message\RequestInterface as Request;
 use Respect\Validation\Validator as v;
 use App\Validation\Validator;
 use App\DomainDTO\TreeNode;
-
+use App\Models\SGPermisoVehiculo;
 
 
 class SGReportesController
@@ -24,6 +24,8 @@ class SGReportesController
 
     protected $validator;
 
+    protected $vehiculo_permiso;
+
     public function __construct()
     {
         $this->permiso = new SGPermiso();
@@ -33,6 +35,8 @@ class SGReportesController
         $this->customResponse = new CustomResponse();
 
         $this->validator = new Validator();
+
+        $this->vehiculo_permiso = new SGPermisoVehiculo();
     }
 
     /**select 
@@ -128,5 +132,119 @@ where han_sg_permiso_trabajo.fecha_inicio = "2023-06-24" */
         return $children;
 
 
+    }
+
+    /**
+     * 
+     */
+    public function reporte_vehiculo_kilometraje(Request $request , Response $response)
+    {
+        $this->validator->validate($request , [
+            "initial" => v::notEmpty(),
+            "finally" => v::notEmpty(),
+            "vehiculo_id" => v::notEmpty()
+        ]);
+
+        if ($this->validator->failed()) {
+			
+			$responseMessage = $this->validator->errors;
+
+			return $this->customResponse->is400Response($response , $responseMessage);
+		} 
+         
+        $getVehiculo = $this->vehiculo_permiso->selectRaw("han_sg_permisos_vehiculos.kilometro , DATE_FORMAT(created_at , '%m%d') as fecha")
+                                ->whereBetween('created_at', [CustomRequestHandler::getParam($request , "initial"), CustomRequestHandler::getParam($request , "finally")])
+                                ->where("vehiculo_id" , "=" , CustomRequestHandler::getParam($request , "vehiculo_id"))
+                                ->get();
+        
+        $x = array();
+        $y = array();
+        foreach($getVehiculo as $item)
+        {
+            array_push($x , $item->fecha);
+            array_push($y , $item->kilometro);
+        }
+
+        $xx = array();
+        $yy = array();
+        $temp = 0;
+        foreach($getVehiculo as $link)
+        {
+            if($link->kilometro > 0)
+            {
+                if($temp == 0)
+                {
+                    $temp = $link->kilometro;
+                    
+                }else{
+
+                    array_push($yy , $link->kilometro - $temp);
+                    array_push($xx , $link->fecha);
+
+                    $temp = $link->kilometro;
+                }
+
+
+            }
+        }
+
+
+        $responseMessage  = array("acumulado" => array("meses" => $x ,"kilometros" => $y ) , "diadia" => array("meses" => $xx , "kilometros" => $yy));
+
+        $this->customResponse->is200Response($response , $responseMessage);
+
+
+    }
+
+    /**
+     * SEARCH POR PERMISO AND EMPRESA 
+     */
+    public function reporte_permiso_vehicular(Request $request , Response $response)
+    {
+        $this->validator->validate($request , [
+            "fecha" => v::notEmpty(),
+            "id_empresa" => v::notEmpty()
+        ]);
+
+        if ($this->validator->failed()) {
+			
+			$responseMessage = $this->validator->errors;
+
+			return $this->customResponse->is400Response($response , $responseMessage);
+		}
+
+      /*  SELECT 
+            hspt.id_permiso ,
+            hspt.prefijo ,
+            hspt.indicativo ,
+            hspt.lugar_de_trabajo ,
+            hspv.kilometro ,
+            u.user ,
+            hsv.vehiculo_placa ,
+            hsv.vehiculo_cilindraje ,
+            hsv.vehiculo_modelo 
+            FROM han_sg_permiso_trabajo hspt 
+            INNER JOIN han_sg_permisos_vehiculos hspv ON hspv.permiso_id = hspt.id_permiso
+            INNER JOIN han_sg_vehiculos hsv ON hsv.vehiculo_id = hspv.vehiculo_id 
+            INNER JOIN users u ON u.id = hspv.conductor_id 
+            WHERE hspt.fecha_inicio = "2024-07-31"*/
+        $getListVehiculos = $this->permiso->selectRaw("han_sg_permiso_trabajo.id_permiso ,
+        han_sg_permiso_trabajo.prefijo ,
+        han_sg_permiso_trabajo.indicativo ,
+        han_sg_permiso_trabajo.lugar_de_trabajo ,
+        han_sg_permisos_vehiculos.kilometro ,
+        users.user ,
+        han_sg_vehiculos.vehiculo_placa ,
+        han_sg_vehiculos.vehiculo_cilindraje ,
+        han_sg_vehiculos.vehiculo_modelo ")
+        ->join("han_sg_permisos_vehiculos" ,"han_sg_permisos_vehiculos.permiso_id" , "=" , "han_sg_permiso_trabajo.id_permiso" )
+        ->join("han_sg_vehiculos" , "han_sg_vehiculos.vehiculo_id" , "=" , "han_sg_permisos_vehiculos.vehiculo_id")
+        ->join("users" , "users.id" , "=" , "han_sg_permisos_vehiculos.conductor_id")
+        ->where("han_sg_permiso_trabajo.fecha_inicio" , "=" , CustomRequestHandler::getParam($request , "fecha"))
+        ->where("han_sg_permiso_trabajo.id_empresa" , "=" , CustomRequestHandler::getParam($request , "id_empresa"))
+        ->get();  
+         
+        
+        $this->customResponse->is200Response($response , $getListVehiculos);
     }
 }

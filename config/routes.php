@@ -125,6 +125,8 @@ $app->group("/seguridad" , function() use ($app){
 
     #Reportes
     $app->post("/reportes/treeNode" , "SGReportesController:treeNode");
+    $app->get("/reportes/kilometros" , "SGReportesController:reporte_vehiculo_kilometraje");
+    $app->get("/reportes/vehiculos" , "SGReportesController:reporte_permiso_vehicular");
 
     #observaciones
     $app->post("/observacion/save" , "SGObservacionController:save");
