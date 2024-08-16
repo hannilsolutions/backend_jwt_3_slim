@@ -98,7 +98,11 @@ class SGEmailController
         if(!empty($whatsapp))
         {
             $msm = "Su código para firmar es ".$getToken;
-            $this->wsSendMessage->send_text($whatsapp , $msm);
+            try {
+				$this->wsSendMessage->send_text($whatsapp , $msm);
+			} finally {
+				
+			}
         }
 
 		$responseMessage = "enviado";
