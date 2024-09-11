@@ -85,14 +85,14 @@ class SGDocumentoController
 
         $referencia = CustomRequestHandler::getParam($request , "referencia_id");
 
-        $path      = "/home/internet/public_html/apps/Files/Documentos/".$destino."/".$referencia;
+        $path      = "/home/wwcomu/permisos.comunicamosmas.com/Files/Documentos/".$destino."/".$referencia;
 
         if (!is_dir($path)) {
 
             mkdir($path, 0777, true);
         }
 
-        $uploadedFile->moveTo("/home/internet/public_html/apps/Files/Documentos/$destino/$referencia/$filename");
+        $uploadedFile->moveTo("/home/wwcomu/permisos.comunicamosmas.com/Files/Documentos/$destino/$referencia/$filename");
 
         //$uploadedFile->moveTo("/var/www/html/Files/$destino/$filename");
 

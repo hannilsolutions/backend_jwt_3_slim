@@ -163,7 +163,7 @@ class UsuarioController
     */
     public function generateFirmaElectronica(Request $request , Response $response , $id)
     {
-        $path = '/home/internet/public_html/apps/Files/usuarios/frmEOL/'.$id["id"];
+        $path = '/home/wwcomu/permisos.comunicamosmas.com/Files/usuarios/frmEOL/'.$id["id"];
         
         if (!is_dir($path)) 
         {
@@ -321,14 +321,14 @@ class UsuarioController
 
         $filename = sprintf('%s.%0.8s', $basename, $extension);
 
-        $path      = "/home/internet/public_html/apps/Files/profile";
+        $path      = "/home/wwcomu/permisos.comunicamosmas.com/Files/profile";
 
         if (!is_dir($path)) {
 
             mkdir($path, 0777, true);
         }
 
-        $file->moveTo("/home/internet/public_html/apps/Files/profile/$filename");
+        $file->moveTo("/home/wwcomu/permisos.comunicamosmas.com/Files/profile/$filename");
 
         return $filename;
     }

@@ -485,7 +485,7 @@ class SGPermisosEmpleadosController
 
             return $this->customResponse->is400Response($response , $responseMessage);
         }
-        $path = '/home/internet/public_html/apps/Files/usuarios/frmEOL/'.$carpetaUser.'/private_key1.pem';
+        $path = '/home/wwcomu/permisos.comunicamosmas.com/Files/usuarios/frmEOL/'.$carpetaUser.'/private_key1.pem';
 
         $private_key_pem = fopen($path , "r");
 
@@ -496,7 +496,7 @@ class SGPermisosEmpleadosController
         openssl_sign($getDataFirma, $firma, $cert, OPENSSL_ALGO_SHA256);
 
         //crear directorio donde va a estar la firma
-        $pathFirma = '/home/internet/public_html/apps/Files/usuarios/firmaPermisos/'.$carpetaUser;
+        $pathFirma = '/home/wwcomu/permisos.comunicamosmas.com/Files/usuarios/firmaPermisos/'.$carpetaUser;
         
         if (!is_dir($pathFirma)) 
         {
@@ -504,7 +504,7 @@ class SGPermisosEmpleadosController
         }
         $permiso = CustomRequestHandler::getParam($request , "id_permiso");
 
-        $pathFirmaData = '/home/internet/public_html/apps/Files/usuarios/firmaPermisos/'.$carpetaUser.'/'.date("Y-m-d H:s:i").'_'.$permiso.'_firma.dat';
+        $pathFirmaData = '/home/wwcomu/permisos.comunicamosmas.com/Files/usuarios/firmaPermisos/'.$carpetaUser.'/'.date("Y-m-d H:s:i").'_'.$permiso.'_firma.dat';
 
         file_put_contents($pathFirmaData , $firma);
 
@@ -518,7 +518,7 @@ class SGPermisosEmpleadosController
     //validamos si existe el archivo pem
     public function validarExistFile($carpeta , $archivo)
     {
-        $nombre_fichero = '/home/internet/public_html/apps/Files/usuarios/frmEOL/'.$carpeta.'/'.$archivo;
+        $nombre_fichero = '/home/wwcomu/permisos.comunicamosmas.com/Files/usuarios/frmEOL/'.$carpeta.'/'.$archivo;
 
         if (file_exists($nombre_fichero)) {
                 return true;

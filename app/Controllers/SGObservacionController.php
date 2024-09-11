@@ -138,14 +138,14 @@ class SGObservacionController
 
         $filename = sprintf('%s.%0.8s', $basename, $extension);
 
-        $path = '/home/internet/public_html/apps/Files/permisos/'.$idPermiso;
+        $path = '/home/wwcomu/permisos.comunicamosmas.com/Files/permisos/'.$idPermiso;
 
         if(!is_dir($path))
         {
             mkdir($path , 0777 , true);
         }
 
-        $file->moveTo("/home/internet/public_html/apps/Files/permisos/$idPermiso/$filename");
+        $file->moveTo("/home/wwcomu/permisos.comunicamosmas.com/Files/permisos/$idPermiso/$filename");
 
         return $filename;
     }

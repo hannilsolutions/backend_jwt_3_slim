@@ -96,14 +96,14 @@ class UploadsController
 
         $filename = sprintf('%s.%0.8s', $basename, $extension);
 
-        $path      = "/home/internet/public_html/apps/Files/".$destino;
+        $path      = "/home/wwcomu/permisos.comunicamosmas.com/Files/".$destino;
 
         if (!is_dir($path)) {
 
             mkdir($path, 0777, true);
         }
 
-        $uploadedFile->moveTo("/home/internet/public_html/apps/Files/$destino/$filename");
+        $uploadedFile->moveTo("/home/wwcomu/permisos.comunicamosmas.com/Files/$destino/$filename");
 
         //$uploadedFile->moveTo("/var/www/html/Files/$destino/$filename");
 
@@ -148,7 +148,7 @@ class UploadsController
 
         $filename = CustomRequestHandler::getParam($request , "name");
 
-        $pathFile = "/home/internet/public_html/apps/Files/".$folder."/".$filename;
+        $pathFile = "/home/wwcomu/permisos.comunicamosmas.com/Files/".$folder."/".$filename;
 
         if (file_exists($pathFile)) {
             #comienza a eliminar archivo
@@ -202,7 +202,7 @@ class UploadsController
     {
          try{
             #iniciamos abriendo el excel
-         $ruta = "/home/internet/public_html/apps/Files/Supergiros/".$data["filename"];
+         $ruta = "/home/wwcomu/permisos.comunicamosmas.com/Files/Supergiros/".$data["filename"];
         
          $this->documento = IOFactory::load($ruta);
 
