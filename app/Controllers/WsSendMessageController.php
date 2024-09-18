@@ -6,7 +6,7 @@ class WsSendMessageController {
     protected $url;
     public function __construct()
     {
-        $this->url = "http://send-ws.server.cableytv.com";
+        $this->url = "http://131.221.41.20:8062";
     }
     
 

@@ -74,7 +74,7 @@ where han_sg_permiso_trabajo.fecha_inicio = "2023-06-24" */
         $treeNode->type = 'person';
         $treeNode->styleClass = 'p-person';
         $treeNode->expanded = true;
-        $treeNode->data = array('name' => $fecha , 'avatar' => 'https://apps.internetinalambrico.com.co/Files/profile/default.jpg');
+        $treeNode->data = array('name' => $fecha , 'avatar' => 'https://permisos.comunicamosmas.com/Files/profile/default.jpg');
 
         $creadores =  array();
 
@@ -86,7 +86,7 @@ where han_sg_permiso_trabajo.fecha_inicio = "2023-06-24" */
             $object->type = 'person';
             $object->styleClass = 'p-person';
             $object->expanded =  true;
-            $temp = array('name' => substr($item->name , 0 ,10) , 'avatar' => 'https://apps.internetinalambrico.com.co/Files/profile/'.$item->avatar);
+            $temp = array('name' => substr($item->name , 0 ,10) , 'avatar' => 'https://permisos.comunicamosmas.com/Files/profile/'.$item->avatar);
             $object->data = $temp;
             $object->children =  $this->getList($item->id_permiso , $item->id_usuario);
             

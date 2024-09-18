@@ -287,7 +287,7 @@ class ContratoGPSController
     }
 
     /*
-    *ENDPOINT GET buscar contratos en internetinalambrico.com.co
+    *ENDPOINT GET buscar contratos 
 
     */
     public function gpsFindById(Request $request , Response $response , $id)

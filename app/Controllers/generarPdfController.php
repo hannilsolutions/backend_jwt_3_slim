@@ -108,7 +108,7 @@ class generarPdfController
           </style>
       </head>
       <body>
-          <div class="marca-agua">CABLE Y TV YOPAL SAS <br>CABLE Y TV YOPAL SAS<br>CABLE Y TV YOPAL SAS</div>
+          <div class="marca-agua">CCOMUNICAMOS + TELECOMUNICACIONES SAS<br>COMUNICAMOS + TELECOMUNICACIONES SAS<br>COMUNICAMOS + TELECOMUNICACIONES SAS</div>
       ';
     }
 
@@ -137,7 +137,7 @@ class generarPdfController
         <tbody>
           <tr>
           <td style="width:20%; text-align:center; padding:5px">
-          <img src="https://apps.internetinalambrico.com.co/Files/In.jpg" width="80px"/>
+          <img src="https://comunicamosmas.com/wp-content/uploads/2024/09/LogoComu.png" width="80px"/>
           </td>
             <td>
              <div
