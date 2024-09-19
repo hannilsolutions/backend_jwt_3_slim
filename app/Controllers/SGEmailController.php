@@ -77,7 +77,11 @@ class SGEmailController
 		$getToken = $this->generateTokenFirma();
 		 
 		#enviamos msm mail
-		$getSendMail = $this->sendFunctionMail($getPlantillaEmpresa , $getToken , CustomRequestHandler::getParam($request , "email") , CustomRequestHandler::getParam($request , "user"));
+		$getSendMail = $this->sendMail($getPlantillaEmpresa , 
+										$getToken , 
+										CustomRequestHandler::getParam($request , "email") , 
+										CustomRequestHandler::getParam($request , "user")
+									);//$this->sendFunctionMail($getPlantillaEmpresa , $getToken , CustomRequestHandler::getParam($request , "email") , CustomRequestHandler::getParam($request , "user"));
 
 		if (!$getSendMail) {
 			
