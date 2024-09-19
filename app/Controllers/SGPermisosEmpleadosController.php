@@ -113,7 +113,7 @@ class SGPermisosEmpleadosController
         }
         if(!empty($whatsapp))
         {
-            $msm = "Ha sigo agregado a un permiso de trabajo ingrese al portal web y diligencielo https://permisos.comunicamoasmas.com/init";
+            $msm = "Ha sigo agregado a un permiso de trabajo ingrese al portal web y diligencielo https://permisos.comunicamosmas.com/init";
             $this->wsSendMessage->send_text($whatsapp , $msm);
         }
 
