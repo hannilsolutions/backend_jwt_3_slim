@@ -77,11 +77,11 @@ class SGEmailController
 		$getToken = $this->generateTokenFirma();
 		 
 		#enviamos msm mail
-		/*$getSendMail = $this->sendMail($getPlantillaEmpresa , 
+		$getSendMail = $this->sendMail($getPlantillaEmpresa , 
 										$getToken , 
 										CustomRequestHandler::getParam($request , "email") , 
 										CustomRequestHandler::getParam($request , "user")
-									);*///$this->sendFunctionMail($getPlantillaEmpresa , $getToken , CustomRequestHandler::getParam($request , "email") , CustomRequestHandler::getParam($request , "user"));
+									);//$this->sendFunctionMail($getPlantillaEmpresa , $getToken , CustomRequestHandler::getParam($request , "email") , CustomRequestHandler::getParam($request , "user"));
 
 		/*if (!$getSendMail) {
 			
@@ -150,7 +150,7 @@ class SGEmailController
 				$this->mail->SMTPAuth   = true;                                   //Enable SMTP authentication
 			    $this->mail->Username   = $plantilla["mail_send"];                     //SMTP username
 			    $this->mail->Password   = $plantilla["password"];                               //SMTP password
-			    $this->mail->SMTPSecure = 'tls';            //Enable implicit TLS encryption
+			    $this->mail->SMTPSecure = 'ssl';            //Enable implicit TLS encryption
 			    $this->mail->Port       = $plantilla["port"];
 
 			     //Recipients
