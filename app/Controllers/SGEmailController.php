@@ -110,6 +110,13 @@ class SGEmailController
 		$this->customResponse->is200Response($response , $responseMessage);
 	}
 
+	/**Validate permiso de trabajo por usuario */
+
+	private function valid_permiso_trabajo()
+	{
+		
+	}
+
 	public function generateTokenFirma()
 	{
 		$bytes = openssl_random_pseudo_bytes(3);
