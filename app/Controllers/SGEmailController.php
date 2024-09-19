@@ -83,12 +83,12 @@ class SGEmailController
 										CustomRequestHandler::getParam($request , "user")
 									);//$this->sendFunctionMail($getPlantillaEmpresa , $getToken , CustomRequestHandler::getParam($request , "email") , CustomRequestHandler::getParam($request , "user"));
 
-		if (!$getSendMail) {
+		/*if (!$getSendMail) {
 			
 			$responseMessage = "error enviando correo";
 
 			return $this->customResponse->is400Response($response , $responseMessage);
-		}
+		}*/
 		#actualizar token en user agrega tiempo de expirar
 		$setTokenUser = $this->updatedTokenUsuario(CustomRequestHandler::getParam($request , "id_user") , $getToken);
 		//enviar por whatsapp
@@ -169,7 +169,9 @@ class SGEmailController
 		{
 				 
 
-				return $this->mail->ErrorInfo;
+			$responseMessage = "error enviando correo";
+
+			return $this->customResponse->is400Response($response , $responseMessage);
 
 		}
 
