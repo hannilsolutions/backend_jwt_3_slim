@@ -8,6 +8,11 @@ use App\Models\SGEmpleadoGeneralidades;
 use App\Models\SGGeneralidades;
 use App\Models\SGEmpresa;
 use App\Models\Usuario;
+use App\Models\SGPermisoEmpleado;
+use App\Models\SGPermisosPeligros;
+use App\Models\SGPermisoVehiculo;
+use App\Models\SGVehiculosGeneralidades;
+
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -35,6 +40,18 @@ class SGEmailController
 
     protected $datosPersonales;
 
+	protected $permisosEmpleados;
+
+	protected $generalidadesEmpleados;
+
+	protected $generalidades;
+
+	protected $permisoPeligros;
+
+	protected $permisoVehiculo;
+
+	protected $vehiculoGeneralidades;
+
 
 	public function __construct()
 	{
@@ -51,6 +68,18 @@ class SGEmailController
 		$this->wsSendMessage = new WsSendMessageController();
 
         $this->datosPersonales = new DatosPersonales();
+
+		$this->permisosEmpleados = new SGPermisoEmpleado();
+
+		$this->generalidadesEmpleados = new SGEmpleadoGeneralidades();
+
+		$this->generalidades = new SGGeneralidades();
+
+		$this->permisoPeligros = new SGPermisosPeligros();
+
+		$this->permisoVehiculo = new SGPermisoVehiculo();
+
+		$this->vehiculoGeneralidades = new SGVehiculosGeneralidades();
 	}
 
 	public function sendMailFirma(Request $request , Response $response)
@@ -70,6 +99,18 @@ class SGEmailController
 			return $this->customResponse->is400Response($response , $responseMessage);
 		}
 
+		/**
+		 * Validar permisos
+		 */
+		$errors = $this->valid_permiso_trabajo(CustomRequestHandler::getParam($request , "id_permiso") , CustomRequestHandler::getParam($request , "id_user"));
+		if($errors)
+		{
+			$responseMessage = $errors;
+
+			return $this->customResponse->is422Response($response , $responseMessage);
+
+		}
+
 		#consultar plantilla para enviar
 		$getPlantillaEmpresa = $this->plantilla(CustomRequestHandler::getParam($request , "id_empresa"));
 
@@ -87,21 +128,21 @@ class SGEmailController
 		}
 		#actualizar token en user agrega tiempo de expirar
 		$setTokenUser = $this->updatedTokenUsuario(CustomRequestHandler::getParam($request , "id_user") , $getToken);
-		//enviar por whatsapp
+		#enviar por whatsapp
 		$id = CustomRequestHandler::getParam($request , "id_user");
 		$datos_personales =  $this->datosPersonales->where("id_user" , "=" , $id)->get();
-        $whatsapp = "";
+        //$whatsapp = "";
         foreach($datos_personales as $item)
         {
             $whatsapp = $item->celular;
         }
-        if(!empty($whatsapp))
+        if(!empty($whatsapp) && mb_strlen($whatsapp, "UTF-8") == 10 && ctype_digit($whatsapp))
         {
             $msm = "Su código para firmar es ".$getToken;
             try {
 				$this->wsSendMessage->send_text($whatsapp , $msm);
-			} finally {
-				
+			} catch (Exception $e) {
+				error_log("Error al enviar mensaje: " . $e->getMessage());
 			}
         }
 
@@ -112,9 +153,99 @@ class SGEmailController
 
 	/**Validate permiso de trabajo por usuario */
 
-	private function valid_permiso_trabajo()
+	private function valid_permiso_trabajo($permiso , $user)
 	{
-		
+		//buscar integrante del permiso
+		$integrante = $this->permisosEmpleados->where(["id_permiso_trabajo"=>$permiso])->where(["id_user"=>$user])->count();
+		$errors = [];
+		if($integrante > 0)
+		{			
+			//REALIZAMOS UN DISCT DE TODOS LAS generalidades en estado 1
+			$generalidad = $this->generalidades
+								->selectRaw("DISTINCT han_sg_generalidades.tipo")
+								->where(["estado"=>1])
+								->get();
+			foreach($generalidad as $item)
+			{
+				 //consultar generalidad exceptuando camioneta
+				 if(empty($item->tipo) || $item->tipo ==="CAMIONETA" || $item->tipo ==="MOTOCICLETA")
+				 {
+					continue;
+				 }else{
+					$query = $this->generalidadesEmpleados
+							->join("han_sg_generalidades" , "han_sg_generalidades.id_generalidades" , "=" , "han_sg_empleados_generalidades.generalidades_id")
+							->where(["han_sg_generalidades.tipo" => $item->tipo])
+							->where(["han_sg_empleados_generalidades.empleado_id"=>$user])
+							->where(["han_sg_empleados_generalidades.permiso_id" => $permiso])
+							->get();
+
+					if($query->count() == 0)
+					{
+						$errors[] = array("tipo" => $item->tipo , "value" => "Sin datos");
+					}else{
+
+						$cantidad_generalidades = $query->count();
+						$cantidad_nulos = 0;
+						foreach($query as $a)
+						{
+							if(empty($a->inspeccion))
+							{
+								$cantidad_nulos += 1;
+							}
+						}
+
+						if($cantidad_generalidades == $cantidad_nulos)
+						{
+							$errors[] = array("tipo" => $item->tipo , "value" => "Ninguno inspeccionado");
+						}
+					}
+				 }
+						
+			}
+			//buscar si agrego peligros siempre y cuando
+			$peligros = $this->permisoPeligros->where(["permiso_id"=>$permiso])->get();
+			if($peligros->count() == 0)
+			{
+				$errors[] = array("tipo" => "Peligros" , "value" => "sin datos");
+			}
+
+			//buscar si agrego vehiculo	
+
+			$vehiculo = $this->permisoVehiculo->where(["permiso_id"=>$permiso])->get();
+			if($vehiculo->count() > 0)
+			{
+				$vehiculo_id = 0;
+				$inspeccion = [];
+
+				foreach($vehiculo as $id)
+				{
+					$vehiculo_id = $id->permiso_vehiculo_id;
+				}
+				
+				$query = $this->vehiculoGeneralidades->join("han_sg_generalidades" , "han_sg_generalidades.id_generalidades" , "=" , "han_sg_vehiculos_generalidades.generalidades_id")
+								->where(["permiso_vehiculo_id"=>$vehiculo_id])
+									->get();
+				
+				foreach($query as $item)
+				{
+					if(empty($item->inspeccion))
+					{
+						$inspeccion[] = $item->nombre;
+					}
+				}
+
+				if(!empty($inspeccion))
+				{
+					$toString = '('. implode(',' , $inspeccion) . ',)';
+
+					$errors[] = array("tipo" => "Inspección" , "value" => $toString ) ;
+				}
+					
+				 
+			}
+		}
+
+		return $errors;
 	}
 
 	public function generateTokenFirma()

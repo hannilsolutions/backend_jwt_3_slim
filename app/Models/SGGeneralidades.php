@@ -18,7 +18,8 @@ class SGGeneralidades extends Model
     "item",
     "id_empresa" , 
     "created_at", 
-    "updated_at"];
+    "updated_at",
+    "estado"];
 
 }
 

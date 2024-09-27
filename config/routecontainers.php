@@ -238,7 +238,15 @@ return function($container)
       return new \App\Controllers\PdfPreoperacionalController;
     };
 
+    $container["SGEmpleadoAptitudController"] = function(){
 
+      return new \App\Controllers\SGEmpleadoAptitudController;
+      
+    };
+
+    $container["SGPermisoAptitudController"] = function(){
+      return new \App\Controllers\SGPermisoAptitudController;
+    };
 
     
 
