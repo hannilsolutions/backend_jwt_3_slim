@@ -123,6 +123,18 @@ $app->group("/roles" , function() use ($app){
 //sistema de gestion sst
 $app->group("/seguridad" , function() use ($app){
 
+    ##Preguntas
+    /*$app->get("/preguntas/findbypermisoandempleado" , "SGEmpleadoAptitudController:find_init_aptitud");
+    ;
+    $app->get("/preguntas/validate" , "SGEmpleadoAptitudController:validate");*/
+    $app->get("/preguntas/aptitudbypermiso/{id}" , "SGPermisoAptitudController:find_by_permiso");
+    $app->get("/preguntas/aptitudupdate/{id}" , "SGPermisoAptitudController:update_status_permiso_aptitud");
+    $app->get("/preguntas/validate/{id}" , "SGPermisoAptitudController:validate_aptitud");
+    $app->put("/preguntas/empleadosaptitud" , "SGEmpleadoAptitudController:update_aptitud");
+    $app->get("/preguntas/empleadosaptitud/{id}" , "SGEmpleadoAptitudController:find_by_id_permiso_aptitud");
+    $app->get("/preguntas/findbypermisoempleado" , "SGPermisoAptitudController:find_by_permiso_and_empleado");
+    $app->post("/preguntas/create" , "SGPermisoAptitudController:create");
+
     #Reportes
     $app->post("/reportes/treeNode" , "SGReportesController:treeNode");
     $app->get("/reportes/kilometros" , "SGReportesController:reporte_vehiculo_kilometraje");
