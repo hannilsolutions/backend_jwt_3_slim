@@ -164,6 +164,7 @@ class SGEmailController
 			$generalidad = $this->generalidades
 								->selectRaw("DISTINCT han_sg_generalidades.tipo")
 								->where(["estado"=>1])
+								->where("tipo" , "!=" , "Condición Actual")
 								->get();
 			foreach($generalidad as $item)
 			{
