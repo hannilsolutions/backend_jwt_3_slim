@@ -49,7 +49,8 @@ class SGPermisosVehiculoController
 			"vehiculo_id" => v::notEmpty(),
 			"tipo" => v::notEmpty(),
 			"id_empresa" => v::notEmpty(),
-			"conductor_id" => v::notEmpty()
+			"conductor_id" => v::notEmpty(),
+			"kilometraje" => v::notEmpty()
 		]);
 
 		if ($this->validator->failed()) {
@@ -79,6 +80,7 @@ class SGPermisosVehiculoController
 			"permiso_id" => CustomRequestHandler::getParam($request , "permiso_id"),
 			"vehiculo_id" => CustomRequestHandler::getParam($request , "vehiculo_id"),
 			"conductor_id" => CustomRequestHandler::getParam($request , "conductor_id"),
+			"kilometro" => CustomRequestHandler::getParam($request , "kilometraje"),
 			"estado" => 1
 		]);
 

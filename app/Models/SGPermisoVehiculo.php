@@ -19,6 +19,7 @@ class SGPermisoVehiculo extends  Model
     "observaciones",
     "conductor_id",
     "estado",
+    "kilometro",
     "created_at",
     "updated_at"
     ];
