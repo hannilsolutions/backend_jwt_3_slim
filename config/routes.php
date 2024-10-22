@@ -77,6 +77,11 @@ $app->group("/roles" , function() use ($app){
 //sistema de gestion sst
 $app->group("/seguridad" , function() use ($app){
 
+    #procedimientos
+    $app->get("/procedimiento/list" , "SGProcedimientoController:generalidades_procedimientos");
+    $app->post("/procedimiento" , "SGProcedimientoController:save");
+    $app->get("/procedimiento" , "SGProcedimientoController:findByUserAndPermiso");
+
     #preguntas
     $app->get("/preguntas/findbypermisoempleado", "SGPermisoAptitudController:find_by_permiso_and_empleado");
     $app->post("/preguntas/updateaptitud" , "SGPermisoAptitudController:update_aptitud");

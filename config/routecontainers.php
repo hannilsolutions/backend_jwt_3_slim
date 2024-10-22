@@ -243,6 +243,11 @@ return function($container)
       return new \App\Controllers\SGPermisoAptitudController;
     };
 
+    $container["SGProcedimientoController"] = function()
+    {
+      return new \App\Controllers\SGProcedimientoController;
+    };
+
 
 
 
