@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\SGPermisoAptitud; 
-use App\Models\SGGeneralidades;
+use App\Models\SGGeneralidades; 
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -19,7 +19,7 @@ class SGPermisoAptitudController{
 
     protected $generalidades;
 
-    protected  $validator;
+    protected  $validator; 
 
     public function  __construct()
     {
@@ -29,7 +29,29 @@ class SGPermisoAptitudController{
 
          $this->generalidades = new SGGeneralidades();
 
-         $this->validator = new Validator(); 
+         $this->validator = new Validator();  
+    }
+    
+    public function find_all_by_permiso(Request $request , Response $response)
+    {
+        $this->validator->validate($request , [
+            "id_permiso" => v::notEmpty()
+        ]);
+
+        if($this->validator->failed())
+         {
+             $responseMessage = $this->validator->errors;
+             return $this->customResponse->is400Response($response,$responseMessage);
+         }
+
+         $idPermiso = CustomRequestHandler::getParam($request , "id_permiso");
+
+         $list = $this->permisoAptitud->selectRaw("han_sg_permiso_aptitud.id_permiso_aptitud , users.user")
+                ->join("users" , "users.id" , "=" , "han_sg_permiso_aptitud.id_user")
+                ->where(["han_sg_permiso_aptitud.id_permiso" => $idPermiso])->get();
+
+        
+         $this->customResponse->is200Response($response , $list);
     }
 
     public function find_by_permiso_and_empleado(Request $request , Response $response)

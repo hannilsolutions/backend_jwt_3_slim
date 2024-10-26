@@ -214,6 +214,8 @@ $app->group("/pdf", function() use ($app){
     $app->get("/permiso/{id}" , "generarPdfController:permisoAlturas");
     $app->get("/preoperacional/{id}" , "PdfPreoperacionalController:preoperacional");
     $app->get("/permisosEmpleados/{id}" , "SGPermisosEmpleadosController:getListEmpleadosWithDatosPersonales");
+    #encuesta enlistar encuesta
+    $app->get("/encuesta/list" , "SGPermisoAptitudController:find_all_by_permiso");
 } );
 
 
