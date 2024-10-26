@@ -220,6 +220,7 @@ public function inspeccion($id){
                 ->join("han_sg_vehiculos_generalidades" , "han_sg_vehiculos_generalidades.permiso_vehiculo_id" , "=" ,"han_sg_permisos_vehiculos.permiso_vehiculo_id")
                 ->join("han_sg_generalidades" , "han_sg_generalidades.id_generalidades" , "=" , "han_sg_vehiculos_generalidades.generalidades_id")
                 ->where(["han_sg_permisos_vehiculos.permiso_id" => $id])
+                ->where(["han_sg_permisos_vehiculos.estado" => 1])
                 ->orderBy("han_sg_generalidades.item" , "desc")
                 ->get();
   $html .= '<div style="padding:0 20px;">';
