@@ -61,6 +61,7 @@ class PdfEncuestaController{
             /*$this->datos_vehiculo($id);
             $this->inspeccion($id);*/
             $this->permiso_aptitud($id_permiso_aptitud);
+            $this->certifico();
             $this->last();
             $this->dompdf->loadHtml($this->html);
             $this->dompdf->setPaper("letter");
@@ -238,6 +239,21 @@ class PdfEncuestaController{
       $html .= '</div>';
 
       $this->html .= $html;
+    }
+
+    private function certifico()
+    {
+      $this->html .= '<br>
+        <div style="padding:20px">
+        <table style="width: 100%; align-items:center" cellspacing="0" cellpadding="0" border="1px"><tr>
+        <td style="text-align:center;">
+            <p style="font-size:10px">
+            CERTIFICO QUE LA INFORMACIÓN DE ESTE REPORTE ES VERIDICA Y QUE EN ESTE MOMENTO NO PADEZCO NINGUNA CONDICIÓN FISICA CONOCIDA POR MI QUE PUEDA AFECTAR MI DESEMPEÑO EN LA TAREA DE ALTO RIESGO EN LA CUAL ESTARE INVOLUCRADO </p>
+        </td>
+      </tr></table>
+        </div>
+      
+      ';
     }
 
     private function last()
