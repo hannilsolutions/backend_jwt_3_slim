@@ -214,9 +214,9 @@ class PdfEncuestaController{
       $html = '<div style="padding: 20px">';
         foreach($json as $pr)
         {
-          $html .= '<table> style="width: 100%" cellspacing="0" cellpadding="0" border="1px"
-                <tr colspan=3><td>'.$pr->titulo.'</td></tr>
-                <thead><tr>
+          $html .= '<table style="width: 100%" cellspacing="0" cellpadding="0" border="1px"> 
+          <thead><tr colspan=3><td>'.$pr->titulo.'</td></tr>
+                <tr>
                   <td>Requerimiento</td>
                   <td>Respuesta</td>
                   <td>Observación</td></tr></thead><tbody>
