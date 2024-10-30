@@ -193,7 +193,7 @@ class PdfEncuestaController{
     {
        
       return '<div style="text-align:center;padding:0 20px;">
-      <div style="background:#58C3D6><b style="font-size:10px">'.$name.'</b></div>
+      <div style="background:#58C3D6><strong style="color:white">Certificado realizado por: '.$name.'<strong></div>
       </div>';
     }
 
