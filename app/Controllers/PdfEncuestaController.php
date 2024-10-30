@@ -217,7 +217,7 @@ class PdfEncuestaController{
                 ';
                   foreach($pr->preguntas as $item)
                   {
-                    $observacion = $item->observacion ? $item->observacion : null;
+                    $observacion = $item->Observacion ? $item->Observacion : null;
                     $html .= '
                       <tr>
                       <td>'.$item->title.'</td>
