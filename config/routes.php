@@ -216,6 +216,7 @@ $app->group("/pdf", function() use ($app){
     $app->get("/permisosEmpleados/{id}" , "SGPermisosEmpleadosController:getListEmpleadosWithDatosPersonales");
     #encuesta enlistar encuesta
     $app->get("/encuesta/list" , "SGPermisoAptitudController:find_all_by_permiso");
+    $app->get("/encuesta/pdf" , "PdfEncuestaController:encuesta");
 } );
 
 

@@ -46,7 +46,7 @@ class SGPermisoAptitudController{
 
          $idPermiso = CustomRequestHandler::getParam($request , "id_permiso");
 
-         $list = $this->permisoAptitud->selectRaw("han_sg_permiso_aptitud.id_permiso_aptitud , users.user")
+         $list = $this->permisoAptitud->selectRaw("han_sg_permiso_aptitud.id_permiso_aptitud , users.user , han_sg_permiso_aptitud.id_permiso")
                 ->join("users" , "users.id" , "=" , "han_sg_permiso_aptitud.id_user")
                 ->where(["han_sg_permiso_aptitud.id_permiso" => $idPermiso])->get();
 

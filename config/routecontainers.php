@@ -248,7 +248,12 @@ return function($container)
       return new \App\Controllers\SGProcedimientoController;
     };
 
+    $container["PdfEncuestaController"] = function()
+    {
+      return new \App\Controllers\PdfEncuestaController;
+    };
 
+    
 
 
     

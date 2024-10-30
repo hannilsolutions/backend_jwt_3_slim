@@ -20,6 +20,8 @@ class PdfPreoperacionalController{
 
     private $permisoVehiculo;
 
+    private $html;
+
     public function __construct()
     {
         $this->dompdf = new Dompdf();

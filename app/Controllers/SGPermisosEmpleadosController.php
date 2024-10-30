@@ -334,6 +334,7 @@ class SGPermisosEmpleadosController
                     ->join("users" , "users.id" , "=" , "han_sg_permisos_vehiculos.conductor_id")
                     ->join("han_sg_vehiculos" , "han_sg_vehiculos.vehiculo_id" , "=" , "han_sg_permisos_vehiculos.vehiculo_id")
                     ->join("han_marca" , "han_marca.id_marca" , "=" ,  "han_sg_vehiculos.id_marca")
+                    ->where("han_sg_permisos_vehiculos.estado" , "=" , 1)
                     ->where("han_sg_permisos_vehiculos.permiso_id" , "=" , $idPermiso)
                     ->get();
 
