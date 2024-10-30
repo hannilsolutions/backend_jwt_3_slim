@@ -212,7 +212,7 @@ class PdfEncuestaController{
         $name = $item->user;
       }
       $this->html .= $this->subtitulo($name);
-      $html = '<div style="padding: 20px">';
+      $html = '<div style="padding: 0 20px">';
         foreach($json as $pr)
         {
           $html .= '<hr> <table style="width: 100%; align-items:center" cellspacing="0" cellpadding="0" border="1px"> 
@@ -244,7 +244,7 @@ class PdfEncuestaController{
     private function certifico()
     {
       $this->html .= '<br>
-        <div style="padding:20px">
+        <div style="padding: 0 20px">
         <table style="width: 100%; align-items:center" cellspacing="0" cellpadding="0" border="1px"><tr>
         <td style="text-align:center;">
             <p style="font-size:10px">
