@@ -50,6 +50,7 @@ class PdfEncuestaController{
            return $this->customResponse->is400Response($response , $responseMessage);
         }
          $id = CustomRequestHandler::getParam($request , "id_permiso");
+         $id_permiso_aptitud = CustomRequestHandler::getParam($request , "id_permiso_aptitud");
         try{
             $options = $this->dompdf->getOptions();
             $options->set(array('isRemoteEnabled' => true));
@@ -59,6 +60,7 @@ class PdfEncuestaController{
             $this->cabeceras($id );
             /*$this->datos_vehiculo($id);
             $this->inspeccion($id);*/
+            $this->permiso_aptitud($id_permiso_aptitud);
             $this->last();
             $this->dompdf->loadHtml($this->html);
             $this->dompdf->setPaper("letter");
@@ -136,7 +138,7 @@ class PdfEncuestaController{
                 padding: 5px;
                 text-align: center !important;
               "> 
-              <h3 style:"font-family:font-family: sans-serif;">INSPECCIÓN PREOPERACIONAL DE VEHICULO Y/O MOTOCICLETA</h3>
+              <h3 style:"font-family:font-family: sans-serif;">CERTIFICADO DE REQUERIMIENTOS DE APTITUD FÍSICA PARA TRABAJO DE ALTO RIESGO</h3>
                </div>
             </td>
           </tr>
@@ -174,7 +176,7 @@ class PdfEncuestaController{
       </div>
         
       ';
-      $html .= $this->subtitulo("CERTIFICADO DE REQUERIMIENTOS DE APTITUD FÍSICA PARA TRABAJO DE ALTO RIESGO");
+      //$html .= $this->subtitulo("CERTIFICADO DE REQUERIMIENTOS DE APTITUD FÍSICA PARA TRABAJO DE ALTO RIESGO");
       $this->html .= $html;
 
          
@@ -186,6 +188,49 @@ class PdfEncuestaController{
       return '<div style="text-align:center;padding:0 20px;">
       <div style="background:#58C3D6><b style="font-size:10px">'.$name.'</b></div>
       </div>';
+    }
+
+    private function permiso_aptitud($id_permiso_aptitud)
+    {
+      $aptitud = $this->permisoAptitud->selectRaw("han_sg_permiso_aptitud.json , users.user")
+                          ->join("users" , "users.id" , "=" , "han_sg_permiso_aptitud.id_user")
+                          ->get();
+      
+      $name;
+      $json;
+      foreach($aptitud as &$item)
+      {
+        $json = json_decode($item->json);
+        $name = $item->user;
+      }
+      $this->html .= $this->subtitulo($name);
+      $html = '<div style="padding: 20px">';
+        foreach($json as $pr)
+        {
+          $html .= '<table> style="width: 100%" cellspacing="0" cellpadding="0" border="1"
+                <tr colspan=3><td>'.$json->titulo.'</td></tr>
+                <tr>
+                  <td>Requerimiento</td>
+                  <td>Respuesta</td>
+                  <td>Observación</td></tr>
+                ';
+                  foreach($json->preguntas as $item)
+                  {
+                    $observacion = $item->observacion ? $item->observacion : null;
+                    $html .= '
+                      <tr>
+                      <td>'.$item->title.'</td>
+                      <td>'.$item->respuesta.'</td>
+                      <td>'.$observacion.'</td>
+                      </tr>      
+                    ';
+                  }
+            $html .= '</table>';
+        }
+
+      $html .= '</div>';
+
+      $this->html .= $html;
     }
 
     private function last()
