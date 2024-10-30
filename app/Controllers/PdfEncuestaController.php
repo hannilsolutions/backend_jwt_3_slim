@@ -194,11 +194,12 @@ class PdfEncuestaController{
     {
       $aptitud = $this->permisoAptitud->selectRaw("han_sg_permiso_aptitud.json , users.user")
                           ->join("users" , "users.id" , "=" , "han_sg_permiso_aptitud.id_user")
+                          ->where(["han_sg_permiso_aptitud.id_permiso_aptitud" => $id_permiso_aptitud])
                           ->get();
       
       $name;
       $json;
-      foreach($aptitud as &$item)
+      foreach($aptitud as $item)
       {
         $json = json_decode($item->json);
         $name = $item->user;
