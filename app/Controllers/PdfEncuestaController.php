@@ -209,13 +209,13 @@ class PdfEncuestaController{
         foreach($json as $pr)
         {
           $html .= '<table> style="width: 100%" cellspacing="0" cellpadding="0" border="1"
-                <tr colspan=3><td>'.$json->titulo.'</td></tr>
+                <tr colspan=3><td>'.$pr->titulo.'</td></tr>
                 <tr>
                   <td>Requerimiento</td>
                   <td>Respuesta</td>
                   <td>Observación</td></tr>
                 ';
-                  foreach($json->preguntas as $item)
+                  foreach($pr->preguntas as $item)
                   {
                     $observacion = $item->observacion ? $item->observacion : null;
                     $html .= '
