@@ -168,7 +168,13 @@ class PdfEncuestaController{
            <td colspan="2"><b>N° de personas que ejecutan la labor: </b>'.$permiso[0]->cant.'</td>
            <td><b>Lugar de trabajo: </b>'.$permiso[0]->lugar_de_trabajo.' </td>
         </tr> 
-        
+        <tr>
+          <td colspan=3 style="text-align:center;">
+              <p style="font-size:10px">
+              Cuestionario para certificación de aptitud física de empleados autorizados para realizar trabajo en Alturas. Con el fin de asegurar que aquellos trabajadores que han sido autorizados (CONCEPTO MÉDICO APTOS) Por el personal profesional en salud, para realizar trabajos de alto riesgo, se encuentran en óptimas condiciones, el personal responsable de la labor deberá diligenciar este cuestionario diariamente.
+              </p>
+          </td>
+        </tr>
       </tbody>
     </table>
     
@@ -208,12 +214,12 @@ class PdfEncuestaController{
       $html = '<div style="padding: 20px">';
         foreach($json as $pr)
         {
-          $html .= '<table> style="width: 100%" cellspacing="0" cellpadding="0" border="1"
+          $html .= '<table> style="width: 100%" cellspacing="0" cellpadding="0" border="1px"
                 <tr colspan=3><td>'.$pr->titulo.'</td></tr>
-                <tr>
+                <thead><tr>
                   <td>Requerimiento</td>
                   <td>Respuesta</td>
-                  <td>Observación</td></tr>
+                  <td>Observación</td></tr></thead><tbody>
                 ';
                   foreach($pr->preguntas as $item)
                   {
@@ -226,7 +232,7 @@ class PdfEncuestaController{
                       </tr>      
                     ';
                   }
-            $html .= '</table>';
+            $html .= '</tbody></table>';
         }
 
       $html .= '</div>';
