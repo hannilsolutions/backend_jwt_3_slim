@@ -281,8 +281,9 @@ class generarPdfController
           foreach($generalidad as $gene)
           {
             $html .= $this->createGeneralidad($item->id_user , $gene , $permiso);
-            $html .= $this->generateProcedimiento($item->id_user , $permiso);
+            
           }
+        $html .= $this->generateProcedimiento($item->id_user , $permiso);
         $html .= "</table></div>";
           $count++;
       }
@@ -307,12 +308,12 @@ class generarPdfController
 
         $html = '<tr>
                     <td style="font-size:10px"><strong>Procedimientos</strong></td>
-                  </tr> <tr><td>';
+                  </tr> <tr><td style="font-size:10px">';
         foreach($json as $js)
         {
           $html .= htmlspecialchars($js, ENT_QUOTES, 'UTF-8').' , ';
         }
-
+        $html .= '</td></tr>';
         return $html;
 
       }
