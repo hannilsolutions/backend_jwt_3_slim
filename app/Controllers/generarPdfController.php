@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\SGPermisoEmpleado;
 use App\Models\SGEmpleadoGeneralidades;
+use App\Models\SGProcedimiento;
 use App\Models\SGPermiso;
 use App\Models\SGPermisosPeligros;
 use App\Models\SGDetalleFirmas;
@@ -33,6 +34,8 @@ class generarPdfController
 
    private $customResponse;
 
+   private $procedimiento;
+
    private $html;
 
    public function __construct()
@@ -50,6 +53,8 @@ class generarPdfController
     $this->detalle_firmas = new SGDetalleFirmas();
 
     $this->customResponse = new CustomResponse();
+
+    $this->procedimiento = new SGProcedimiento();
    }
 
     public function permisoAlturas(Request $request , Response $response , $id)    
@@ -276,6 +281,7 @@ class generarPdfController
           foreach($generalidad as $gene)
           {
             $html .= $this->createGeneralidad($item->id_user , $gene , $permiso);
+            $html .= $this->generateProcedimiento($item->id_user , $permiso);
           }
         $html .= "</table></div>";
           $count++;
@@ -284,7 +290,34 @@ class generarPdfController
       $this->html .= $html;
     }
 
+    private function generateProcedimiento($id_user , $id_permiso)
+    {
+      $procedimiento = $this->procedimiento->where(["id_user" => $id_user])->where(["id_permiso" => $id_permiso])->get();
 
+      if($procedimiento->count() > 0)
+      {
+        $json ="";
+      foreach($procedimiento as $item)
+      {
+        if(isset($item->procedimiento))
+        {
+          $json = json_decode($item->procedimiento);
+        }
+      }
+
+        $html = '<tr>
+                    <td style="font-size:10px"><strong>Procedimientos</strong></td>
+                  </tr> <tr><td>';
+        foreach($json as $js)
+        {
+          $html .= htmlspecialchars($js, ENT_QUOTES, 'UTF-8').' , ';
+        }
+
+        return $html;
+
+      }
+
+    }
     function createGeneralidad($user, $gene , $permiso)
     {
       /**SELECT emp.inspeccion,ge.nombre FROM han_sg_empleados_generalidades emp 
