@@ -314,7 +314,7 @@ class generarPdfController
             $color = "#12d132";
           }
 
-          $html .= '<tr><td>'.$item->nombre.'</td><td style="background:'.$color.'; color:white; font-size:10px">'.$item->respuesta.'</td></tr>';
+          $html .= '<tr><td style="font-size:10px;">'.$item->nombre.'</td><td style="background:'.$color.'; color:white; font-size:10px">'.$item->respuesta.'</td></tr>';
         }
 
         $html .= '</table></td></tr>';
