@@ -308,10 +308,10 @@ class generarPdfController
         style="font-size:10px; background:#58C3D6; color:white;">Condición Actual</td></tr>';
         foreach($aptitud as $item)
         {
-          $color = "#12d132";
-          if($item->respuest == "No")
+          $color = "#c83110";
+          if($item->respuesta == "No")
           {
-            $color = "#c83110";
+            $color = "#12d132";
           }
 
           $html .= '<tr><td>'.$item->nombre.'</td><td style="background:'.$color.'; color:white;">'.$item->respuesta.'</td></tr>';
