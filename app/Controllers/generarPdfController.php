@@ -304,7 +304,8 @@ class generarPdfController
               ->get();
       if($aptitud->count() > 0)
       {
-        $html .= '<tr><td><table style="width: 100%" border="1px">';
+        $html .= '<tr><td><table style="width: 100%" border="1px"><tr><td colspan="2" 
+        style="font-size:10px; background:#58C3D6; color:white;">Condición Actual</td></tr>';
         foreach($aptitud as $item)
         {
           $html .= '<tr><td>'.$item->nombre.'</td><td>'.$item->respuesta.'</td></tr>';
