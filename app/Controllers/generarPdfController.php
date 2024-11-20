@@ -305,7 +305,7 @@ class generarPdfController
       if($aptitud->count() > 0)
       {
         $html .= '<tr><td><table style="width: 100%" border="1px"><tr><td colspan="2" 
-        style="font-size:10px; background:#58C3D6; color:white;">Condición Actual</td></tr>';
+        style="font-size:10px; background:#58C3D6; color:white;"><b>Reporte de condiciones de salud</b></td></tr>';
         foreach($aptitud as $item)
         {
           $color = "#c83110";
@@ -314,7 +314,7 @@ class generarPdfController
             $color = "#12d132";
           }
 
-          $html .= '<tr><td>'.$item->nombre.'</td><td style="background:'.$color.'; color:white;">'.$item->respuesta.'</td></tr>';
+          $html .= '<tr><td>'.$item->nombre.'</td><td style="background:'.$color.'; color:white; font-size:10px">'.$item->respuesta.'</td></tr>';
         }
 
         $html .= '</table></td></tr>';
