@@ -337,7 +337,7 @@ class generarPdfController
                             ->get();
       //$html = '<div style="background:red;"><h3>'.$gene.'</h3>';
       $html = '<tr>
-                  <td style="font-size:10px"> <strong>'.$gene.'</strong></td> </tr> <tr><td>';
+                  <td style="font-size:10px; background:#58C3D6; color:white;"> <strong>'.$gene.'</strong></td> </tr> <tr><td>';
       
       if($empleado_generalidad->count() > 0)
       {
