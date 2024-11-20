@@ -281,8 +281,9 @@ class generarPdfController
           foreach($generalidad as $gene)
           {
             $html .= $this->createGeneralidad($item->id_user , $gene , $permiso);
-            $html .= $this->condicion_actual($item->id_user , $permiso);
+            
           }
+        $html .= $this->condicion_actual($item->id_user , $permiso);
         $html .= "</table></div>";
           $count++;
       }
