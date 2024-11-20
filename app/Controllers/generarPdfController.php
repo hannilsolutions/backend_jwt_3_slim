@@ -7,6 +7,7 @@ use App\Models\SGEmpleadoGeneralidades;
 use App\Models\SGPermiso;
 use App\Models\SGPermisosPeligros;
 use App\Models\SGDetalleFirmas;
+use App\Models\SGPermisoAptitud;
 use App\Requests\CustomRequestHandler;
 use App\Response\CustomResponse;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -35,6 +36,8 @@ class generarPdfController
 
    private $html;
 
+   protected $permisoAptitud;
+
    public function __construct()
    {
     $this->dompdf = new Dompdf();
@@ -50,6 +53,8 @@ class generarPdfController
     $this->detalle_firmas = new SGDetalleFirmas();
 
     $this->customResponse = new CustomResponse();
+
+    $this->permisoAptitud = new SGPermisoAptitud();
    }
 
     public function permisoAlturas(Request $request , Response $response , $id)    
@@ -276,12 +281,38 @@ class generarPdfController
           foreach($generalidad as $gene)
           {
             $html .= $this->createGeneralidad($item->id_user , $gene , $permiso);
+            $html .= $this->condicion_actual($item->id_user , $permiso);
           }
         $html .= "</table></div>";
           $count++;
       }
 
       $this->html .= $html;
+    }
+
+    function condicion_actual($user  , $permiso)
+    {
+      $html = '';
+      $aptitud = $this->permisoAptitud->selectRaw("han_sg_generalidades.nombre , han_sg_empleado_aptitud.respuesta")
+              ->join("han_sg_empleado_aptitud" , "han_sg_empleado_aptitud.id_permiso_aptitud" , "=" , "han_sg_permiso_aptitud.id_permiso_aptitud")
+              ->join("han_sg_generalidades" , "han_sg_generalidades.id_generalidades" , "=" , "han_sg_empleado_aptitud.id_generalidades")
+              ->where(["han_sg_permiso_aptitud.id_permiso" => $permiso])
+              ->where(["han_sg_permiso_aptitud.id_user" => $user])
+              ->where(["han_sg_generalidades.tipo" => "Condición Actual"])
+              ->where(["han_sg_generalidades.estado" => 1])
+              ->get();
+      if($aptitud->count() > 0)
+      {
+        $html .= '<tr><td><table style="width: 100%" border="1px">';
+        foreach($aptitud as $item)
+        {
+          $html .= '<tr><td>'.$item->nombre.'</td><td>'.$item->respuesta.'</td></tr>';
+        }
+
+        $html .= '</table></td></tr>';
+
+        return $html;
+      }
     }
 
 
