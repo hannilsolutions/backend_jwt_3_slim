@@ -139,11 +139,11 @@ class SGEmailController
         if(!empty($whatsapp) && mb_strlen($whatsapp, "UTF-8") == 10 && ctype_digit($whatsapp))
         {
             $msm = "Su código para firmar es ".$getToken;
-            try {
-				$this->wsSendMessage->send_text($whatsapp , $msm);
+            /*try {
+				//$this->wsSendMessage->send_text($whatsapp , $msm);
 			} catch (Exception $e) {
 				error_log("Error al enviar mensaje: " . $e->getMessage());
-			}
+			}*/
         }
 
 		$responseMessage = "enviado";
