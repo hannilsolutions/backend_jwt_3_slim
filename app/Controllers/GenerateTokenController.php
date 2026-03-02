@@ -4,11 +4,11 @@
 namespace App\Controllers;
 
 
-
-#use App\Interfaces\SecretKeyInterface;
+ 
 use \Firebase\JWT\JWT;
+use \Firebase\JWT\Key;
 
-class GenerateTokenController #implements SecretKeyInterface
+class GenerateTokenController  
 {
 
     public static function generateToken($email)
@@ -29,7 +29,7 @@ class GenerateTokenController #implements SecretKeyInterface
     public static function decodeToken($token)
     {
       $secret = SECRET_PASSWORD;
-      return JWT::decode($token , $secret , array("HS256"));
+      return JWT::decode($token, new Key($secret, "HS256"));
     }
 }
 
