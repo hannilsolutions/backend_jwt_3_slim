@@ -1,8 +1,6 @@
-# Redirect to front controller
 RewriteEngine On
-# RewriteBase /
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.php [QSA,L]
-
-RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
