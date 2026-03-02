@@ -7,7 +7,7 @@
     "database"=>DATA_BASE, 
     "username"=>USERNAME,
     "password"=>PASSWORD, 
-    //"port" => "33308",
+    "port" => "31106",
     "charset"=>"utf8",
     "collation"=>"utf8_unicode_ci",
     "prefix"=>"",
