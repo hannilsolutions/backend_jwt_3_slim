@@ -1,5 +1,4 @@
 <?php
-<?php
 return function ($app)
 {
     $app->add(new Tuupola\Middleware\JwtAuthentication([
