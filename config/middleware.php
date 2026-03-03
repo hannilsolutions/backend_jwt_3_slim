@@ -4,29 +4,9 @@ return function ($app)
     $app->add(new Tuupola\Middleware\JwtAuthentication([
         "ignore"=>["/auth/login", "/contratos/findByCus","/contratos/gps/save" , "/auth/recoveryT" , "/auth/recovery" , "/auth/recoveryP" ],
         "secret"=> SECRET_PASSWORD,
-        
-        // ← AGREGAR ESTO: buscar el token en múltiples lugares
-        "before" => function($request, $arguments) {
-            return $request;
-        },
-        "token" => function($request) {
-            // Forma 1: header normal
-            $header = $request->getHeaderLine("Authorization");
-            
-            // Forma 2: Apache reescribe el header
-            if (empty($header)) {
-                $server = $request->getServerParams();
-                $header = $server["HTTP_AUTHORIZATION"] 
-                       ?? $server["REDIRECT_HTTP_AUTHORIZATION"] 
-                       ?? "";
-            }
-            
-            if (preg_match("/Bearer\s+(.*)$/i", $header, $matches)) {
-                return $matches[1];
-            }
-            return null;
-        },
-        
+        "header" => "Authorization",
+        "regexp" => "/Bearer\s+(.*)$/i",
+        "cookie" => false,
         "error"=> function ($response,$arguments)
         {
             $data["success"]= false;
