@@ -5,6 +5,20 @@
 return function ($app)
 {
     $app->add(new Tuupola\Middleware\JwtAuthentication([
+    "ignore"=>["/auth/login", "/contratos/findByCus","/contratos/gps/save" , "/auth/recoveryT" , "/auth/recovery" , "/auth/recoveryP" ],
+    "secret"=> SECRET_PASSWORD,
+    "header" => "X-Auth-Token",  // ← cambio aquí
+    "regexp" => "/(.*)/",         // ← sin Bearer, solo el token
+    "error"=>function ($response,$arguments)
+    {
+        $data["success"]= false;
+        $data["response"]=$arguments["message"];
+        $data["status_code"] = "401";
+        return $response->withHeader("Content-type","application/json")
+            ->getBody()->write(json_encode($data,JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+    }
+    ]));
+    /*$app->add(new Tuupola\Middleware\JwtAuthentication([
         "ignore"=>["/auth/login", "/contratos/findByCus","/contratos/gps/save" , "/auth/recoveryT" , "/auth/recovery" , "/auth/recoveryP" ],
         "secret"=>SECRET_PASSWORD,
         "error"=>function ($response,$arguments)
@@ -16,7 +30,7 @@ return function ($app)
             return $response->withHeader("Content-type","application/json")
                 ->getBody()->write(json_encode($data,JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
         }
-    ]));
+    ]));*/
 
 
     $app->add(Function ($req,$res,$next){
