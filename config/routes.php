@@ -12,16 +12,8 @@ $app->delete("/delete-guest/{id}","GuestEntryController:deleteGuest");
 
 $app->get("/count-guests" ,"GuestEntryController:countGuests");*/
 
-$app->get("/auth/debug", function($req, $res) {
-    $server = $req->getServerParams();
-    $data = [
-        "HTTP_AUTHORIZATION" => $server["HTTP_AUTHORIZATION"] ?? "NO EXISTE",
-        "REDIRECT_HTTP_AUTHORIZATION" => $server["REDIRECT_HTTP_AUTHORIZATION"] ?? "NO EXISTE",
-        "header" => $req->getHeaderLine("Authorization")
-    ];
-    return $res->withJson($data);
-});
-/*
+
+
 $app->group("/auth",function() use ($app){
 
     $app->post("/login","AuthController:Login");
@@ -30,7 +22,7 @@ $app->group("/auth",function() use ($app){
     $app->post("/recovery" , "AuthController:recovery");
     $app->post("/recoveryT/tokevalidate" , "AuthController:tokenValidateRecovery");
     $app->post("/recoveryP/newPassword" , "AuthController:newPassword");
-});*/
+});
 
 $app->group("/pagos", function() use ($app){
     $app->post("/save" , "PagoController:save");
